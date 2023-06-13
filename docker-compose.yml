@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "80:7071"
+      - "80:7074"
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/employees
     depends_on:
