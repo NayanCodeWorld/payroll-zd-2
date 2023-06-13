@@ -86,7 +86,7 @@ jobs:
          username: root
          password: ${{ env.PROD-PASSWORD }}
          script: |
-          cd  ~/zd-payroll
+          cd  ~/zd-payroll-1
           git pull
           docker-compose -f docker-compose.yml down
           docker rmi zd-payroll_app-pro
