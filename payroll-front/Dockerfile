@@ -8,6 +8,8 @@ RUN npm i --force
 
 COPY . .
 
+RUN npm run build
+
 EXPOSE 3000
 
 CMD [ "npm", "start" ]
