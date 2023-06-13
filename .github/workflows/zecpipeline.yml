@@ -23,8 +23,9 @@ jobs:
       uses: actions/setup-node@v2
       with:
           node-version: 14
-    - name: Build and test backend
+    - name: Build and test front
       run: |
+          cd ./payroll-front
           npm install
           npm run build
        
