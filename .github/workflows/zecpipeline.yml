@@ -60,22 +60,22 @@ jobs:
 #           docker-compose -f docker-compose.dev.yml up -d
 
           
-#   build-prod:
-#       if: github.ref == 'refs/heads/main'
-#       needs: Login-dockerhub
-#       runs-on: self-hosted
-#       steps:
-#       - name: Build Docker image backend
-#         run: docker build -t payroll-back .
+  build-prod:
+      if: github.ref == 'refs/heads/main'
+      needs: Login-dockerhub
+      runs-on: self-hosted
+      steps:
+      - name: Build Docker image backend
+        run: docker build -t payroll-back .
 
-#       - name: Push Docker image to registry
-#         run: docker push rohitkas/payroll-back
+      - name: Push Docker image to registry
+        run: docker push rohitkas/payroll-back
       
-#       - name: Build Docker image
-#         run: docker build -t payroll-front ./payroll-front
+      - name: Build Docker image
+        run: docker build -t payroll-front ./payroll-front
 
-#       - name: Push Docker image to registry
-#         run: docker push rohitkas/payroll-front
+      - name: Push Docker image to registry
+        run: docker push rohitkas/payroll-front
         
         
   deploy-prod:
