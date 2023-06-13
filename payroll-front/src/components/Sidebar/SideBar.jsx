@@ -154,9 +154,7 @@ const SideBar = ({ children }) => {
           }}
           className={`sidebar `}
         >
-          <div className="bg-white d-flex justify-content-center align-items-center" style={{ height: '50px' }}>
-            <img src={zecimg} />
-          </div>
+       
           <div className="top_section pointer">
             <AnimatePresence>
               {isOpen && (

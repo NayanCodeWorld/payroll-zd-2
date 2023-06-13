@@ -182,10 +182,7 @@ class Leave {
                 var docs = await LeaveModal.aggregate([
                     {
                         $match: {
-
-
                             outputDate: { $gte: new Date(findLeave[i].from_date), $lte: new Date(findLeave[i].to_date) },
-
                         }
                     },
                     {
@@ -337,6 +334,7 @@ class Leave {
             leave_count += findLeave[i].total_number_of_day
         }
         res.send({ "leave_count": leave_count })
+ 
     }
 
     async get_today_leave(req, res, next) {

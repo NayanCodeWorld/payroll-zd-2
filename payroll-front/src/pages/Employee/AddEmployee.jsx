@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import host from "./../utils";
 import { TiArrowBack } from "react-icons/ti";
 import { FaTrash } from "react-icons/fa";
+import { BsPencilSquare } from "react-icons/bs";
 
 function AddEmployee(props) {
   console.log("props", props.data);
@@ -30,6 +31,8 @@ function AddEmployee(props) {
   const [errors, setErrors] = useState({});
   const [submitDisable, setSubmitDisable] = useState(false);
   const navigate = useNavigate();
+  const [effectiveDateState,setEffectiveDateState] = useState("");
+  const [updateButton, setUpdateButton] = useState(true);
 
   useEffect(() => {
     if (propsObject && propsObject !== {} && propsObject !== undefined) {
@@ -104,6 +107,7 @@ function AddEmployee(props) {
   };
   function submituserRegistrationForm(e) {
     e.preventDefault();
+    console.log('fields',fields);
     const validationErrors = validateForm(fields);
     setErrors(validationErrors.errObj);
     if (validationErrors && validationErrors.formIsValid) {
@@ -165,7 +169,7 @@ function AddEmployee(props) {
               navigate("/employee/manageprofile");
             });
           } else {
-            setSubmitDisable(false);
+            setSubmitDisable(false)
             notify(response.data.message);
           }
         })
@@ -229,6 +233,62 @@ function AddEmployee(props) {
       }
     });
   };
+  const handleEffectiveUpdate = (index) => {
+    Swal.fire({
+      title: "Are you sure about update?",
+      icon: "warning",  
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Update it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const i = base_salary_list.indexOf(index);
+        let min_date = 0;
+        if (i > 0){
+          min_date = base_salary_list[0].effective_date?.slice(0, 10)
+        }
+        // Get the effective date and base salary 
+        const effectiveDate = base_salary_list[i].effective_date?.slice(0, 10)
+        const baseSalary = base_salary_list[i].salary_
+
+        // Get the base salary and effective date fields using their IDs
+        const baseSalaryField = document.getElementById('base_salary');
+        const effectiveDateField = document.getElementById('effective_date');
+
+        // Set the values of the fields using the value property
+        baseSalaryField.value = baseSalary;
+        effectiveDateField.value = effectiveDate;
+        setEffectiveDateState(i)
+        setUpdateButton(false);
+
+        if (min_date){
+          effectiveDateField.min = min_date
+        }
+      }
+
+    });
+  };
+
+  const updateEffectiveDate = (index) => {
+        // Get the base salary and effective date fields using their IDs
+        const baseSalaryField = document.getElementById('base_salary').value;
+        const effectiveDateField = document.getElementById('effective_date').value;
+      if (effectiveDateState){
+        if (baseSalaryField && effectiveDateField) {
+          base_salary_list[effectiveDateState].salary_ = baseSalaryField
+          base_salary_list[effectiveDateState].effective_date = effectiveDateField
+          Swal.fire(
+            "Updated!",
+            "Click on Update to make changes.",
+            "success"
+          )
+        }}
+        setUpdateButton(true);
+
+    };
+    
+
 
   return (
     <div className="">
@@ -614,6 +674,7 @@ function AddEmployee(props) {
                             value={fields.base_salary}
                             onChange={(e) => handleChange(e)}
                             className="form-control"
+                            id="base_salary"
                             placeholder="Enter Base Salary"
                           ></input>
                           <div className="errorMsg">{errors.base_salary}</div>
@@ -631,11 +692,11 @@ function AddEmployee(props) {
                                     {e.effective_date?.slice(0, 10)}
                                   </label>
                                   <div className="d-flex">
-                                    {/* <span
+                                    <span
                                       onClick={() => handleEffectiveUpdate(e)}
                                     >
                                       <BsPencilSquare />
-                                    </span> */}
+                                    </span>
                                     {base_salary_list.length > 1 ? (
                                       <span
                                         onClick={() => handleEffectiveDelete(e)}
@@ -647,16 +708,20 @@ function AddEmployee(props) {
                                 </div>
                               );
                             })}
-                          <input
-                            ref={effectiveDateInputRef}
-                            type="date"
-                            name="effective_date"
-                            value={fields.effective_date}
-                            onChange={(e) => handleChange(e)}
-                            className="form-control"
-                            placeholder="Efffective Date"
-                            disabled={!fields.date_of_joining}
-                          ></input>
+                          <div className="d-flex flex-column">
+                            <input 
+                              ref={effectiveDateInputRef}
+                              type="date"
+                              name="effective_date"
+                              value={fields.effective_date}
+                              onChange={(e) => handleChange(e)}
+                              className="form-control col-lg-8 col-md-8 col-sm-8 col-xs-8"
+                              id="effective_date"
+                              placeholder="Efffective Date"
+                              disabled={!fields.date_of_joining}
+                            ></input>
+                            <button onClick={(e) => updateEffectiveDate()} className="col-lg-4 col-md-4 col-sm-4 col-xs-4" disabled={ updateButton }>Update</button>
+                          </div>
                           <div className="errorMsg">
                             {errors.effective_date}
                           </div>
