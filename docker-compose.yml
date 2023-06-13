@@ -2,15 +2,18 @@ version: '3'
 
 services:
   app_front:
-    image: rohitkas/payroll-front
+    build:
+     context: ./payroll-front
+     dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
       - app-back
 
   app-back:
-    image: rohitkas/payroll-back
-    restart: always
+    build: 
+     context: .
+     dockerfile: Dockerfile
     ports:
       - "7074:7074"
     environment:
