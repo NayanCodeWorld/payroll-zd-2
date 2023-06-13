@@ -67,11 +67,11 @@ jobs:
        - name: Build Docker image back
          run: |
            docker build -t payroll-back .
-           docker push -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} rohitkas/payroll-back
+           docker push  rohitkas/payroll-back
        - name: Build Docker image back
          run: |
            docker build -t payroll-front .
-           docker push -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} rohitkas/payroll-front
+           docker push  rohitkas/payroll-front
         
   deploy-prod:
      if: github.ref == 'refs/heads/main'
