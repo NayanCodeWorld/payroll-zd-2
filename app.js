@@ -57,7 +57,7 @@ app.get('*', function(req, res){
   res.sendFile(path.join(__dirname, './payroll-front/build/index.html'))
 })
 
-const port = 7071;
+const port = 7074;
 
 // Server start
 app.listen(port, () =>
