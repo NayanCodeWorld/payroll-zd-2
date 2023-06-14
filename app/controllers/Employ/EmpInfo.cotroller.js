@@ -139,12 +139,7 @@ class Emp {
     async get_emlpoy(req, res, next) {
         try {
             EmpInfoModal.find({ is_active: 1 }).sort({ _id: -1 }).then(function (employee) {
-                if (employee == 0) {
-                    res.send({ message: "There is no employee available" });
-                }
-                else {
-                    res.send(employee);
-                }
+                res.send(employee);
             }).catch(next);
         } catch (err) {
             res.send({ "error": err })
