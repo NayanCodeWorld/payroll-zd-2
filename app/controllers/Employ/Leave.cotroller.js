@@ -334,7 +334,7 @@ class Leave {
             leave_count += findLeave[i].total_number_of_day
         }
         res.send({ "leave_count": leave_count })
- 
+
     }
 
     async get_today_leave(req, res, next) {
@@ -364,12 +364,17 @@ class Leave {
             }
         }
         var present_count = emp_count.length - absent_count
-        res.send(
-            {
-                "present_count": present_count,
-                "absent_count": absent_count
-            }
-        )
+        if (present_count == 0 && absent_count == 0) {
+            res.send({'message': "No records found"});
+        }
+        else {
+            res.send(
+                {
+                    "present_count": present_count,
+                    "absent_count": absent_count
+                }
+            )
+        }
     }
 
 
@@ -399,12 +404,18 @@ class Leave {
             }
         }
         var present_count = emp_count.length - absent_count
-        res.send(
-            {
-                "present_count": present_count,
-                "absent_count": absent_count
-            }
-        )
+        if (present_count == 0 && absent_count == 0) {
+
+            res.send({ 'message': "No records found" });
+        }
+        else {
+            res.send(
+                {
+                    "present_count": present_count,
+                    "absent_count": absent_count
+                }
+            )
+        }
     }
 
 

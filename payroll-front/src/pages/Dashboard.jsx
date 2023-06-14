@@ -23,7 +23,13 @@ const Dashboard = () => {
         return res.json();
       })
       .then((resp) => {
-        setTotalEmployee(resp.length);
+        console.log(resp);
+        if (resp.message) {
+          setTotalEmployee(resp.message);
+        }
+        else {
+          setTotalEmployee(resp.length);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -34,7 +40,7 @@ const Dashboard = () => {
     axios
       .get(`${host}/Emp_Leave/get_today_leave`)
       .then((resp) => {
-        // console.log("today", resp.data);
+        console.log("today", resp.data);
         setTodayPresent(resp.data);
       })
       .catch((err) => {
@@ -46,7 +52,7 @@ const Dashboard = () => {
     axios
       .get(`${host}/Emp_Leave/get_yesterday_leave`)
       .then((resp) => {
-        // console.log("yesterday", resp.data);
+        console.log("yesterday", resp.data);
         setYesterdayPresent(resp.data);
       })
       .catch((err) => {
@@ -90,12 +96,19 @@ const Dashboard = () => {
               <div>
                 <h4 className="">Total Employee</h4>
               </div>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-
+              <div style={{display:'flex', justifyContent:"center", flexDirection:"column", alignItems:"center"}}>
                 <h1>
                   <HiUserGroup />
-                  {totalEmployee}
                 </h1>
+                {typeof totalEmployee == 'number' ?
+                  <h1>
+                    {typeof totalEmployee == 'number' ? totalEmployee : null}
+                  </h1>
+                  :
+
+                  <h6>{typeof totalEmployee == 'string' ? totalEmployee : null}</h6>
+                }
+
               </div>
             </div>
           </Link>
@@ -152,9 +165,16 @@ const Dashboard = () => {
                   </h1>
                 </div>
 
+                {
+                  typeof totalEmployee == 'number'?
                 <h2>
                   {todayPresent.present_count}/{totalEmployee}
-                </h2>
+                  </h2>
+                  :
+                  <h6>
+                  {todayPresent.message}
+                  </h6>
+                }
 
               </div>
             </Link>
@@ -178,11 +198,16 @@ const Dashboard = () => {
                 <div style={{ display: "flex", justifyContent: "center" }}>
 
                 </div>
-
+                {
+                  typeof totalEmployee == 'number'?
                 <h2>
                   {yesterdayPresent.absent_count}/{totalEmployee}
-                </h2>
-
+                  </h2>
+                  :
+                  <h6>
+                  {yesterdayPresent.message}
+                  </h6>
+                }
               </div>
             </Link>
           </div>
