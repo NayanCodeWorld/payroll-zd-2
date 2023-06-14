@@ -692,11 +692,11 @@ function AddEmployee(props) {
                                     {e.effective_date?.slice(0, 10)}
                                   </label>
                                   <div className="d-flex">
-                                    <span
+                                    {/* <span
                                       onClick={() => handleEffectiveUpdate(e)}
                                     >
                                       <BsPencilSquare />
-                                    </span>
+                                    </span> */}
                                     {base_salary_list.length > 1 ? (
                                       <span
                                         onClick={() => handleEffectiveDelete(e)}
@@ -708,19 +708,16 @@ function AddEmployee(props) {
                                 </div>
                               );
                             })}
-                          <div className="d-flex flex-column">
-                            <input 
-                              ref={effectiveDateInputRef}
-                              type="date"
-                              name="effective_date"
-                              value={fields.effective_date}
-                              onChange={(e) => handleChange(e)}
-                              className="form-control col-lg-8 col-md-8 col-sm-8 col-xs-8"
-                              id="effective_date"
-                              placeholder="Efffective Date"
-                              disabled={!fields.date_of_joining}
-                            ></input>
-                          </div>
+                          <input
+                            ref={effectiveDateInputRef}
+                            type="date"
+                            name="effective_date"
+                            value={fields.effective_date}
+                            onChange={(e) => handleChange(e)}
+                            className="form-control"
+                            placeholder="Efffective Date"
+                            disabled={!fields.date_of_joining}
+                          ></input>
                           <div className="errorMsg">
                             {errors.effective_date}
                           </div>
