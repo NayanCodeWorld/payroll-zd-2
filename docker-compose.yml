@@ -1,13 +1,21 @@
 version: '3'
 
 services:
-  app-pro:
+  app_front:
     build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
+     context: ./payroll-front
+     dockerfile: Dockerfile
     ports:
-      - "80:7071"
+      - "3000:3000"
+    depends_on:
+      - app-back
+
+  app-back:
+    build: 
+     context: .
+     dockerfile: Dockerfile
+    ports:
+      - "7074:7074"
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/employees
     depends_on:
@@ -20,6 +28,15 @@ services:
       - "27017:27017"
     volumes:
       - mongodb-data:/data/db
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app_front
 
 volumes:
   mongodb-data:
