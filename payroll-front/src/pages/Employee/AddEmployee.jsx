@@ -720,7 +720,6 @@ function AddEmployee(props) {
                               placeholder="Efffective Date"
                               disabled={!fields.date_of_joining}
                             ></input>
-                            <button onClick={(e) => updateEffectiveDate()} className="col-lg-4 col-md-4 col-sm-4 col-xs-4" disabled={ updateButton }>Update</button>
                           </div>
                           <div className="errorMsg">
                             {errors.effective_date}
