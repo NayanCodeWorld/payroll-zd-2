@@ -60,12 +60,12 @@ class Salary {
             _id: req.query.userid
         })
         empinfo_modal = empinfo_modal[0]
-        console.log('empinfo_modal',empinfo_modal);
-        
+        console.log('empinfo_modal', empinfo_modal);
+
         var effective_date_emp = empinfo_modal.base_salary_list
 
         console.log('effective_date_emp', effective_date_emp);
-       
+
         if (Salary_Modal.length != 0 && req.body.overwrite_payslip || Salary_Modal.length == 0) {
             // return
 
@@ -688,10 +688,7 @@ class Salary {
 
                             }
                             present_days = working_days - emp_leave_taken
-                            if (moment(empinfo_modal.date_of_joining).date() > 15) {
-                                leave_balence_year = 0
-                            }
-                            else if (present_days === 0) {
+                            if (present_days === 0) {
                                 leave_balence_year = 0
                             }
                             else {
@@ -699,6 +696,7 @@ class Salary {
                                 leave_balence_year = year_leave_.leave
 
                             }
+
                             var balance_days = leave_balence_year - emp_leave_taken
                             total_paid_days = present_days + leave_balence_year;
                             for (let i = 0; i < effective_date_emp.length; i++) {
