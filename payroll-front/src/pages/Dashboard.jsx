@@ -96,7 +96,7 @@ const Dashboard = () => {
               <div>
                 <h4 className="">Total Employee</h4>
               </div>
-              <div style={{display:'flex', justifyContent:"center", flexDirection:"column", alignItems:"center"}}>
+              <div style={{ display: 'flex', justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                 <h1>
                   <HiUserGroup />
                 </h1>
@@ -166,14 +166,14 @@ const Dashboard = () => {
                 </div>
 
                 {
-                  typeof totalEmployee == 'number'?
-                <h2>
-                  {todayPresent.present_count}/{totalEmployee}
-                  </h2>
-                  :
-                  <h6>
-                  {todayPresent.message}
-                  </h6>
+                  typeof totalEmployee == 'number' ?
+                    <h2>
+                      {todayPresent.absent_count}/{totalEmployee}
+                    </h2>
+                    :
+                    <h6>
+                      {todayPresent.message}
+                    </h6>
                 }
 
               </div>
@@ -199,14 +199,14 @@ const Dashboard = () => {
 
                 </div>
                 {
-                  typeof totalEmployee == 'number'?
-                <h2>
-                  {yesterdayPresent.absent_count}/{totalEmployee}
-                  </h2>
-                  :
-                  <h6>
-                  {yesterdayPresent.message}
-                  </h6>
+                  typeof totalEmployee == 'number' ?
+                    <h2>
+                      {yesterdayPresent.absent_count}/{totalEmployee}
+                    </h2>
+                    :
+                    <h6>
+                      {yesterdayPresent.message}
+                    </h6>
                 }
               </div>
             </Link>

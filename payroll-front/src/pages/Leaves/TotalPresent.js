@@ -9,7 +9,7 @@ import host from "./../utils";
 import { CircleSpinner } from "react-spinners-kit";
 function TotalPresent() {
     const navigate = useNavigate();
-    const [loading,setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [empLeaveData, setEmpLeaveData] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -119,7 +119,7 @@ function TotalPresent() {
                                 }}
                             >
                                 <div style={{ display: "flex" }}>
-                                    <h4>Today Present</h4>{" "}
+                                    <h4>Today Absent</h4>{" "}
                                 </div>
                                 <div>
                                     <input
@@ -135,7 +135,7 @@ function TotalPresent() {
                         columns={columns}
                         data={filteredData ? filteredData : []}
                         progressPending={loading}
-                        progressComponent={<CircleSpinner size={30} color="#686769" loading={loading}/>}
+                        progressComponent={<CircleSpinner size={30} color="#686769" loading={loading} />}
                         pagination
                         highlightOnHover
                         search

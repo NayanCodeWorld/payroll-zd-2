@@ -60,8 +60,12 @@ class Salary {
             _id: req.query.userid
         })
         empinfo_modal = empinfo_modal[0]
+        console.log('empinfo_modal',empinfo_modal);
+        
         var effective_date_emp = empinfo_modal.base_salary_list
+
         console.log('effective_date_emp', effective_date_emp);
+       
         if (Salary_Modal.length != 0 && req.body.overwrite_payslip || Salary_Modal.length == 0) {
             // return
 
@@ -132,8 +136,8 @@ class Salary {
                 }
                 else {
 
-                    working_days = Number(month_array[Number(req.query.month) - 1]) - holiday_modal.length
-                    present_days = working_days - emp_leave_taken
+                    working_days_1 = Number(month_array[Number(req.query.month) - 1]) - holiday_modal.length
+                    present_days = working_days_1 - emp_leave_taken
 
                     console.log(working_days, 'working_days', present_days, 'present_days');
                 }
@@ -147,7 +151,8 @@ class Salary {
 
 
                 }
-                var present_days_1 = working_days_1 - emp_leave_taken
+                var working_days = Number(month_array[Number(req.query.month) - 1]) - holiday_modal.length
+                // var present_days_1 = working_days_1 - emp_leave_taken
                 var balance_days = leave_balence_year - emp_leave_taken
                 total_paid_days = present_days + leave_balence_year;
 
@@ -177,6 +182,7 @@ class Salary {
                 // + Number(req.body.arrear) + Number(req.body.additional)
                 net_pay_in_number = Math.round(net_pay_in_number)
                 var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
+                console.log(net_pay_in_number);
 
                 const salary = new SalaryModal({
                     Employee_name: empinfo_modal.First_Name + " " + empinfo_modal.Last_Name,
