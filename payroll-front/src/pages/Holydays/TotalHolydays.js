@@ -25,6 +25,16 @@ function TotalHolydays() {
   const [showAllHolidays, setShowAllHolidays] = useState(false);
   const [showPublicHoliday, setShowPublicHoliday] = useState(false);
   const [fields, setFields] = useState({});
+  const currentYear = new Date().getFullYear();
+  const [selectedOption, setSelectedOption] = useState(currentYear);
+
+  const Year = [2022, 2023, 2024]
+
+  function getFirstAndLastDayOfYear(selectedOption) {
+    const firstDay = new Date(selectedOption, 0, 1);
+    const lastDay = new Date(selectedOption, 11, 31);
+    return { firstDay, lastDay };
+  }
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -91,11 +101,15 @@ function TotalHolydays() {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
+  const { firstDay, lastDay } = getFirstAndLastDayOfYear(selectedOption);
 
   useEffect(() => {
-    const today = new Date();
-    const firstDay = new Date(today.getFullYear(), 0, 1);
-    const lastDay = new Date(today.getFullYear(), 11, 31);
+
+    // const today = new Date();
+    // const firstDay = new Date(today.getFullYear(), 0, 1);
+    // const lastDay = new Date(today.getFullYear(), 11, 31);
+
+
     const datesobject = {
       from_date: formatDate(firstDay),
       end_date: formatDate(lastDay),
@@ -103,7 +117,7 @@ function TotalHolydays() {
     axios
       .post(`${host}/Holiday/get-holiday`, datesobject)
       .then((res) => {
-        console.log(res.data, "......");
+
         const filterArr = [];
         res.data.map((e) => {
           filterArr.push({
@@ -138,7 +152,15 @@ function TotalHolydays() {
       .catch((err) => {
         console.log(err);
       });
-  }, [showOnlyWeekends, showPublicHoliday]);
+  }, [showOnlyWeekends, showPublicHoliday, selectedOption]);
+
+
+
+
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
   const LoadEdit = (_id) => {
     navigate("/employee/EmpEdit" + _id);
   };
@@ -242,6 +264,20 @@ function TotalHolydays() {
                     Add Holiday (+)
                   </Button>
                 </div>
+
+
+                <select value={selectedOption} onChange={handleOptionChange} style={{ fontSize: '16px' ,height:'28px'}}>
+                  <option value=""></option>
+
+                  {Year && Year.map((val) => {
+                    return (
+                      <option value={val} key={val}>
+                        {val}
+                      </option>
+                    );
+                  })}
+                </select>
+
                 <div className="d-flex align-items-center ">
                   <ButtonGroup
                     aria-label="Basic example"

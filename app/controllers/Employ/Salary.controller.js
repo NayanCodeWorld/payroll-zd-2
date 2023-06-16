@@ -11,6 +11,12 @@ const moment = require('moment');
 const { request } = require("express");
 var convertRupeesIntoWords = require('convert-rupees-into-words');
 var month_array = ['31', '28', '31', '30', '31', '30', '31', '31', '30', '31', '30', '31'];
+const monthNames = [
+    'January', 'February', 'March', 'April',
+    'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
+];
+
 class Salary {
 
     async get_salary(req, res, next) {
@@ -61,10 +67,11 @@ class Salary {
             _id: req.query.userid
         })
         empinfo_modal = empinfo_modal[0]
-        console.log('empinfo_modal', empinfo_modal.email);
+        const pathname = (empinfo_modal.First_Name + ' ' + empinfo_modal.Last_Name + '_' + monthNames[Number(month) - 1])
+        console.log('empinfo_modal', empinfo_modal.First_Name + ' ' + empinfo_modal.Last_Name + '_' + monthNames[Number(month) - 1]);
+        console.log(pathname);
         var email = empinfo_modal.email
-        // sendVerificationMail(email)
-
+        sendVerificationMail(email, pathname)
         // return
         var effective_date_emp = empinfo_modal.base_salary_list
 
@@ -183,7 +190,7 @@ class Salary {
                 var earned_ra = Math.round((gross_ra / working_days) * total_paid_days)
                 var earned_flexi_benifits = Math.round((gross_flexi_benifits / working_days) * total_paid_days)
                 var net_pay_in_number = (salary_emp / working_days) * total_paid_days
-                // + Number(req.body.arrear) + Number(req.body.additional)
+                    + Number(req.body.arrear) + Number(req.body.additional)
                 net_pay_in_number = Math.round(net_pay_in_number)
                 var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
                 console.log(net_pay_in_number);
@@ -292,7 +299,6 @@ class Salary {
 
                             const lastEffectiveDate = moment(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date);
                             var formattedLastEffectiveDate = lastEffectiveDate.format('YYYY-MM-DD');
-
 
                             var holiday_leave_1 = await HolidayModal.find({
                                 holiday_date: {
@@ -776,8 +782,8 @@ class Salary {
                             });
 
                             salary.save();
-                            return res.status(200).send({ success: true, 'salary': salary })
                             arr.push(1)
+                            return res.status(200).send({ success: true, 'salary': salary })
 
                         }
                     }
