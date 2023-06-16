@@ -61,12 +61,11 @@ function YesterdayApsent() {
 
         setLoading(true);
         axios
-            .get(`${host}/Emp_Leave/get_yesterday_leave_`)
+            .get(`${host}/Emp_Leave/get_yesterday_leave`)
             .then((response) => {
                 let filteredArr = [];
                 let filteredObj = {};
-                let responseArr = response.data.msg;
-                console.log(response.data, '........................');
+                let responseArr = response.data.employe;
                 responseArr.map((e) => {
                     e.result.map((w) => {
                         filteredObj = {
@@ -85,8 +84,7 @@ function YesterdayApsent() {
                         createdAt: new Date(e.createdAt).toLocaleDateString("pt-PT"),
                     });
                 });
-                console.log("filtered array");
-                console.log(filteredArr)
+          
                 setEmpLeaveData(filteredArr);
                 setLoading(false);
             })

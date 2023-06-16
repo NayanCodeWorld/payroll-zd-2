@@ -158,7 +158,7 @@ const Dashboard = () => {
                 className="wrap"
                 style={{ display: "flex", flexDirection: "column" }}
               >
-                <h4 className="">Today Present</h4>
+                <h4 className="">Today Absent                </h4>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <h1>
                     <GiScales />

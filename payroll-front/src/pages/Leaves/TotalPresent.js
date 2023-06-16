@@ -61,13 +61,14 @@ function TotalPresent() {
 
         setLoading(true);
         axios
-            .get(`${host}/Emp_Leave/get_leave_today`)
+            .get(`${host}/Emp_Leave//get_today_leave`)
             .then((response) => {
                 let filteredArr = [];
                 let filteredObj = {};
-                let responseArr = response.data.msg;
+                let responseArr = response.data.employe;
                 console.log(response.data, '........................');
                 responseArr.map((e) => {
+                    console.log(e.result    );
                     e.result.map((w) => {
                         filteredObj = {
                             First_Name: w.First_Name,

@@ -20,7 +20,7 @@ function sendVerificationMail(to, pathname, text) {
         html: `
   		<div style="max-width: 500px; margin:auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%;">
   			<h2 style="text-align: center; text-transform: uppercase;color: teal;">Welcome!!! in Zecdata Technology</h2>
-  			<a  style="color: black; padding: 40px 20px; margin: 10px 10; display: inline-block;">${'url'}</a>
+  			<a  style="color: black; padding: 40px 20px; margin: 10px 10; display: inline-block;">$</a>
   		</div>`,
         // attachments: [
         //     {
