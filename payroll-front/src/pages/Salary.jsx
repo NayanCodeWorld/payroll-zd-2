@@ -11,7 +11,8 @@ function Salary() {
   const [empdata, empdatachange] = useState({});
   const [fields, setFields] = useState({
     arrear: 0,
-    additional: 0,
+    Bonus: 0,
+    ECSI: 0,
     arrear_comment: "",
     additional_comment: "",
     overwrite_payslip: false,
@@ -114,8 +115,8 @@ function Salary() {
         console.log(err.message);
       });
   }, []);
-  
-  return(
+
+  return (
     <div className="pt-5">
       <div>
         <div className="offset-lg-2 col-lg-8">
@@ -192,17 +193,17 @@ function Salary() {
                       <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div className="form-group">
                           <label className="profile_details_text">
-                            Additional
+                            Bonus
                           </label>
                           <input
                             type="number"
                             style={{ textTransform: "capitalize" }}
-                            name="additional"
+                            name="Bonus"
                             minLength="2"
                             maxLength="50"
                             className="form-control"
-                            placeholder="Additional Amount"
-                            value={fields.additional}
+                            placeholder="Bonus Amount"
+                            value={fields.Bonus}
                             onChange={(e) => handleChange(e)}
                           />
                         </div>
@@ -229,18 +230,19 @@ function Salary() {
                       <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div className="form-group">
                           <label className="profile_details_text">
-                            Additional Comment
+                            ECSI
                           </label>
-                          <textarea
+                          <input
+                            type="number"
+                            style={{ textTransform: "capitalize" }}
+                            name="ECSI"
+                            minLength="2"
+                            maxLength="50"
                             className="form-control"
-                            name="additional_comment"
-                            rows="3"
-                            cols="35"
-                            placeholder="Write Comment Here"
-                            value={fields.additional_comment}
+                            placeholder="ECSI Amount"
+                            value={fields.ECSI}
                             onChange={(e) => handleChange(e)}
-                          ></textarea>
-                          <div className="errorMsg"></div>
+                          />
                         </div>
                       </div>
                     </div>

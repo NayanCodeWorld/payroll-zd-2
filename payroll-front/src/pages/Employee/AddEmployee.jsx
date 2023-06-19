@@ -729,7 +729,7 @@ function AddEmployee(props) {
                             }
                           />
 
-                      
+
                           <div className="errorMsg">
                             {errors.effective_date}
                           </div>

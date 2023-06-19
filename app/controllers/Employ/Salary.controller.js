@@ -71,14 +71,11 @@ class Salary {
         console.log('empinfo_modal', empinfo_modal.First_Name + ' ' + empinfo_modal.Last_Name + '_' + monthNames[Number(month) - 1]);
         console.log(pathname);
         var email = empinfo_modal.email
-        sendVerificationMail(email, pathname)
+        // sendVerificationMail(email, pathname)
         // return
         var effective_date_emp = empinfo_modal.base_salary_list
 
-        console.log('effective_date_emp', effective_date_emp);
-
         if (Salary_Modal.length != 0 && req.body.overwrite_payslip || Salary_Modal.length == 0) {
-            // return
 
             if (empinfo_modal.base_salary_list.length == 1) {
                 console.log('fisrt effectice date');
@@ -134,8 +131,7 @@ class Salary {
                 const month_effective = date_effective.getMonth();
                 const lastDayOfMonth = new Date(year_effective, month_effective + 1, 0);
                 const daysUntilLastDayOfMonth = lastDayOfMonth.getDate() - date_effective.getDate() + 1;
-                console.log((month_effective + 1) == month, year_effective, year);
-                console.log((month_effective + 1), month);
+
                 if ((month_effective + 1) == month && year_effective == year) {
                     if (moment(empinfo_modal.date_of_joining).date() > 15) {
                         leave_balence_year = 0
@@ -189,12 +185,14 @@ class Salary {
                 var earned_hra = Math.round((gross_hra / working_days) * total_paid_days)
                 var earned_ra = Math.round((gross_ra / working_days) * total_paid_days)
                 var earned_flexi_benifits = Math.round((gross_flexi_benifits / working_days) * total_paid_days)
+                const arrs = Number(req.body.arrear) + Number(arrear_effective_date) + Number(req.body.Bonus) + Number(req.body.ECSI)
                 var net_pay_in_number = (salary_emp / working_days) * total_paid_days
-                    + Number(req.body.arrear) + Number(req.body.additional)
+                    + arrs
                 net_pay_in_number = Math.round(net_pay_in_number)
                 var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
                 console.log(net_pay_in_number);
-
+                // console.log(arrs, Number(req.body.ECSI), Number(req.body.Bonus), Number(req.body.arrear));
+                // return
                 const salary = new SalaryModal({
                     Employee_name: empinfo_modal.First_Name + " " + empinfo_modal.Last_Name,
                     userid: empinfo_modal._id,
@@ -223,8 +221,8 @@ class Salary {
                     Total_earn: net_pay_in_number,
                     Net_pay_in_number: net_pay_in_number,
                     Net_pay_in_words: net_pay_in_word,
-                    ARRS: Number(req.body.arrear) + Number(arrear_effective_date),
-                    Additional: Number(req.body.additional),
+                    ARRS: arrs,
+                    Additional: arrs,
                     ARRS_Comment: req.body.arrear_comment,
                     Additional_Comment: req.body.additional_comment,
 
@@ -241,7 +239,7 @@ class Salary {
                     if (arr.length == 0) {
 
                         if (moment(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date).month() + 1 == Number(month) && (moment(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date).year()) == Number(year)) {
-
+                            console.log('true');
                             var leave_balence_year = 0
                             var emp_leave_taken = 0
                             var leave_taken_1 = 0
@@ -400,14 +398,20 @@ class Salary {
                                         console.log('Part 2:', totalDaysPart2, 'days');
                                         console.log(holiday_leave_4.length, 'holiday_leave_1.length');
                                         console.log('holiday_leave_1', holiday_leave_4);
+                                        if (leave_modal[0].leave_type == 0.5) {
+                                            totalDaysPart1 = totalDaysPart1 / 2
+                                            totalDaysPart2 = totalDaysPart2 / 2
+                                        }
                                         totalDaysPart1 = totalDaysPart1 - holiday_leave_4.length
                                         totalDaysPart2 = totalDaysPart2 - holiday_leave_3.length
+
                                         console.log('totalDaysPart1', totalDaysPart1);
                                         console.log('totalDaysPart2', totalDaysPart2);
                                         // return
                                         leave_taken_1 = totalDaysPart1
                                         leave_taken_2 = totalDaysPart2
                                         console.log('leave_taken_2111111111111', leave_taken_2);
+                                        console.log('leave_type',);
 
                                     }
                                     console.log('leave_taken_2333333333333333', leave_taken_2);
@@ -478,6 +482,10 @@ class Salary {
                                             console.log('Part 2:', totalDaysPart2, 'days');
                                             console.log(holiday_leave_4.length, 'holiday_leave_1.length');
                                             console.log('holiday_leave_1', holiday_leave_4);
+                                            if (leave_modal[i].leave_type == 0.5) {
+                                                totalDaysPart1 = totalDaysPart1 / 2
+                                                totalDaysPart2 = totalDaysPart2 / u
+                                            }
                                             totalDaysPart1 = totalDaysPart1 - holiday_leave_4.length
                                             totalDaysPart2 = totalDaysPart2 - holiday_leave_3.length
                                             console.log('totalDaysPart1', totalDaysPart1);
@@ -573,6 +581,11 @@ class Salary {
                                 }
                             }
 
+
+                            if (day_date_effective == 1) {
+                                salary_emp = effective_date_emp[i].salary_
+                            }
+
                             if (empinfo_modal.base_salary_list.length === 1) {
                                 console.log('1empluyt1');
                                 salary_emp_1 = Number(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - 1].salary_)
@@ -617,14 +630,15 @@ class Salary {
 
                             var net_pay_in_number_1 = (salary_emp_1 / working_days) * present_days_1
                             var net_pay_in_number_2 = (salary_emp_2 / working_days) * present_days_2
+                            const arrs = Number(req.body.arrear) + Number(arrear_effective_date) + Number(req.body.Bonus) + Number(req.body.ECSI)
                             var net_pay_in_number = net_pay_in_number_1 + net_pay_in_number_2
-                                + Number(req.body.arrear) + Number(req.body.additional)
+                                + arrs
                             net_pay_in_number = Math.round(net_pay_in_number)
                             var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
-
+                            // console.log(arrs, Number(req.body.ECSI), Number(req.body.Bonus), Number(req.body.arrear));
+                            // return
                             // console.log('net_pay_in_number_2', net_pay_in_number_2 + net_pay_in_number_1, 'net_pay_in_number_1', net_pay_in_number_1, 'net_pay_in_number', net_pay_in_number);
                             // console.log(net_pay_in_number_1 + net_pay_in_number_2, 'holiday_leave_2.length', holiday_leave_2.length);
-                            // return
                             const salary = new SalaryModal({
                                 Employee_name: empinfo_modal.First_Name + " " + empinfo_modal.Last_Name,
                                 userid: empinfo_modal._id,
@@ -653,8 +667,8 @@ class Salary {
                                 Total_earn: net_pay_in_number,
                                 Net_pay_in_number: net_pay_in_number,
                                 Net_pay_in_words: net_pay_in_word,
-                                ARRS: Number(req.body.arrear) + Number(arrear_effective_date),
-                                Additional: Number(req.body.additional),
+                                ARRS: arrs,
+                                Additional: arrs,
                                 ARRS_Comment: req.body.arrear_comment,
                                 Additional_Comment: req.body.additional_comment,
 
@@ -718,6 +732,9 @@ class Salary {
                                 leave_balence_year = year_leave_.leave
 
                             }
+                            if (day_date_effective == 1) {
+                                salary_emp = effective_date_emp[i].salary_
+                            }
 
                             var balance_days = leave_balence_year - emp_leave_taken
                             total_paid_days = present_days + leave_balence_year;
@@ -742,10 +759,13 @@ class Salary {
                             var earned_hra = Math.round((gross_hra / working_days) * total_paid_days)
                             var earned_ra = Math.round((gross_ra / working_days) * total_paid_days)
                             var earned_flexi_benifits = Math.round((gross_flexi_benifits / working_days) * total_paid_days)
+                            const arrs = Number(req.body.arrear) + Number(arrear_effective_date) + Number(req.body.Bonus) + Number(req.body.ECSI)
                             var net_pay_in_number = (salary_emp / working_days) * total_paid_days
-                                + Number(req.body.arrear) + Number(req.body.additional)
+                                + arrs
                             net_pay_in_number = Math.round(net_pay_in_number)
                             var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
+                            // console.log(arrs, Number(req.body.ECSI), Number(req.body.Bonus), Number(req.body.arrear));
+                            // return
                             const salary = new SalaryModal({
                                 Employee_name: empinfo_modal.First_Name + " " + empinfo_modal.Last_Name,
                                 userid: empinfo_modal._id,
@@ -774,8 +794,8 @@ class Salary {
                                 Total_earn: net_pay_in_number,
                                 Net_pay_in_number: net_pay_in_number,
                                 Net_pay_in_words: net_pay_in_word,
-                                ARRS: Number(req.body.arrear) + Number(arrear_effective_date),
-                                Additional: Number(req.body.additional),
+                                ARRS: arrs,
+                                Additional: arrs,
                                 ARRS_Comment: req.body.arrear_comment,
                                 Additional_Comment: req.body.additional_comment,
 

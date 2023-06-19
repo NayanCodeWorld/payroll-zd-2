@@ -27,8 +27,10 @@ function TotalHolydays() {
   const [fields, setFields] = useState({});
   const currentYear = new Date().getFullYear();
   const [selectedOption, setSelectedOption] = useState(currentYear);
+  const [selectedMonth, setSelectedMonth] = useState(0);
 
   const Year = [2022, 2023, 2024]
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
   function getFirstAndLastDayOfYear(selectedOption) {
     const firstDay = new Date(selectedOption, 0, 1);
@@ -117,17 +119,35 @@ function TotalHolydays() {
     axios
       .post(`${host}/Holiday/get-holiday`, datesobject)
       .then((res) => {
-
         const filterArr = [];
         res.data.map((e) => {
           filterArr.push({
             holiday_date: new Date(e.holiday_date).toLocaleDateString("pt-PT"),
-            holiday_name: e.holiday_name,
+            holiday_name: e.holiday_name.toUpperCase(),
             holiday_type: e.holiday_type,
             createdAt: new Date(e.createdAt).toLocaleDateString("pt-PT"),
             id: e._id,
           });
         });
+        // console.log(filterArr, '---filterArr----')  
+        console.log(selectedMonth, 'selectedMonth')
+
+        if (selectedMonth) {
+          const filteredData = filterArr.filter(entry => {
+            const holidayDate = entry.holiday_date;
+            const [day, month, year] = holidayDate.split('/');
+            const entryMonth = parseInt(month, 10);
+
+            return entryMonth == selectedMonth;
+          });
+          console.log('filteredData', filteredData);
+          setTotalHolydays(filteredData)
+          // Print the filtered data
+          filteredData.forEach(entry => {
+            console.log(entry);
+          });
+        }
+
         if (showOnlyWeekends || showPublicHoliday) {
           let weekendsArr = [];
           let publicHolidayArr = [];
@@ -145,22 +165,24 @@ function TotalHolydays() {
           if (showPublicHoliday) {
             setTotalHolydays(publicHolidayArr);
           }
-        } else {
+        }
+        else if (!selectedMonth) {
           setTotalHolydays(filterArr);
         }
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [showOnlyWeekends, showPublicHoliday, selectedOption]);
-
-
-
-
+  }, [showOnlyWeekends, showPublicHoliday, selectedOption, selectedMonth]);
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
+    // setSelectedMonth(0)
   };
+  const handleMonthFilter = (event) => {
+    console.log('event.target.value', event.target.value);
+    setSelectedMonth(event.target.value);
+  }
   const LoadEdit = (_id) => {
     navigate("/employee/EmpEdit" + _id);
   };
@@ -265,13 +287,24 @@ function TotalHolydays() {
                   </Button>
                 </div>
 
-
-                <select value={selectedOption} onChange={handleOptionChange} style={{ fontSize: '16px' ,height:'28px'}}>
+                <select value={selectedOption} onChange={handleOptionChange} style={{ fontSize: '16px', height: '28px' }}>
                   <option value=""></option>
 
                   {Year && Year.map((val) => {
                     return (
                       <option value={val} key={val}>
+                        {val}
+                      </option>
+                    );
+                  })}
+                </select>
+                <select defaultValue={selectedMonth} onChange={handleMonthFilter} style={{ fontSize: '16px', height: '28px' }}>
+                  <option value={selectedMonth} disabled>
+                    Filter by month
+                  </option>
+                  {months && months.map((val, i) => {
+                    return (
+                      <option value={i + 1} key={val}>
                         {val}
                       </option>
                     );
