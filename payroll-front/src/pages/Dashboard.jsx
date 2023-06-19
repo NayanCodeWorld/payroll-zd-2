@@ -23,7 +23,13 @@ const Dashboard = () => {
         return res.json();
       })
       .then((resp) => {
-        setTotalEmployee(resp.length);
+        console.log(resp);
+        if (resp.message) {
+          setTotalEmployee(resp.message);
+        }
+        else {
+          setTotalEmployee(resp.length);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -34,7 +40,7 @@ const Dashboard = () => {
     axios
       .get(`${host}/Emp_Leave/get_today_leave`)
       .then((resp) => {
-        // console.log("today", resp.data);
+        console.log("today", resp.data);
         setTodayPresent(resp.data);
       })
       .catch((err) => {
@@ -46,7 +52,7 @@ const Dashboard = () => {
     axios
       .get(`${host}/Emp_Leave/get_yesterday_leave`)
       .then((resp) => {
-        // console.log("yesterday", resp.data);
+        console.log("yesterday", resp.data);
         setYesterdayPresent(resp.data);
       })
       .catch((err) => {
@@ -73,11 +79,11 @@ const Dashboard = () => {
   }, []);
 
 
-  
+
   return (
     <div id="root">
       <div className="container pt-5">
-        <h1 style={{ display: "flex", justifyContent: "center",paddingBottom:"10px",marginBottom:"20px" }}className="text-center">WELCOME TO EMPLOYEE PORTAL</h1>
+        <h1 style={{ display: "flex", justifyContent: "center", paddingBottom: "10px", marginBottom: "20px" }} className="text-center">WELCOME TO EMPLOYEE PORTAL</h1>
         <div className="row align-items-stretch">
           <Link
             className="c-dashboardInfo col-lg-3 col-md-6 text-black text-decoration-none"
@@ -90,22 +96,19 @@ const Dashboard = () => {
               <div>
                 <h4 className="">Total Employee</h4>
               </div>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                {!totalEmployee ? (
-                  <RotatingLines
-                    className="text-center"
-                    strokeColor="black"
-                    strokeWidth="8"
-                    animationDuration="0.75"
-                    width="26"
-                    visible={true}
-                  />
-                ) : (
+              <div style={{ display: 'flex', justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                <h1>
+                  <HiUserGroup />
+                </h1>
+                {typeof totalEmployee == 'number' ?
                   <h1>
-                    <HiUserGroup />
-                    {totalEmployee}
+                    {typeof totalEmployee == 'number' ? totalEmployee : null}
                   </h1>
-                )}
+                  :
+
+                  <h6>{typeof totalEmployee == 'string' ? totalEmployee : null}</h6>
+                }
+
               </div>
             </div>
           </Link>
@@ -120,41 +123,29 @@ const Dashboard = () => {
               >
 
                 <h4 className="">Festival Holidays</h4>
-                {!totalHoliday ? (
+
+                <>
                   <div style={{ display: "flex", justifyContent: "center" }}>
-                    <RotatingLines
-                      className="text-center"
-                      strokeColor="black"
-                      strokeWidth="8"
-                      animationDuration="0.75"
-                      width="26"
-                      visible={true}
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                      <h1>
-                        {totalHoliday.length == 0 ? (
-                          <BsEmojiFrownFill />
-                        ) : totalHoliday.length < 3 ? (
-                          <BsFillEmojiLaughingFill />
-                        ) : (
-                          <BsFillEmojiHeartEyesFill />
-                        )}
-                      </h1>
-                    </div>
-                    <div>
-                      {totalHoliday.length > 0 ? (
-                        totalHoliday.map((e) => {
-                          return <h6 key={e.holiday_name}>{e.holiday_name} : {e.holiday_date.slice(0,10)}</h6>;
-                        })
+                    <h1>
+                      {totalHoliday.length == 0 ? (
+                        <BsEmojiFrownFill />
+                      ) : totalHoliday.length < 3 ? (
+                        <BsFillEmojiLaughingFill />
                       ) : (
-                        <h6>No Holidays This Month</h6>
+                        <BsFillEmojiHeartEyesFill />
                       )}
-                    </div>
-                  </>
-                )}
+                    </h1>
+                  </div>
+                  <div>
+                    {totalHoliday.length > 0 ? (
+                      totalHoliday.map((e) => {
+                        return <h6 key={e.holiday_name}>{e.holiday_name} : {e.holiday_date.slice(0, 10)}</h6>;
+                      })
+                    ) : (
+                      <h6>No Holidays This Month</h6>
+                    )}
+                  </div>
+                </>
               </div>
             </Link>
           </div>
@@ -167,63 +158,57 @@ const Dashboard = () => {
                 className="wrap"
                 style={{ display: "flex", flexDirection: "column" }}
               >
-                <h4 className="">Today Present</h4>
+                <h4 className="">Today Absent                </h4>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <h1>
                     <GiScales />
                   </h1>
                 </div>
-                {!todayPresent || !totalEmployee ? (
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <RotatingLines
-                      className="text-center"
-                      strokeColor="black"
-                      strokeWidth="8"
-                      animationDuration="0.75"
-                      width="26"
-                      visible={true}
-                    />
-                  </div>
-                ) : (
-                  <h2>
-                    {todayPresent.present_count}/{totalEmployee}
-                  </h2>
-                )}
+
+                {
+                  typeof totalEmployee == 'number' ?
+                    <h2>
+                      {todayPresent.absent_count}/{totalEmployee}
+                    </h2>
+                    :
+                    <h6>
+                      {todayPresent.message}
+                    </h6>
+                }
+
               </div>
             </Link>
           </div>
           <div className="c-dashboardInfo col-lg-3 col-md-6">
-          <Link
-          className="c-dashboardInfo col-lg-3 col-md-6 text-black text-decoration-none"
-          to="/YesterdayApsent"
-        >
-            <div
-              className="wrap"
-              style={{ display: "flex", flexDirection: "column" }}
+            <Link
+              className="c-dashboardInfo col-lg-3 col-md-6 text-black text-decoration-none"
+              to="/YesterdayApsent"
             >
-              <h4 className="">Yesterday Absent</h4>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <h1>
-                  <GiScales />
-                </h1>
-              </div>
-              {!yesterdayPresent || !totalEmployee ? (
+              <div
+                className="wrap"
+                style={{ display: "flex", flexDirection: "column" }}
+              >
+                <h4 className="">Yesterday Absent</h4>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                  <RotatingLines
-                    className="text-center"
-                    strokeColor="black"
-                    strokeWidth="8"
-                    animationDuration="0.75"
-                    width="26"
-                    visible={true}
-                  />
+                  <h1>
+                    <GiScales />
+                  </h1>
                 </div>
-              ) : (
-                <h2>
-                  {yesterdayPresent.absent_count}/{totalEmployee}
-                </h2>
-              )}
-            </div>
+
+                <div style={{ display: "flex", justifyContent: "center" }}>
+
+                </div>
+                {
+                  typeof totalEmployee == 'number' ?
+                    <h2>
+                      {yesterdayPresent.absent_count}/{totalEmployee}
+                    </h2>
+                    :
+                    <h6>
+                      {yesterdayPresent.message}
+                    </h6>
+                }
+              </div>
             </Link>
           </div>
         </div>

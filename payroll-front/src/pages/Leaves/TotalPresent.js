@@ -9,7 +9,7 @@ import host from "./../utils";
 import { CircleSpinner } from "react-spinners-kit";
 function TotalPresent() {
     const navigate = useNavigate();
-    const [loading,setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [empLeaveData, setEmpLeaveData] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -61,13 +61,14 @@ function TotalPresent() {
 
         setLoading(true);
         axios
-            .get(`${host}/Emp_Leave/get_leave_today`)
+            .get(`${host}/Emp_Leave//get_today_leave`)
             .then((response) => {
                 let filteredArr = [];
                 let filteredObj = {};
-                let responseArr = response.data.msg;
+                let responseArr = response.data.employe;
                 console.log(response.data, '........................');
                 responseArr.map((e) => {
+                    console.log(e.result    );
                     e.result.map((w) => {
                         filteredObj = {
                             First_Name: w.First_Name,
@@ -119,7 +120,7 @@ function TotalPresent() {
                                 }}
                             >
                                 <div style={{ display: "flex" }}>
-                                    <h4>Today Present</h4>{" "}
+                                    <h4>Today Absent</h4>{" "}
                                 </div>
                                 <div>
                                     <input
@@ -135,7 +136,7 @@ function TotalPresent() {
                         columns={columns}
                         data={filteredData ? filteredData : []}
                         progressPending={loading}
-                        progressComponent={<CircleSpinner size={30} color="#686769" loading={loading}/>}
+                        progressComponent={<CircleSpinner size={30} color="#686769" loading={loading} />}
                         pagination
                         highlightOnHover
                         search

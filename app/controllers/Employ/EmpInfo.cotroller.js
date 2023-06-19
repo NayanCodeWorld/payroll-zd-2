@@ -3,7 +3,7 @@ const express = require("express");
 const { findOne } = require("../../models/Employ/Employ.model");
 const EmpInfoModal = require('../../models/Employ/Employ.model');
 const Emp_archInfoModal = require('../../models/Employ/Employ_arch_model')
-const { check ,validationResult} = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 const moment = require("moment");
 const ObjectId = require("mongodb").ObjectId;
@@ -20,9 +20,9 @@ class Emp {
                 ADHAR, Bank_No, Bank_IFSC, Alternate_Contact_number,
                 Position, DEGREE, STREAM, YEAR_OF_PASSING
                 , PASSED, PERCENTAGE_OF_MARKS, permanent_state,
-                permanent_city,bonus,
+                permanent_city, bonus,
                 current_state, is_active, permanent_pin_code,
-                current_city, current_pin_code, effective_date,training_days,notice_period,ctc
+                current_city, current_pin_code, effective_date, training_days, notice_period, ctc
             } = req.body;
 
             const errors = validationResult(req)
@@ -39,17 +39,18 @@ class Emp {
             const adhar = await EmpInfoModal.findOne({ ADHAR: ADHAR })
             const last_emp = await EmpInfoModal.find().sort({ _id: -1 }).limit(1);
             var next_emp_code;
-            if (last_emp) {
+            console.log(last_emp == 0);
+            if (last_emp == 0) {
+                next_emp_code = "A-0001";
+            }
+
+            else {
                 const last_emp_code = last_emp[0].Employee_Code;
                 const splitted_emp_code = last_emp_code.split("-");
                 var emp_code = Number(splitted_emp_code[1]) + 1;
                 emp_code = emp_code.toString();
                 while (emp_code.length < 4) emp_code = "0" + emp_code;
                 next_emp_code = splitted_emp_code[0] + "-" + emp_code;
-
-            }
-            else {
-                next_emp_code = "A-0001";
             }
 
             if (adhar) {
@@ -138,7 +139,12 @@ class Emp {
     async get_emlpoy(req, res, next) {
         try {
             EmpInfoModal.find({ is_active: 1 }).sort({ _id: -1 }).then(function (employee) {
-                res.send(employee);
+                if (employee == 0) {
+                    res.send({ 'message': "No employee added yet" });
+                }
+                else {
+                    res.send(employee);
+                }
             }).catch(next);
         } catch (err) {
             res.send({ "error": err })
@@ -241,7 +247,7 @@ class Emp {
             , PASSED, PERCENTAGE_OF_MARKS, permanent_state,
             permanent_city,
             current_state, is_active, permanent_pin_code,
-            current_city, current_pin_code, effective_date, base_salary_list,  training_days,
+            current_city, current_pin_code, effective_date, base_salary_list, training_days,
             notice_period,
             ctc,
             bonus
@@ -295,7 +301,7 @@ class Emp {
                 ctc,
                 bonus
             }
-            )
+        )
             .then(data => {
                 if (!data) {
                     res.status(404).send({

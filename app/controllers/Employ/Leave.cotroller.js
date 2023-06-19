@@ -177,7 +177,8 @@ class Leave {
                 from_date_: { $gte: from_date, $lte: to_date },
                 to_date_: { $gte: from_date, $lte: to_date }
             });
-
+            console.log('findLeave', findLeave);
+            return
             for (var i = 0; i < findLeave.length; i++) {
                 var docs = await LeaveModal.aggregate([
                     {
@@ -200,8 +201,9 @@ class Leave {
                     }
                 ]);
             }
-            res.send({ msg: docs });
             console.log("docs--", docs);
+            return
+            res.send({ msg: docs });
 
         } catch (err) {
             res.send({ "error": err })
@@ -334,7 +336,7 @@ class Leave {
             leave_count += findLeave[i].total_number_of_day
         }
         res.send({ "leave_count": leave_count })
- 
+
     }
 
     async get_today_leave(req, res, next) {
@@ -343,33 +345,67 @@ class Leave {
         var from_date = String(today.year()) + "-" + String(today.month() + 1) + "-01"
         var to_date = String(today.year()) + "-" + String(today.month() + 1) + "-31"
 
-        const findLeave = await LeaveModal.find({
-            from_date: { $gte: from_date, $lte: to_date },
-            to_date: { $gte: from_date, $lte: to_date }
-        });
 
-        const emp_count = await EmpInfoModal.find({ is_active: 1 })
-        var absent_count = 0
-        for (let i = 0; i < findLeave.length; i++) {
+        try {
+            const findLeave = await LeaveModal.find({
+                from_date: { $gte: from_date, $lte: to_date },
+                to_date: { $gte: from_date, $lte: to_date }
+            });
+            const emp_count = await EmpInfoModal.find({ is_active: 1 });
+            var absent_count = 0;
+            var employee = []
+            console.log('findLeave.length', findLeave.length);
 
-            var from_date_ = moment(moment(findLeave[i].from_date).utc().format('YYYY-MM-DD'))
-            var to_date_ = moment(moment(findLeave[i].to_date).utc().format('YYYY-MM-DD'))
-            // console.log(from_date_);
-            // return
-            if (
-                today.isSameOrBefore(to_date_)
-                && today.isSameOrAfter(from_date_)
-            ) {
-                absent_count++
+            for (let i = 0; i < findLeave.length; i++) {
+                var leaveId = findLeave[i]._id;
+
+                var from_date_ = moment(moment(findLeave[i].from_date).utc().format('YYYY-MM-DD'));
+                var to_date_ = moment(moment(findLeave[i].to_date).utc().format('YYYY-MM-DD'));
+                if (
+                    today.isSameOrBefore(to_date_) &&
+                    today.isSameOrAfter(from_date_)
+                ) {
+                    absent_count++;
+                    var docs = await LeaveModal.aggregate([
+                        {
+                            $match: {
+                                _id: leaveId
+                            }
+                        },
+                        {
+                            $lookup: {
+                                from: "EmpInfo",
+                                localField: "userid",
+                                foreignField: "_id",
+                                as: "result"
+                            }
+                        }
+                    ]).sort({ _id: -1 });
+                    employee.push(docs[0])
+                }
+
             }
+
+            var present_count = emp_count.length - absent_count
+            if (present_count == 0 && absent_count == 0) {
+                res.send({ 'message': "No records found" });
+            }
+            else {
+                res.send(
+                    {
+                        "present_count": present_count,
+                        "absent_count": absent_count,
+                        "employe": employee
+                    }
+                )
+            }
+
+        } catch (err) {
+            res.send({ error: err });
         }
-        var present_count = emp_count.length - absent_count
-        res.send(
-            {
-                "present_count": present_count,
-                "absent_count": absent_count
-            }
-        )
+
+
+
     }
 
 
@@ -378,36 +414,66 @@ class Leave {
         var yesterday = today.subtract(1, 'day')
         var from_date = String(yesterday.year()) + "-" + String(yesterday.month() + 1) + "-01"
         var to_date = String(yesterday.year()) + "-" + String(yesterday.month() + 1) + "-31"
+        console.log('from_date', from_date, 'to_date', to_date);
 
-        const findLeave = await LeaveModal.find({
-            from_date: { $gte: from_date, $lte: to_date },
-            to_date: { $gte: from_date, $lte: to_date }
-        });
+        try {
+            const findLeave = await LeaveModal.find({
+                from_date: { $gte: from_date, $lte: to_date },
+                to_date: { $gte: from_date, $lte: to_date }
+            });
+            const emp_count = await EmpInfoModal.find({ is_active: 1 });
+            var absent_count = 0;
+            var employee = []
+            console.log('findLeave.length', findLeave.length);
 
-        const emp_count = await EmpInfoModal.find()
-        var absent_count = 0
-        for (let i = 0; i < findLeave.length; i++) {
+            for (let i = 0; i < findLeave.length; i++) {
+                var leaveId = findLeave[i]._id;
 
-            var from_date_ = moment(moment(findLeave[i].from_date).utc().format('YYYY-MM-DD'))
-            var to_date_ = moment(moment(findLeave[i].to_date).utc().format('YYYY-MM-DD'))
+                var from_date_ = moment(moment(findLeave[i].from_date).utc().format('YYYY-MM-DD'));
+                var to_date_ = moment(moment(findLeave[i].to_date).utc().format('YYYY-MM-DD'));
+                if (
+                    yesterday.isSameOrBefore(to_date_) &&
+                    yesterday.isSameOrAfter(from_date_)
+                ) {
+                    absent_count++;
+                    var docs = await LeaveModal.aggregate([
+                        {
+                            $match: {
+                                _id: leaveId
+                            }
+                        },
+                        {
+                            $lookup: {
+                                from: "EmpInfo",
+                                localField: "userid",
+                                foreignField: "_id",
+                                as: "result"
+                            }
+                        }
+                    ]).sort({ _id: -1 });
+                    employee.push(docs[0])
+                }
 
-            if (
-                yesterday.isSameOrBefore(to_date_)
-                && yesterday.isSameOrAfter(from_date_)
-            ) {
-                absent_count++
             }
+
+            var present_count = emp_count.length - absent_count
+            if (present_count == 0 && absent_count == 0) {
+                res.send({ 'message': "No records found" });
+            }
+            else {
+                res.send(
+                    {
+                        "present_count": present_count,
+                        "absent_count": absent_count,
+                        "employe": employee
+                    }
+                )
+            }
+
+        } catch (err) {
+            res.send({ error: err });
         }
-        var present_count = emp_count.length - absent_count
-        res.send(
-            {
-                "present_count": present_count,
-                "absent_count": absent_count
-            }
-        )
     }
-
-
 }
 
 module.exports = new Leave();

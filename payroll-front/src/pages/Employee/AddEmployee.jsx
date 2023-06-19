@@ -31,7 +31,7 @@ function AddEmployee(props) {
   const [errors, setErrors] = useState({});
   const [submitDisable, setSubmitDisable] = useState(false);
   const navigate = useNavigate();
-  const [effectiveDateState,setEffectiveDateState] = useState("");
+  const [effectiveDateState, setEffectiveDateState] = useState("");
   const [updateButton, setUpdateButton] = useState(true);
 
   useEffect(() => {
@@ -89,10 +89,10 @@ function AddEmployee(props) {
       message == "alredy exist ADHAR."
         ? "Aadhar already exiest"
         : message == "alredy exist PAN_NO."
-        ? "Pan Number already exiest"
-        : message == "alredy exist emails."
-        ? "Email already exiest"
-        : null,
+          ? "Pan Number already exiest"
+          : message == "alredy exist emails."
+            ? "Email already exiest"
+            : null,
       {
         position: "top-center",
         autoClose: 5000,
@@ -107,7 +107,7 @@ function AddEmployee(props) {
   };
   function submituserRegistrationForm(e) {
     e.preventDefault();
-    console.log('fields',fields);
+    console.log('fields', fields);
     const validationErrors = validateForm(fields);
     setErrors(validationErrors.errObj);
     if (validationErrors && validationErrors.formIsValid) {
@@ -236,7 +236,7 @@ function AddEmployee(props) {
   const handleEffectiveUpdate = (index) => {
     Swal.fire({
       title: "Are you sure about update?",
-      icon: "warning",  
+      icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -245,7 +245,7 @@ function AddEmployee(props) {
       if (result.isConfirmed) {
         const i = base_salary_list.indexOf(index);
         let min_date = 0;
-        if (i > 0){
+        if (i > 0) {
           min_date = base_salary_list[0].effective_date?.slice(0, 10)
         }
         // Get the effective date and base salary 
@@ -262,7 +262,7 @@ function AddEmployee(props) {
         setEffectiveDateState(i)
         setUpdateButton(false);
 
-        if (min_date){
+        if (min_date) {
           effectiveDateField.min = min_date
         }
       }
@@ -271,23 +271,24 @@ function AddEmployee(props) {
   };
 
   const updateEffectiveDate = (index) => {
-        // Get the base salary and effective date fields using their IDs
-        const baseSalaryField = document.getElementById('base_salary').value;
-        const effectiveDateField = document.getElementById('effective_date').value;
-      if (effectiveDateState){
-        if (baseSalaryField && effectiveDateField) {
-          base_salary_list[effectiveDateState].salary_ = baseSalaryField
-          base_salary_list[effectiveDateState].effective_date = effectiveDateField
-          Swal.fire(
-            "Updated!",
-            "Click on Update to make changes.",
-            "success"
-          )
-        }}
-        setUpdateButton(true);
+    // Get the base salary and effective date fields using their IDs
+    const baseSalaryField = document.getElementById('base_salary').value;
+    const effectiveDateField = document.getElementById('effective_date').value;
+    if (effectiveDateState) {
+      if (baseSalaryField && effectiveDateField) {
+        base_salary_list[effectiveDateState].salary_ = baseSalaryField
+        base_salary_list[effectiveDateState].effective_date = effectiveDateField
+        Swal.fire(
+          "Updated!",
+          "Click on Update to make changes.",
+          "success"
+        )
+      }
+    }
+    setUpdateButton(true);
 
-    };
-    
+  };
+
 
 
   return (
@@ -692,11 +693,11 @@ function AddEmployee(props) {
                                     {e.effective_date?.slice(0, 10)}
                                   </label>
                                   <div className="d-flex">
-                                    <span
+                                    {/* <span
                                       onClick={() => handleEffectiveUpdate(e)}
                                     >
                                       <BsPencilSquare />
-                                    </span>
+                                    </span> */}
                                     {base_salary_list.length > 1 ? (
                                       <span
                                         onClick={() => handleEffectiveDelete(e)}
@@ -708,20 +709,27 @@ function AddEmployee(props) {
                                 </div>
                               );
                             })}
-                          <div className="d-flex flex-column">
-                            <input 
-                              ref={effectiveDateInputRef}
-                              type="date"
-                              name="effective_date"
-                              value={fields.effective_date}
-                              onChange={(e) => handleChange(e)}
-                              className="form-control col-lg-8 col-md-8 col-sm-8 col-xs-8"
-                              id="effective_date"
-                              placeholder="Efffective Date"
-                              disabled={!fields.date_of_joining}
-                            ></input>
-                            <button onClick={(e) => updateEffectiveDate()} className="col-lg-4 col-md-4 col-sm-4 col-xs-4" disabled={ updateButton }>Update</button>
-                          </div>
+                          <input
+                            ref={effectiveDateInputRef}
+                            type="date"
+                            name="effective_date"
+                            value={fields.effective_date}
+                            onChange={(e) => handleChange(e)}
+                            className="form-control"
+                            placeholder={
+                              fields.date_of_joining
+                                ? "Effective Date"
+                                : "Please select your date of joining first"
+                            }
+                            disabled={!fields.date_of_joining}
+                            title={
+                              fields.date_of_joining
+                                ? ""
+                                : "Please select your date of joining first"
+                            }
+                          />
+
+                      
                           <div className="errorMsg">
                             {errors.effective_date}
                           </div>

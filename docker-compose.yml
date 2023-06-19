@@ -3,19 +3,17 @@ version: '3'
 services:
   app_front:
     build:
-      context: ./payroll-front
-      dockerfile: Dockerfile
-    restart: always
+     context: ./payroll-front
+     dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
       - app-back
 
   app-back:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
+    build: 
+     context: .
+     dockerfile: Dockerfile
     ports:
       - "7074:7074"
     environment:

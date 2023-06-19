@@ -22,7 +22,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.41",
     "mongoose": "^6.10.1",
-    "nodemailer": "^6.9.1",
+    "nodemailer": "^6.9.3",
     "nodemon": "^2.0.21",
     "pdf-creator-node": "^2.3.5",
     "stack-trace": "^1.0.0-pre2",
