@@ -221,7 +221,9 @@ class Salary {
                     Total_earn: net_pay_in_number,
                     Net_pay_in_number: net_pay_in_number,
                     Net_pay_in_words: net_pay_in_word,
-                    ARRS: arrs,
+                    ARRS: Number(req.body.arrear),
+                    Bonus: Number(req.body.Bonus),
+                    ECSI: Number(req.body.ECSI),
                     Additional: arrs,
                     ARRS_Comment: req.body.arrear_comment,
                     Additional_Comment: req.body.additional_comment,
@@ -667,7 +669,9 @@ class Salary {
                                 Total_earn: net_pay_in_number,
                                 Net_pay_in_number: net_pay_in_number,
                                 Net_pay_in_words: net_pay_in_word,
-                                ARRS: arrs,
+                                ARRS: Number(req.body.arrear),
+                                Bonus: Number(req.body.Bonus),
+                                ECSI: Number(req.body.ECSI),
                                 Additional: arrs,
                                 ARRS_Comment: req.body.arrear_comment,
                                 Additional_Comment: req.body.additional_comment,
@@ -766,6 +770,7 @@ class Salary {
                             var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
                             // console.log(arrs, Number(req.body.ECSI), Number(req.body.Bonus), Number(req.body.arrear));
                             // return
+                            
                             const salary = new SalaryModal({
                                 Employee_name: empinfo_modal.First_Name + " " + empinfo_modal.Last_Name,
                                 userid: empinfo_modal._id,
@@ -794,13 +799,14 @@ class Salary {
                                 Total_earn: net_pay_in_number,
                                 Net_pay_in_number: net_pay_in_number,
                                 Net_pay_in_words: net_pay_in_word,
-                                ARRS: arrs,
+                                ARRS: Number(req.body.arrear),
+                                Bonus: Number(req.body.Bonus),
+                                ECSI: Number(req.body.ECSI),
                                 Additional: arrs,
                                 ARRS_Comment: req.body.arrear_comment,
                                 Additional_Comment: req.body.additional_comment,
 
                             });
-
                             salary.save();
                             arr.push(1)
                             return res.status(200).send({ success: true, 'salary': salary })

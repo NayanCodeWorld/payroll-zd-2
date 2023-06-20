@@ -124,6 +124,16 @@ const Salary = Schema({
         default: 0
 
     },
+    ECSI: {
+        type: Number,
+        default: 0
+
+    },
+    Bonus: {
+        type: Number,
+        default: 0
+
+    },
     Additional: {
         type: Number,
         default: 0
