@@ -27,6 +27,7 @@
     "nodemon": "^2.0.21",
     "pdf-creator-node": "^2.3.5",
     "stack-trace": "^1.0.0-pre2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "ws": "^8.13.0"
   }
 }
