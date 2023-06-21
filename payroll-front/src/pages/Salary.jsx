@@ -120,7 +120,7 @@ function Salary() {
         console.log(err.message);
       });
   }, []);
-
+  console.log(fields.arrear, fields.ARRS);
   return (
     <div className="pt-5">
       <div>
@@ -195,17 +195,46 @@ function Salary() {
                           <label className="profile_details_text">
                             Amount
                           </label>
-                          <input
-                            type="number"
-                            style={{ textTransform: "capitalize" }}
-                            name="ECSI"
-                            minLength="2"
-                            maxLength="50"
-                            className="form-control"
-                            placeholder="Amount"
-                            value={fields.ECSI}
-                            onChange={(e) => handleChange(e)}
-                          />
+                          {selectedOptionsalary === 'Bonus' ? (
+                            <input
+                              type="number"
+                              style={{ textTransform: "capitalize" }}
+                              name="Bonus"
+                              minLength="2"
+                              maxLength="50"
+                              className="form-control"
+                              placeholder="Amount"
+                              value={fields.Bonus}
+                              onChange={(e) => handleChange(e)}
+                            />
+                          ) : (
+                            <>
+                              {selectedOptionsalary === 'ARRS' ? (
+                                <input
+                                  type="number"
+                                  style={{ textTransform: "capitalize" }}
+                                  name="arrear"
+                                  minLength="2"
+                                  maxLength="50"
+                                  className="form-control"
+                                  placeholder="Amount"
+                                  value={fields.ARRS}
+                                  onChange={(e) => handleChange(e)}
+                                />
+                              ) : <input
+                                type="number"
+                                style={{ textTransform: "capitalize" }}
+                                name="ECSI"
+                                minLength="2"
+                                maxLength="50"
+                                className="form-control"
+                                placeholder="Amount"
+                                value={fields.ECSI}
+                                onChange={(e) => handleChange(e)}
+                              />}
+                            </>
+                          )}
+
                         </div>
                       </div>
                     </div>

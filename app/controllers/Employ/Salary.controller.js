@@ -237,11 +237,11 @@ class Salary {
                 }
                 else {
                     var arr = []
-                    for (var i = 1; i < effective_date_emp.length; i++) {
+                    for (var i = 0; i < effective_date_emp.length; i++) {
                         console.log('3333333333333333333333333333333333', i);
-                        if (arr.length == 0) {
 
-                            if (moment(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date).month() + 1 == Number(month) && (moment(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date).year()) == Number(year)) {
+                        if (arr.length == 0) {
+                            if (moment(empinfo_modal.base_salary_list[(empinfo_modal.base_salary_list.length - 1) - i].effective_date).month() + 1 == Number(month) && (moment(empinfo_modal.base_salary_list[(empinfo_modal.base_salary_list.length - 1) - i].effective_date).year()) == Number(year)) {
                                 console.log('true');
                                 var leave_balence_year = 0
                                 var emp_leave_taken = 0
@@ -267,7 +267,7 @@ class Salary {
                                 var leave_taken_2 = 0
 
 
-                                var dateString = empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date
+                                var dateString = empinfo_modal.base_salary_list[(empinfo_modal.base_salary_list.length - 1) - i].effective_date
                                 const date = new Date(dateString);
                                 var effective_month = date.getMonth() + 1
                                 const effectivr_year = date.getFullYear()
@@ -298,7 +298,7 @@ class Salary {
                                 const day1 = String(dateObj1.getDate()).padStart(2, '0');
                                 const holiday_day_end = `${year2}-${month2}-${day1}`;
 
-                                const lastEffectiveDate = moment(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date);
+                                const lastEffectiveDate = moment(empinfo_modal.base_salary_list[(empinfo_modal.base_salary_list.length - 1) - i].effective_date);
                                 var formattedLastEffectiveDate = lastEffectiveDate.format('YYYY-MM-DD');
 
                                 var holiday_leave_1 = await HolidayModal.find({
@@ -532,7 +532,7 @@ class Salary {
                                 const daysUntilLastDayOfMonth = lastDayOfMonth.getDate() - date_effective.getDate();
                                 // console.log(daysUntilLastDayOfMonth, 'lastDayOfMonth', lastDayOfMonth, 'date_effective', date_effective, 'total_month_day1', 'day_date_effective', day_date_effective, total_month_day1);
                                 const array = empinfo_modal.base_salary_list
-                                const element = empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i]
+                                const element = empinfo_modal.base_salary_list[(empinfo_modal.base_salary_list.length - 1) - i]
                                 const index = array.indexOf(element);
                                 // if ((month_effective + 1) == month && year_effective == year) {
                                 //     working_days_1 = Number(daysUntilLastDayOfMonth) - holiday_leave_1.length
@@ -544,7 +544,7 @@ class Salary {
                                 // else {
                                 working_days_1 = total_month_day1 - holiday_leave_1.length
                                 // if()
-                                console.log('daysUntilLastDayOfMonth', daysUntilLastDayOfMonth);
+                                console.log('daysUntilLastDayOfMonth', daysUntilLastDayOfMonth, date2);
                                 if (day_date_effective == 1) {
                                     present_days_2 = (working_days_2 - leave_taken_2) + leave_balence_year
                                 }
@@ -565,10 +565,10 @@ class Salary {
                                     working_days = Number(month_array[Number(req.query.month) - 1]) - holiday_modal
                                 }
                                 present_days = (present_days_1 + present_days_2) - leave_balence_year
+
                                 emp_leave_taken = leave_taken_1 + leave_taken_2
                                 var balance_days = leave_balence_year - emp_leave_taken
                                 total_paid_days = present_days + leave_balence_year
-                                console.log('working_days_1', working_days_1, 'present_days_2', present_days_2, 'working_days_2', working_days_2);
 
                                 for (let i = 0; i < effective_date_emp.length; i++) {
                                     result = compareDates(year, month, effective_date_emp[i].effective_date);
@@ -584,9 +584,9 @@ class Salary {
                                     }
                                 }
 
-
+                                console.log(day_date_effective, 'day_date_effective');
                                 if (day_date_effective == 1) {
-                                    salary_emp = effective_date_emp[i].salary_
+                                    salary_emp = effective_date_emp[1 - i].salary_
                                 }
 
                                 if (empinfo_modal.base_salary_list.length === 1) {
@@ -619,9 +619,14 @@ class Salary {
 
                                     }
                                 }
-                                console.log('present daye', present_days_1);
-                                console.log('present daye2', present_days_2);
+                              
+                                if (index == 0) {
+                                    salary_emp_2 = salary_emp_1
+                                    present_days = present_days_2
+                                    present_days_2 = present_days_2 + leave_balence_year
+                                    total_paid_days = present_days_2
 
+                                }
                                 var gross_basic_da = Math.round(salary_emp_1 / 2)
                                 var gross_hra = Math.round((gross_basic_da * 40) / 100)
                                 var gross_ra = Math.round((gross_basic_da * 15) / 100)
@@ -638,10 +643,7 @@ class Salary {
                                     + arrs
                                 net_pay_in_number = Math.round(net_pay_in_number)
                                 var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
-                                // console.log(arrs, Number(req.body.ECSI), Number(req.body.Bonus), Number(req.body.arrear));
                                 // return
-                                // console.log('net_pay_in_number_2', net_pay_in_number_2 + net_pay_in_number_1, 'net_pay_in_number_1', net_pay_in_number_1, 'net_pay_in_number', net_pay_in_number);
-                                // console.log(net_pay_in_number_1 + net_pay_in_number_2, 'holiday_leave_2.length', holiday_leave_2.length);
                                 const salary = new SalaryModal({
                                     Employee_name: empinfo_modal.First_Name + " " + empinfo_modal.Last_Name,
                                     userid: empinfo_modal._id,
@@ -686,7 +688,7 @@ class Salary {
                             }
                         }
                     }
-                    for (var i = 1; i < effective_date_emp.length; i++) {
+                    for (var i = 0; i < effective_date_emp.length; i++) {
                         console.log('5555555555555555');
                         if (arr.length == 0) {
                             if (moment(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date).month() + 1 != Number(month) || (moment(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date).year()) != Number(year)) {
@@ -770,7 +772,7 @@ class Salary {
                                 net_pay_in_number = Math.round(net_pay_in_number)
                                 var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
                                 // console.log(arrs, Number(req.body.ECSI), Number(req.body.Bonus), Number(req.body.arrear));
-                                // return
+
 
                                 const salary = new SalaryModal({
                                     Employee_name: empinfo_modal.First_Name + " " + empinfo_modal.Last_Name,
