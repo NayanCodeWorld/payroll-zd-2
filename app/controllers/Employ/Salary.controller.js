@@ -619,7 +619,7 @@ class Salary {
 
                                     }
                                 }
-                              
+
                                 if (index == 0) {
                                     salary_emp_2 = salary_emp_1
                                     present_days = present_days_2
@@ -691,7 +691,7 @@ class Salary {
                     for (var i = 0; i < effective_date_emp.length; i++) {
                         console.log('5555555555555555');
                         if (arr.length == 0) {
-                            if (moment(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date).month() + 1 != Number(month) || (moment(empinfo_modal.base_salary_list[empinfo_modal.base_salary_list.length - i].effective_date).year()) != Number(year)) {
+                            if (moment(empinfo_modal.base_salary_list[(empinfo_modal.base_salary_list.length - 1) - i].effective_date).month() + 1 != Number(month) || (moment(empinfo_modal.base_salary_list[(empinfo_modal.base_salary_list.length - 1) - i].effective_date).year()) != Number(year)) {
                                 const holiday_modal = await HolidayModal.find({
                                     holiday_date: {
                                         $gte: new Date(req.query.year, req.query.month - 1, 1),
