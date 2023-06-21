@@ -190,6 +190,7 @@ class Salary {
                     var net_pay_in_number = (salary_emp / working_days) * total_paid_days
                         + arrs
                     net_pay_in_number = Math.round(net_pay_in_number)
+                    let total_earn = (salary_emp / working_days) * total_paid_days
                     var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
                     console.log(net_pay_in_number);
                     // console.log(arrs, Number(req.body.ECSI), Number(req.body.Bonus), Number(req.body.arrear));
@@ -219,7 +220,7 @@ class Salary {
                         Earned_HRA: Math.round(earned_hra),
                         Earned_RA: Math.round(earned_ra),
                         Earned_Flext_benefits: Math.round(earned_flexi_benifits),
-                        Total_earn: net_pay_in_number,
+                        Total_earn: total_earn,
                         Net_pay_in_number: net_pay_in_number,
                         Net_pay_in_words: net_pay_in_word,
                         ARRS: Number(req.body.arrear),
@@ -639,6 +640,7 @@ class Salary {
                                 var net_pay_in_number_1 = (salary_emp_1 / working_days) * present_days_1
                                 var net_pay_in_number_2 = (salary_emp_2 / working_days) * present_days_2
                                 const arrs = Number(req.body.arrear) + Number(arrear_effective_date) + Number(req.body.Bonus) + Number(req.body.ECSI)
+                                let total_earn = net_pay_in_number_1 + net_pay_in_number_2
                                 var net_pay_in_number = net_pay_in_number_1 + net_pay_in_number_2
                                     + arrs
                                 net_pay_in_number = Math.round(net_pay_in_number)
@@ -669,7 +671,7 @@ class Salary {
                                     Earned_HRA: Math.round(earned_hra),
                                     Earned_RA: Math.round(earned_ra),
                                     Earned_Flext_benefits: Math.round(earned_flexi_benifits),
-                                    Total_earn: net_pay_in_number,
+                                    Total_earn: total_earn,
                                     Net_pay_in_number: net_pay_in_number,
                                     Net_pay_in_words: net_pay_in_word,
                                     ARRS: Number(req.body.arrear),
@@ -770,6 +772,7 @@ class Salary {
                                 var net_pay_in_number = (salary_emp / working_days) * total_paid_days
                                     + arrs
                                 net_pay_in_number = Math.round(net_pay_in_number)
+                                let total_earn = (salary_emp / working_days) * total_paid_days
                                 var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
                                 // console.log(arrs, Number(req.body.ECSI), Number(req.body.Bonus), Number(req.body.arrear));
 
@@ -799,7 +802,7 @@ class Salary {
                                     Earned_HRA: Math.round(earned_hra),
                                     Earned_RA: Math.round(earned_ra),
                                     Earned_Flext_benefits: Math.round(earned_flexi_benifits),
-                                    Total_earn: net_pay_in_number,
+                                    Total_earn: total_earn,
                                     Net_pay_in_number: net_pay_in_number,
                                     Net_pay_in_words: net_pay_in_word,
                                     ARRS: Number(req.body.arrear),
