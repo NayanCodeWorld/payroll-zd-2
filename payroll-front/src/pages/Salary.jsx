@@ -22,7 +22,9 @@ function Salary() {
   const [salaryYear, setSalaryYear] = useState(0);
   const [salaryMonthNumber, setSalaryMonthNumber] = useState(0);
   const [prevMonths, setPrevMonths] = useState([]);
+  const [selectedOptionsalary, setSelectedOptionsalary] = useState("ECSI");
 
+  console.log('selectedOptionsalary', selectedOptionsalary);
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
     let salaryMonth = event.target.value;
@@ -30,6 +32,9 @@ function Salary() {
     let monthStr = salaryMonth.substring(4);
     setSalaryYear(yearStr);
     setSalaryMonthNumber(monthStr);
+  };
+  const handleChange_ = (e) => {
+    setSelectedOptionsalary(e.target.value);
   };
   function handleChange(e) {
     let fieldObj = { ...fields };
@@ -174,63 +179,21 @@ function Salary() {
                 {switchToAdvance ? (
                   <div>
                     <div className="row">
-                      <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div className="form-group">
-                          <label className="profile_details_text">ARRS</label>
-                          <input
-                            type="number"
-                            style={{ textTransform: "capitalize" }}
-                            name="arrear"
-                            minLength="2"
-                            maxLength="50"
-                            className="form-control"
-                            placeholder="ARRS"
-                            value={fields.arrear}
-                            onChange={(e) => handleChange(e)}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div className="form-group">
-                          <label className="profile_details_text">
-                            Bonus
-                          </label>
-                          <input
-                            type="number"
-                            style={{ textTransform: "capitalize" }}
-                            name="Bonus"
-                            minLength="2"
-                            maxLength="50"
-                            className="form-control"
-                            placeholder="Bonus Amount"
-                            value={fields.Bonus}
-                            onChange={(e) => handleChange(e)}
-                          />
-                        </div>
+
+                      <div>
+                        <select value={selectedOptionsalary} onChange={handleChange_}>
+                          <option value="ECSI">ECSI</option>
+                          <option value="Bonus">Bonus</option>
+                          <option value="ARRS">ARRS</option>
+                        </select>
                       </div>
                     </div>
                     <div className="row">
+
                       <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div className="form-group">
                           <label className="profile_details_text">
-                            ARRS Comment
-                          </label>
-                          <textarea
-                            className="form-control"
-                            name="arrear_comment"
-                            rows="3"
-                            cols="35"
-                            placeholder="Write Comment Here"
-                            value={fields.arrear_comment}
-                            onChange={(e) => handleChange(e)}
-                          ></textarea>
-                          <div className="errorMsg"></div>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div className="form-group">
-                          <label className="profile_details_text">
-                            ECSI
+                            Amount
                           </label>
                           <input
                             type="number"
@@ -239,7 +202,7 @@ function Salary() {
                             minLength="2"
                             maxLength="50"
                             className="form-control"
-                            placeholder="ECSI Amount"
+                            placeholder="Amount"
                             value={fields.ECSI}
                             onChange={(e) => handleChange(e)}
                           />

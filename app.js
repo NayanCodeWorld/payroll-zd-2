@@ -1,6 +1,10 @@
 "use strict";
 require('./app/utils/mongooseConnecter.util')
-const express = require("express");
+// const express = require("express");
+const express = require('express');
+const https = require('https');
+const fs = require('fs');
+
 const app = express();
 const pdf_genearation = require("./pdf_generator/pdfGenerator")
 const path = require('path')
@@ -45,6 +49,21 @@ app.get('/slip', (req, res) =>{
 })
 
 
+const certPath = './ssl/fullchain.pem';
+const keyPath = './ssl/privkey.pem';
+
+const cert = fs.readFileSync(certPath);
+const key = fs.readFileSync(keyPath);
+
+const options = {
+  cert: cert,
+  key: key
+};
+const server = https.createServer(options, app);
+
+
+// const port = 443;
+
 app.post('/slip', (req, res) =>{
   pdf_genearation()
   console.log("button clicked")
@@ -60,8 +79,12 @@ app.get('*', function(req, res){
 const port = 7074;
 
 // Server start
-app.listen(port, () =>
-  console.log(`Server is running on ${port}`)
-);
+server.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+// app.listen(port, () =>
+//   console.log(`Server is running on ${port}`)
+// );
 
 
