@@ -622,13 +622,16 @@ class Salary {
                                     }
                                 }
 
-                                if (index == 0) {
+                                if (index == 0 && day_date_effective != 1) {
                                     salary_emp_2 = salary_emp_1
                                     present_days = present_days_2
                                     present_days_2 = present_days_2 + leave_balence_year
                                     total_paid_days = present_days_2
-
                                 }
+                                if (index == 0) {
+                                    salary_emp_2 = salary_emp_1
+                                }
+
                                 var gross_basic_da = Math.round(salary_emp_1 / 2)
                                 var gross_hra = Math.round((gross_basic_da * 40) / 100)
                                 var gross_ra = Math.round((gross_basic_da * 15) / 100)
