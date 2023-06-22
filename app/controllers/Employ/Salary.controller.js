@@ -587,9 +587,6 @@ class Salary {
                                 }
 
                                 console.log(day_date_effective, 'day_date_effective');
-                                if (day_date_effective == 1) {
-                                    salary_emp = effective_date_emp[1 - i].salary_
-                                }
 
                                 if (empinfo_modal.base_salary_list.length === 1) {
                                     console.log('1empluyt1');
@@ -631,6 +628,10 @@ class Salary {
                                 if (index == 0) {
                                     salary_emp_2 = salary_emp_1
                                 }
+                                if (day_date_effective == 1) {
+                                    salary_emp = salary_emp_2
+                                }
+                                console.log(salary_emp_2, salary_emp, salary_emp_1);
 
                                 var gross_basic_da = Math.round(salary_emp_1 / 2)
                                 var gross_hra = Math.round((gross_basic_da * 40) / 100)
