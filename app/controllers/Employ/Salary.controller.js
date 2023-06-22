@@ -191,6 +191,7 @@ class Salary {
                         + arrs
                     net_pay_in_number = Math.round(net_pay_in_number)
                     let total_earn = (salary_emp / working_days) * total_paid_days
+                    total_earn = Math.round(total_earn)
                     var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
                     console.log(net_pay_in_number);
                     // console.log(arrs, Number(req.body.ECSI), Number(req.body.Bonus), Number(req.body.arrear));
@@ -641,6 +642,7 @@ class Salary {
                                 var net_pay_in_number_2 = (salary_emp_2 / working_days) * present_days_2
                                 const arrs = Number(req.body.arrear) + Number(arrear_effective_date) + Number(req.body.Bonus) + Number(req.body.ECSI)
                                 let total_earn = net_pay_in_number_1 + net_pay_in_number_2
+                                total_earn = Math.round(total_earn)
                                 var net_pay_in_number = net_pay_in_number_1 + net_pay_in_number_2
                                     + arrs
                                 net_pay_in_number = Math.round(net_pay_in_number)
@@ -773,6 +775,7 @@ class Salary {
                                     + arrs
                                 net_pay_in_number = Math.round(net_pay_in_number)
                                 let total_earn = (salary_emp / working_days) * total_paid_days
+                                total_earn = Math.round(total_earn)
                                 var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number)
                                 // console.log(arrs, Number(req.body.ECSI), Number(req.body.Bonus), Number(req.body.arrear));
 
