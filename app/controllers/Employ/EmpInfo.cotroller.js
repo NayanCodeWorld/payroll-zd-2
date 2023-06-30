@@ -21,7 +21,7 @@ class Emp {
                 , PASSED, PERCENTAGE_OF_MARKS, permanent_state,
                 permanent_city, bonus,
                 current_state, is_active, permanent_pin_code,
-                current_city, current_pin_code, effective_date, training_days, notice_period, ctc
+                current_city, current_pin_code, effective_date, training_days, notice_period, ctc,roll
             } = req.body;
 
             const errors = validationResult(req)
@@ -75,6 +75,7 @@ class Emp {
                     Permanent_Address,
                     Current_Address,
                     email,
+                    Password: First_Name + "@" + Contact_Number.slice(-4),
                     fatherName,
                     Alternate_Contact_number,
                     Blood_Group,
@@ -101,10 +102,12 @@ class Emp {
                     YEAR_OF_PASSING,
                     notice_period,
                     ctc,
-                    bonus
+                    bonus,
+                    roll,
                     // file,
                 });
                 //STORE YOUR LOGIN DATA IN DB 
+
                 await employ.save();
                 console.log({ employ });
                 res.send({ message: "Success " });
@@ -137,6 +140,7 @@ class Emp {
     }
     async get_emlpoy(req, res, next) {
         try {
+            EmpInfoModal.updateMany({}, { $set: { role: 2 } });
             EmpInfoModal.find({ is_active: 1 }).sort({ _id: -1 }).then(function (employee) {
                 if (employee == 0) {
                     res.send({ 'message': "No employee added yet" });

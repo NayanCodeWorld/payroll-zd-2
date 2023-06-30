@@ -137,7 +137,9 @@ const EmpInfo = Schema({
     PASSED: {
         type: String,
     },
-
+    Password: {
+        type: String,
+    },
     PERCENTAGE_OF_MARKS: {
         type: String,
     },
@@ -176,6 +178,11 @@ const EmpInfo = Schema({
     },
     bonus: {
         type: Number
+    },
+    roll: {
+        type: String,
+        Enum: [1, 2],  //client = 1   Admin = 2
+        default: 1,
     }
 
 },

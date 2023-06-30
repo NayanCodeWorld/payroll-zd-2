@@ -147,7 +147,6 @@ class Salary {
                         working_days_1 = Number(month_array[Number(req.query.month) - 1]) - holiday_modal.length
                         present_days = working_days_1 - emp_leave_taken
 
-                        console.log(working_days, 'working_days', present_days, 'present_days');
                     }
 
                     if (present_days === 0) {

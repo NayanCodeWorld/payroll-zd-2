@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Use HTTPS server instead of HTTP server
 //const server = https.createServer(options, app);
- 
+
 app.use("/", require("./app/routes/Employ/Employ.route"));
 app.use("/emp", require("./app/routes/Employ/Employ.route"));
 app.use("/Emp_Leave",require("./app/routes/Employ/Leave.route"))
@@ -42,10 +42,6 @@ app.use("/Holiday",require("./app/routes/Employ/Holiday.route"))
 app.use("/login",require("./app/routes/Employ/login.route"))
 app.use("/year",require("./app/routes/Employ/Year_Leave.route"))
 
-
-app.get('/slip', (req, res) =>{
-  res.sendFile(__dirname + '/pdf_generator/salarySlip.html')
-})
 
 
 const certPath = './ssl/fullchain.pem';
@@ -60,14 +56,6 @@ const options = {
 };
 const server = https.createServer(options, app);
 
-
-// const port = 443;
-
-app.post('/slip', (req, res) =>{
-  pdf_genearation()
-  console.log("button clicked")
-  res.send("file downloaded successfully")
-})
 
 // read static files
 app.use(express.static(path.join(__dirname, './payroll-front/build')))
