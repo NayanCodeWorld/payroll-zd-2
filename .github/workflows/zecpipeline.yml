@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+env:
+  PROD-DROPLATE-IP: ${{ secrets.DROPLET_IP }}
+  PROD-PASSWORD: ${{ secrets.DROPLET2_PASSWORD }}
+  DEV-DROPLATE-IP: ${{ secrets.DEV_DROPLET_IP }}
+  DEV-PASSWORD: ${{ secrets.DROPLET2_PASSWORD }}
       
 jobs:
   build:
