@@ -16,6 +16,7 @@ const EmpInfoModal = require('../../models/Employ/Employ.model')// const login =
 class login {
   async Login(req, res) {
     try {
+      console.log('login');
       // const { Email, Password } = req.body;
       const secretKey = crypto.randomBytes(64).toString('hex');
       const { email, password } = req.body;
