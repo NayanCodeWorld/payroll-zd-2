@@ -56,8 +56,9 @@ function AddEmployee(props) {
       // }
       propsObject && setFields(propsObject);
     }
+    console.warn('fields--------',fields, );
+    console.warn(propsObject?.gender == "Male", '================================');
   }, [propsObject]);
-
   function handleChange(e) {
     let fieldObj = { ...fields };
     fieldObj[e.target.name] = e.target.value;
@@ -552,7 +553,7 @@ function AddEmployee(props) {
                           type="radio"
                           value="Male"
                           name="gender"
-                          defaultChecked={fields.gender == "Male"}
+                          defaultChecked={propsObject?.gender == "Male"}
                         />{" "}
                         Male
                         <input
@@ -560,7 +561,7 @@ function AddEmployee(props) {
                           value="Female"
                           name="gender"
                           className="ml-2"
-                          defaultChecked={fields.gender == "Female"}
+                          defaultChecked={propsObject?.gender == "Female"}
                         />{" "}
                         Female
                       </div>
@@ -578,7 +579,7 @@ function AddEmployee(props) {
                           type="radio"
                           value="Single"
                           name="Marital_Status"
-                          defaultChecked={fields.Marital_Status == "Single"}
+                          defaultChecked={propsObject?.Marital_Status == "Single"}
                         />{" "}
                         Single
                         <input
@@ -586,7 +587,7 @@ function AddEmployee(props) {
                           value="Married"
                           name="Marital_Status"
                           className="ml-2"
-                          defaultChecked={fields.Marital_Status == "Married"}
+                          defaultChecked={propsObject?.Marital_Status == "Married"}
                         />{" "}
                         Married
                       </div>

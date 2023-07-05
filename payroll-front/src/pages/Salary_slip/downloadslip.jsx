@@ -339,8 +339,8 @@ const Downloadslip = () => {
                   <td className="fw-bolder  float-right border-0"><td className="up_link">{fields.Gross_Flext_benefits}</td></td>
                   <th scope="row"> <th className="up_link">FLEXI Benefits</th></th>
                   <td className="fw-bolder  float-right border-0"> <td className="up_link">{fields.Earned_Flext_benefits}</td></td>
-                  <th className="fw-bolder"> <th className="up_link">ARRS</th></th>
-                  <td className="fw-bolder  float-right border-0"> <td className="up_link">{fields.ARRS}</td></td>
+                  <th className="fw-bolder"> <th className="up_link">{fields.ARRS ? "ARRS" : fields.Bonus ? "Bonus" : "ECSI"}</th></th>
+                  <td className="fw-bolder  float-right border-0"> <td className="up_link">{fields.ARRS ? fields.ARRS : fields.Bonus ? fields.Bonus : fields.ECSI}</td></td>
                 </tr>
                 <tr
                   style={{ backgroundColor: "rgb(77 137 202)", color: "white" }}

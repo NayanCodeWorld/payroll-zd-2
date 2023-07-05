@@ -15,6 +15,7 @@ import { GiThreeLeaves } from 'react-icons/gi'
 import { GiRapidshareArrow } from 'react-icons/gi'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { MdOutlineManageAccounts } from 'react-icons/md'
+import { RiLockPasswordFill } from 'react-icons/ri'
 // import {TfiThemifyFaviconAlt} from 'react-icons/tfi'
 import zecimg from "./zecdata.png";
 const routes = [
@@ -96,6 +97,11 @@ const routes = [
     ],
   },
   {
+    path: "/change_password",
+    name: "Change_password",
+    icon: <RiLockPasswordFill />
+  },
+  {
     path: "/Logout",
     name: "Logout",
     icon: <FaHospitalUser />
@@ -154,7 +160,7 @@ const SideBar = ({ children }) => {
           }}
           className={`sidebar `}
         >
-       
+
           <div className="top_section pointer">
             <AnimatePresence>
               {isOpen && (

@@ -21,7 +21,7 @@ class Emp {
                 , PASSED, PERCENTAGE_OF_MARKS, permanent_state,
                 permanent_city, bonus,
                 current_state, is_active, permanent_pin_code,
-                current_city, current_pin_code, effective_date, training_days, notice_period, ctc,roll
+                current_city, current_pin_code, effective_date, training_days, notice_period, ctc, roll
             } = req.body;
 
             const errors = validationResult(req)
@@ -251,11 +251,11 @@ class Emp {
             permanent_city,
             current_state, is_active, permanent_pin_code,
             current_city, current_pin_code, effective_date, base_salary_list, training_days,
-            notice_period,
+            notice_period, Employee_Code,
             ctc,
             bonus
         } = req.body;
-
+        console.log('next_emp_code', Employee_Code);
         if (!req.body) {
             return res.status(400).send({
                 message: "Data to update can not be empty!"
@@ -294,6 +294,7 @@ class Emp {
                 DEGREE,
                 STREAM,
                 is_active,
+                Employee_Code,
                 PASSED,
                 PERCENTAGE_OF_MARKS,
                 permanent_pin_code,

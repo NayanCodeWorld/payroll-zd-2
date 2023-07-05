@@ -1,5 +1,5 @@
 export function validateForm(fields, checkUpdate) {
-  console.log("fields-----", fields);
+  console.log("fields----validateForm-", fields);
   var formIsValid = true;
   let errObj = {};
   let alfhaRegex = /^[A-Za-z]+$/;
@@ -152,7 +152,7 @@ export function validateForm(fields, checkUpdate) {
   if (
     !fields.current_state ||
     fields.current_state == "" ||
-    !alfhaRegex.test(fields.current_state) ||
+    // !alfhaRegex.test(fields.current_state) ||
     fields.current_state.length < 2
   ) {
     errObj["current_state"] = "*Please Enter State.";
@@ -169,7 +169,7 @@ export function validateForm(fields, checkUpdate) {
   if (
     !fields.current_city ||
     fields.current_city == "" ||
-    !alfhaRegex.test(fields.current_city) ||
+    // !alfhaRegex.test(fields.current_city) ||
     fields.current_city.length < 3
   ) {
     errObj["current_city"] = "*Please Enter City.";
@@ -178,7 +178,7 @@ export function validateForm(fields, checkUpdate) {
   if (
     !fields.permanent_city ||
     fields.permanent_city == "" ||
-    !alfhaRegex.test(fields.permanent_city) ||
+    // !alfhaRegex.test(fields.permanent_city) ||
     fields.permanent_city.length < 3
   ) {
     errObj["permanent_city"] = "*Please Enter City.";
@@ -187,7 +187,7 @@ export function validateForm(fields, checkUpdate) {
   if (
     !fields.permanent_state ||
     fields.permanent_state == "" ||
-    !alfhaRegex.test(fields.permanent_state) ||
+    // !alfhaRegex.test(fields.permanent_state) ||
     fields.permanent_state.length < 2
   ) {
     errObj["permanent_state"] = "*Please Enter State.";
