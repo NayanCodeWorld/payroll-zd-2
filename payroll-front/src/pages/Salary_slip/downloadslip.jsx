@@ -58,15 +58,14 @@ const Downloadslip = () => {
         if (response) {
           console.log("reponse", response);
           let element = document.getElementById("pdf-download");
-          // element.style.display = 'none !important';
-          // const opt = {
-          //   filename: `${response.Employee_name}.pdf`,
-          //   image: { type: 'jpeg', quality: 0.98 },
-          //   html2canvas: { scale: 5 },
-          //   jsPDF: { format: 'letter', orientation: 'landscape' },
-          //   scale: 2
-          // };
-          // html2pdf().set(opt).from(element).save();
+          const opt = {
+            filename: `${response.Employee_name}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 5 },
+            jsPDF: { format: 'letter', orientation: 'landscape' },
+            scale: 2
+          };
+          html2pdf().set(opt).from(element).save();
           // html2pdf(element, {
           //   margin: 0,
           //   filename: `${response.Employee_name}_${allMonthsName[response.Salary_Slip_Month - 1]
@@ -84,13 +83,8 @@ const Downloadslip = () => {
 
 
   const Pdfdownload = () => {
-    // let upLinkElement = document.getElementById("up_link_head");
-    // if (upLinkElement) {
-    //   upLinkElement.style.transform = 'translate(0px, -12px)';
-    // }
     let element = document.getElementById("pdf-download");
     const opt = {
-      // margin: [10, 10, 10, 10], // Set all margins to 0
       filename: `${fields.Employee_name}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 5 },
@@ -137,9 +131,6 @@ const Downloadslip = () => {
         <div
           className="d-flex mt-5 container justify-content-center"
           id="pdf-download"
-        // style={{
-        // visibility: 'hidden'
-        // }}
         >
           <div className="border border-dark main-element"
             id="for_hide"
