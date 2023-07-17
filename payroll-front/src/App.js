@@ -20,7 +20,7 @@ import Downloadslip from "./pages/Salary_slip/downloadslip";
 import Year_Leave from "./pages/Leaves/Year_Leave";
 import Year_Leave_Details from "./pages/Leaves/Year_leave_details";
 import LoginPage from "./Auth/LoginPage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TotalHolydays from "./pages/Holydays/TotalHolydays";
 import TotalPresent from "./pages/Leaves/TotalPresent";
 import Logout from "./Auth/Logout"
@@ -34,7 +34,31 @@ function App() {
   const handleLogin = () => {
     setLoggedIn(true);
   };
+  useEffect(() => {
+    let inactivityTimeout;
 
+    const handleUserActivity = () => {
+      clearTimeout(inactivityTimeout); // Reset the timeout on each user activity
+      inactivityTimeout = setTimeout(() => {
+        // Perform token removal from local storage here
+        localStorage.removeItem('token');
+        window.location.reload()
+        // Redirect to the login page or perform any other necessary actions
+        // e.g., using React Router: history.push('/login');
+      }, 5 * 60 * 1000); // 5 minutes (in milliseconds)
+    };
+
+    // Attach event listeners for user activity
+    window.addEventListener('mousemove', handleUserActivity);
+    window.addEventListener('keydown', handleUserActivity);
+
+    // Clean up event listeners on component unmount
+    return () => {
+      window.removeEventListener('mousemove', handleUserActivity);
+      window.removeEventListener('keydown', handleUserActivity);
+      clearTimeout(inactivityTimeout);
+    };
+  }, []);
   return (
     <Router>
       {!token ? (

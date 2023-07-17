@@ -8,13 +8,14 @@ import { TiArrowBack } from "react-icons/ti";
 import { MdDownload } from "react-icons/md";
 import host from "../utils";
 
-
 const Downloadslip = () => {
-
+  
   let location = useLocation();
   const salaryYear = Number(location.state.salaryYear);
   const salaryMonthNumber = Number(location.state.salaryMonthNumber);
   const data = location.state.fields;
+  const expireAt = localStorage.getItem('expireAt')
+  
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -34,8 +35,12 @@ const Downloadslip = () => {
     "November",
     "December",
   ];
-
+// console.log('000000000000000000000000',fields);
   useEffect(() => {
+    if(expireAt < Date.now()){
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     axios
       .post(
         `${host}/Emp_Salary/salary_?userid=${id}&year=${salaryYear}&month=${salaryMonthNumber}`,
@@ -45,7 +50,6 @@ const Downloadslip = () => {
         console.log("response", response.data);
         if (response.data.success) {
           setFields(response.data.salary);
-          console.log(response.data.salary, '11111111111111111111');
           setIsLoading(false);
           return response.data.salary;
         } else {
@@ -142,7 +146,7 @@ const Downloadslip = () => {
             <div className=" text-center">
               <div className="fw-bold border-bottom border-dark d-grid up_link" style={{ color: "rgb(18 82 162)" }}>
                 <small  style={{ fontSize: '20px', fontFamily: 'cambria' }}>ZECDATA</small>
-                <small  style={{ fontSize: '12px', fontFamily: 'cambria', marginBottom: '4px' }}>INDORE(MP)</small>
+                <small  style={{ fontSize: '12px', fontFamily: 'cambria', marginBottom: '4px' }}>INDORE(M.P.)</small>
               </div>
               <h6 className="fw-bolder up_link" style={{ color: "rgb(18 82 162)" }}>
                 Pay Slip For The Month Of
@@ -186,19 +190,19 @@ const Downloadslip = () => {
                     <small className="fw-bolder up_link">{fields.designation}</small>
                   </div>
                   <div className="col-md-5">
-                    <small className="fw-bolder up_link">Employee Code. </small>
+                    <small className="fw-bolder up_link">Bank A/c No. </small>
                   </div>
                   <div className="col-1">
                     <span className="fw-bolder up_link"> : </span>
                   </div>
                   <div className="col-md-5">
-                    <small className="fw-bolder up_link">{fields.Employee_code}</small>
+                    <small className="fw-bolder up_link">{fields.Bank_Account_Number}</small>
                   </div>
                 </div>
 
                 <div className="d-flex">
                   <div className="col-5">
-                    <small className="fw-bolder up_link">Date of Joining </small>
+                    <small className="fw-bolder up_link">DOJ </small>
                   </div>
                   <div className="col-1">
                     <span className="fw-bolder up_link"> : </span>
@@ -223,7 +227,7 @@ const Downloadslip = () => {
 
                 <div className="d-flex">
                   <div className="col-5">
-                    <small className="fw-bolder up_link">Leave (Balance) </small>
+                    <small className="fw-bolder up_link">Leave (balance) </small>
                   </div>
                   <div className="col-1">
                     <span className="fw-bolder up_link"> : </span>
@@ -245,16 +249,16 @@ const Downloadslip = () => {
                 </div>
                 <div className="d-flex">
                   <div className="col-5">
-                    <small className="fw-bolder up_link">Leave Taken </small>
+                    <small className="fw-bolder up_link">Leave (taken) </small>
                   </div>
                   <div className="col-1">
                     <span className="fw-bolder up_link"> : </span>
                   </div>
                   <div className="col-7">
-                    <small className="fw-bolder up_link">{fields.Leave_balence}</small>
+                    <small className="fw-bolder up_link">{fields.Leave_taken}</small>
                   </div>
                   <div className="col-5">
-                    <small className="fw-bolder up_link">Present Dayss</small>
+                    <small className="fw-bolder up_link">Present Days</small>
                   </div>
                   <div className="col-1">
                     <span className="fw-bolder up_link"> : </span>
@@ -326,9 +330,9 @@ const Downloadslip = () => {
                   <td className="fw-bolder  float-right border-0"><td className="up_link">0</td></td>
                 </tr>
                 <tr>
-                  <th scope="row"><th className="up_link">FLEXI Benefits</th></th>
+                  <th scope="row"><th className="up_link">Flexi Benefits</th></th>
                   <td className="fw-bolder  float-right border-0"><td className="up_link">{fields.Gross_Flext_benefits}</td></td>
-                  <th scope="row"> <th className="up_link">FLEXI Benefits</th></th>
+                  <th scope="row"> <th className="up_link">Flexi Benefits</th></th>
                   <td className="fw-bolder  float-right border-0"> <td className="up_link">{fields.Earned_Flext_benefits}</td></td>
                   <th className="fw-bolder"> <th className="up_link">{fields.ARRS ? "ARRS" : fields.Bonus ? "Bonus" : "ECSI"}</th></th>
                   <td className="fw-bolder  float-right border-0"> <td className="up_link">{fields.ARRS ? fields.ARRS : fields.Bonus ? fields.Bonus : fields.ECSI}</td></td>
@@ -342,6 +346,16 @@ const Downloadslip = () => {
                   <td className="fw-bolder  float-right border-0"><td className="up_link">{fields.Total_earn}</td></td>
                   <th> <th className="up_link">Additional</th></th>
                   <td className="fw-bolder  float-right border-0"><td className="up_link">{fields.Additional}</td></td>
+                </tr>
+                <tr
+                  
+                >
+                  <th scope="row"><th className="up_link"></th></th>
+                  <td className="fw-bolder  float-right border-0"><td className="up_link"></td></td>
+                  <th> <th className="up_link"></th></th>
+                  <td className="fw-bolder  float-right border-0"><td className="up_link"></td></td>
+                  <th> <th className="up_link" style={{visibility: 'hidden'}}>Additional</th></th>
+                  <td className="fw-bolder  float-right border-0"><td className="up_link"></td></td>
                 </tr>
                 <tr
                   style={{ backgroundColor: "rgb(77 137 202)", color: "white" }}
@@ -360,7 +374,7 @@ const Downloadslip = () => {
               <div className="col-md-4">
                 <div className="d-flex fw-bolder">
                   <small className="fw-bolder up_link" style={{ color: "rgb(18 82 162)" }} >
-                    NET SALARY PAYABLE(IN WORDS)
+                    Net Salary Payable(In Words)
                   </small>
                 </div>
               </div>

@@ -18,10 +18,11 @@ function LoginPage({ onLogin }) {
       .then((res) => {
         console.log("response", res.data);
         if (res.data.token) {
-          // redirect to home page or do something else
-          localStorage.setItem('token', res.data.token);
-          onLogin();
-        } else {
+            // redirect to home page or do something else
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('expireAt', res.data.expireAt);
+            onLogin();
+        }else{
           setShowError(true);
         }
       })

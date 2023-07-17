@@ -6,6 +6,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { TiArrowBack } from "react-icons/ti";
 import host from "./utils";
 function Salary() {
+  const expireAt = localStorage.getItem('expireAt')
   const { id } = useParams();
   let navigate = useNavigate();
   const [empdata, empdatachange] = useState({});
@@ -95,6 +96,10 @@ function Salary() {
   }
 
   useEffect(() => {
+    if(expireAt < Date.now()){
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     fetch(`${host}/emp/emp_1/` + id)
       .then((res) => {
         return res.json();

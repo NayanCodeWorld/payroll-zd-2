@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import host from "./../utils";
 
 const Year_Leave = () => {
+    const expireAt = localStorage.getItem('expireAt')
     let navigate = useNavigate();
     const [leavesData, setLeavesData] = useState({});
     const [errors, setErrors] = useState({});
@@ -17,6 +18,12 @@ const Year_Leave = () => {
         leavesObj[e.target.name] = e.target.value;
         setLeavesData(leavesObj);
     };
+
+    useEffect(() => {
+        if (expireAt < Date.now()) {
+            localStorage.removeItem('token')
+        }
+    }, [])
 
     const notify = (message) => {
         toast(message, {

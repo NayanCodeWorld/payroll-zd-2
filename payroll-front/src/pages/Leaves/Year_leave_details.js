@@ -9,10 +9,11 @@ import host from "./../utils"
 
 
 function Year_Leave_Details
-  () {
+() {
+  const expireAt = localStorage.getItem('expireAt')
   const { id } = useParams();
   const [empLeaveData, setEmpLeaveData] = useState([]);
- 
+  
   var columns = [
     {
       name: "Year",
@@ -48,6 +49,10 @@ function Year_Leave_Details
 
   // year = new Date(e.to_date).toLocaleDateString("pt-PT"),
   useEffect(() => {
+    if(expireAt < Date.now()){
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     axios
       .get(
         `${host}/year/get_year_leave`

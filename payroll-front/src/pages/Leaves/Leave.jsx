@@ -11,6 +11,7 @@ import { leaveValidateForm } from "./leaveValidation";
 
 const Leaves = () => {
   let navigate = useNavigate();
+  const expireAt = localStorage.getItem('expireAt')
   const toDateInputRef = useRef(null);
   const [leavesData, setLeavesData] = useState({});
   const [users, setUsers] = useState([]);
@@ -42,6 +43,10 @@ const Leaves = () => {
   console.log("leavesData", leavesData);
 
   useEffect(() => {
+    if(expireAt < Date.now()){
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     window
       .fetch(`${host}/emp/get_employ`)
       .then((res) => {

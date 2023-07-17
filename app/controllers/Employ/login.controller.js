@@ -41,10 +41,13 @@ class login {
         return res.status(401).send({ message: "Invalid credentials" });
       }
       else {
-        const token = jwt.sign({ email }, secretKey, { expiresIn: '1m' });
+        const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
         //     res.send({ token });
         // res.send({ msg: "Success", data: user })
-        res.send({ token, email, expiresAt: Date.now() + 60000 });
+        // res.send({ token, expireAt: Date.now() + (5 * 60 * 1000) });
+   
+   
+        res.send({ token, expireAt: Date.now() + (60 * 60 * 1000) });
       }
     } catch (error) {
       res.send({ msg: error })

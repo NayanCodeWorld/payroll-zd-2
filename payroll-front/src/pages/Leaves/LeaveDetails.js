@@ -7,6 +7,7 @@ import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import host from "./../utils"
 function LeaveDetails() {
+  const expireAt = localStorage.getItem('expireAt')
   const navigate = useNavigate();
   const [empLeaveData, setEmpLeaveData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -102,6 +103,10 @@ function LeaveDetails() {
     },
   ];
   useEffect(() => {
+    if(expireAt < Date.now()){
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     axios
       .get(`${host}/Emp_Leave/get_leave`)
       .then((response) => {

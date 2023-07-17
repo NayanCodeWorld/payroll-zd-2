@@ -8,6 +8,7 @@ import { experienceCalculator } from "./experienceCalculator";
 import host from "./../utils";
 import { TiArrowBack } from "react-icons/ti";
 const ManageEmpyee = () => {
+  const expireAt = localStorage.getItem('expireAt')
   const { id } = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [empdata, empdatachange] = useState([]);
@@ -22,6 +23,10 @@ const ManageEmpyee = () => {
     navigate("/employee/EmpEdit" + _id);
   };
   useEffect(() => {
+    if(expireAt < Date.now()){
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     window
       .fetch(`${host}/emp/get_employ`)
       .then((res) => {

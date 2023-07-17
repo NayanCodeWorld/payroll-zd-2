@@ -177,8 +177,7 @@ class Salary {
                         }
                     }
 
-                    // var gross_basic_da = Math.round(salary_emp / 2)
-                    var gross_basic_da = Math.round(salary_emp * 0.4);
+                    var gross_basic_da = Math.round(salary_emp  * 0.4)
                     var gross_hra = Math.round((gross_basic_da * 40) / 100)
                     var gross_ra = Math.round((gross_basic_da * 15) / 100)
                     var gross_flexi_benifits = Math.round(salary_emp - gross_basic_da - gross_hra - gross_ra)
@@ -573,7 +572,12 @@ class Salary {
                                 total_paid_days = present_days + leave_balence_year
 
                                 for (let i = 0; i < effective_date_emp.length; i++) {
-                                    result = compareDates(year, month, effective_date_emp[i].effective_date);
+                                    if (index == 0) {
+                                        salary_emp_2 = salary_emp_1
+                                    }
+                                    if (day_date_effective == 1) {
+                                        salary_emp = salary_emp_2
+                                    }                     result = compareDates(year, month, effective_date_emp[i].effective_date);
                                     if (result == "before") {
                                         if (i === 0) {
                                             salary_emp = effective_date_emp[i].salary_
@@ -585,7 +589,12 @@ class Salary {
                                         salary_emp = effective_date_emp[i].salary_
                                     }
                                 }
-
+                                if (index == 0) {
+                                    salary_emp_2 = salary_emp_1
+                                }
+                                if (day_date_effective == 1) {
+                                    salary_emp = salary_emp_2
+                                }
                                 console.log(day_date_effective, 'day_date_effective');
 
                                 if (empinfo_modal.base_salary_list.length === 1) {
@@ -630,6 +639,17 @@ class Salary {
                                 }
                                 if (day_date_effective == 1) {
                                     salary_emp = salary_emp_2
+                                    var gross_basic_da = Math.round(salary_emp_2 * 0.4);
+                                    var gross_hra = Math.round((gross_basic_da * 40) / 100)
+                                    var gross_ra = Math.round((gross_basic_da * 15) / 100)
+                                    var gross_flexi_benifits = Math.round(salary_emp_2 - gross_basic_da - gross_hra - gross_ra)
+
+                                }
+                                else {
+                                    gross_basic_da = Math.round(salary_emp_1 * 0.4);
+                                    var gross_hra = Math.round((gross_basic_da * 40) / 100)
+                                    var gross_ra = Math.round((gross_basic_da * 15) / 100)
+                                    var gross_flexi_benifits = Math.round(salary_emp_1 - gross_basic_da - gross_hra - gross_ra)
                                 }
                                 console.log(salary_emp_2, salary_emp, salary_emp_1);
 
@@ -643,7 +663,8 @@ class Salary {
                                 var earned_ra = Math.round((gross_ra / working_days) * total_paid_days)
                                 var earned_flexi_benifits = Math.round((gross_flexi_benifits / working_days) * total_paid_days)
 
-                                var net_pay_in_number_1 = (salary_emp_1 / working_days) * present_days_1
+                                var net_pay_in_number_1 = (salary_emp_1 /
+ working_days) * present_days_1
                                 var net_pay_in_number_2 = (salary_emp_2 / working_days) * present_days_2
                                 const arrs = Number(req.body.arrear) + Number(arrear_effective_date) + Number(req.body.Bonus) + Number(req.body.ECSI)
                                 let total_earn = net_pay_in_number_1 + net_pay_in_number_2
@@ -662,7 +683,7 @@ class Salary {
                                     Salary_Slip_Year: req.query.year,
                                     Date_of_Joining: empinfo_modal.date_of_joining,
                                     Bank_Account_Number: empinfo_modal.Bank_No,
-                                    Bank_IFSC_Code: empinfo_modal.Bank_IFSC,
+                                    Bank_IFSC_Code: empinfo_modal.Bsalary_emp_1ank_IFSC,
                                     Total_Work_Days: working_days,
                                     Leave_balence: leave_balence_year,
                                     Leave_taken: emp_leave_taken,
@@ -768,9 +789,7 @@ class Salary {
                                         salary_emp = effective_date_emp[i].salary_
                                     }
                                 }
-                                console.log('9999999999999',balance_days,emp_leave_taken,leave_modal.length);
-                                // var gross_basic_da = Math.round(salary_emp / 2)
-                                var gross_basic_da = Math.round(salary_emp * 0.4);
+                                var gross_basic_da = Math.round(salary_emp  * 0.4)
                                 var gross_hra = Math.round((gross_basic_da * 40) / 100)
                                 var gross_ra = Math.round((gross_basic_da * 15) / 100)
                                 var gross_flexi_benifits = Math.round(salary_emp - gross_basic_da - gross_hra - gross_ra)

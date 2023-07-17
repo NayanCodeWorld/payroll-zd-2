@@ -14,6 +14,7 @@ import host from "./../utils";
 import { ToastContainer, toast } from "react-toastify";
 
 function TotalHolydays() {
+  const expireAt = localStorage.getItem('expireAt')
   let navigate = useNavigate();
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
@@ -106,12 +107,10 @@ function TotalHolydays() {
   const { firstDay, lastDay } = getFirstAndLastDayOfYear(selectedOption);
 
   useEffect(() => {
-
-    // const today = new Date();
-    // const firstDay = new Date(today.getFullYear(), 0, 1);
-    // const lastDay = new Date(today.getFullYear(), 11, 31);
-
-
+    if(expireAt < Date.now()){
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     const datesobject = {
       from_date: formatDate(firstDay),
       end_date: formatDate(lastDay),

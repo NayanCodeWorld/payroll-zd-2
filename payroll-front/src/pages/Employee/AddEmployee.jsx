@@ -22,8 +22,9 @@ function AddEmployee(props) {
   const [effectivesObj, setEffectivesObj] = useState({
     base_salary: propsObject?.base_salary_list[effective_lastIndex].salary_,
     effective_date:
-      propsObject?.base_salary_list[effective_lastIndex].effective_date,
+    propsObject?.base_salary_list[effective_lastIndex].effective_date,
   });
+  const expireAt = localStorage.getItem('expireAt')
   const dobDateInputRef = useRef(null);
   const dojDateInputRef = useRef(null);
   const effectiveDateInputRef = useRef(null);
@@ -180,6 +181,10 @@ function AddEmployee(props) {
     }
   }
   useEffect(() => {
+    if(expireAt < Date.now()){
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     const today = new Date();
     if (dobDateInputRef.current) {
       var eighteenYearsAgo = new Date(

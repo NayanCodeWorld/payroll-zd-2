@@ -16,7 +16,12 @@ const Dashboard = () => {
   const [totalHoliday, setTotalHoliday] = useState([]);
   const [todayPresent, setTodayPresent] = useState({});
   const [yesterdayPresent, setYesterdayPresent] = useState({});
+  const expireAt = localStorage.getItem('expireAt')
   useEffect(() => {
+    if(expireAt < Date.now()){
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     window
       .fetch(`${host}/emp/get_employ`)
       .then((res) => {
