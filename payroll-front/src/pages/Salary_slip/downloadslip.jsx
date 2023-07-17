@@ -145,8 +145,8 @@ const Downloadslip = () => {
           >
             <div className=" text-center">
               <div className="fw-bold border-bottom border-dark d-grid up_link" style={{ color: "rgb(18 82 162)" }}>
-                <small  style={{ fontSize: '20px', fontFamily: 'cambria' }}>ZECDATA</small>
-                <small  style={{ fontSize: '12px', fontFamily: 'cambria', marginBottom: '4px' }}>INDORE(M.P.)</small>
+                <small className="up_link"  style={{ fontSize: '20px', fontFamily: 'cambria' }}>ZECDATA</small>
+                <small className="up_link" style={{ fontSize: '12px', fontFamily: 'cambria', marginBottom: '4px' }}>INDORE(M.P.)</small>
               </div>
               <h6 className="fw-bolder up_link" style={{ color: "rgb(18 82 162)" }}>
                 Pay Slip For The Month Of
@@ -155,7 +155,7 @@ const Downloadslip = () => {
             </div>
             <div
               className="text-white d-flex "
-              style={{ backgroundColor: "rgb(77 137 202)" }}
+              style={{ backgroundColor: "rgb(77 137 202)", borderTop: '1px solid black' }}
             >
 
               <div className="col-md-6 ml-1" style={{ fontFamily: 'cambria' }}>
@@ -196,7 +196,7 @@ const Downloadslip = () => {
                     <span className="fw-bolder up_link"> : </span>
                   </div>
                   <div className="col-md-5">
-                    <small className="fw-bolder up_link">{fields.Bank_Account_Number}</small>
+                    <small className="fw-bolder up_link" style={{fontSize: '16px'}}>{fields.Bank_Account_Number}</small>
                   </div>
                 </div>
 
@@ -217,7 +217,7 @@ const Downloadslip = () => {
                     <span className="fw-bolder up_link"> : </span>
                   </div>
                   <div className="col-5">
-                    <small className="fw-bolder up_link">
+                    <small className="fw-bolder up_link" style={{fontSize: '16px'}}>
                       {fields.Bank_IFSC_Code}
                     </small>
                   </div>
@@ -249,7 +249,7 @@ const Downloadslip = () => {
                 </div>
                 <div className="d-flex">
                   <div className="col-5">
-                    <small className="fw-bolder up_link">Leave (taken) </small>
+                    <small className="fw-bolder up_link">Leaves taken </small>
                   </div>
                   <div className="col-1">
                     <span className="fw-bolder up_link"> : </span>
@@ -318,7 +318,7 @@ const Downloadslip = () => {
                   <td className="fw-bolder  float-right border-0"><td className="up_link">{fields.Gross_HRA}</td></td>
                   <th scope="row"><th className="up_link">HRA</th></th>
                   <td className="fw-bolder  float-right border-0"><td className="up_link">{fields.Earned_HRA}</td></td>
-                  <th className="fw-bolder"><th className="up_link">Professional tax</th></th>
+                  <th className="fw-bolder"><th className="up_link">Professional Tax</th></th>
                   <td className="fw-bolder  float-right border-0"><td className="up_link">0</td></td>
                 </tr>
                 <tr>
@@ -334,7 +334,7 @@ const Downloadslip = () => {
                   <td className="fw-bolder  float-right border-0"><td className="up_link">{fields.Gross_Flext_benefits}</td></td>
                   <th scope="row"> <th className="up_link">Flexi Benefits</th></th>
                   <td className="fw-bolder  float-right border-0"> <td className="up_link">{fields.Earned_Flext_benefits}</td></td>
-                  <th className="fw-bolder"> <th className="up_link">{fields.ARRS ? "ARRS" : fields.Bonus ? "Bonus" : "ECSI"}</th></th>
+                  <th className="fw-bolder"> <th className="up_link">{fields.ARRS ? "ARRS" : fields.Bonus ? "Bonus" : "ECIS"}</th></th>
                   <td className="fw-bolder  float-right border-0"> <td className="up_link">{fields.ARRS ? fields.ARRS : fields.Bonus ? fields.Bonus : fields.ECSI}</td></td>
                 </tr>
                 <tr
@@ -360,7 +360,7 @@ const Downloadslip = () => {
                 <tr
                   style={{ backgroundColor: "rgb(77 137 202)", color: "white" }}
                 >
-                  <th scope="row"> <th className="up_link">Net Pay</th></th>
+                  <th scope="row"> <th className="up_link">Net pay</th></th>
                   <td className="fw-bolder  float-right border-0"><td className="up_link">&#8377;{fields.Net_pay_in_number}</td></td>
                   <td></td>
                   <td></td>
@@ -373,13 +373,13 @@ const Downloadslip = () => {
 
               <div className="col-md-4">
                 <div className="d-flex fw-bolder">
-                  <small className="fw-bolder up_link" style={{ color: "rgb(18 82 162)" }} >
-                    Net Salary Payable(In Words)
+                  <small className="fw-bolder up_link ml-3" style={{ color: "rgb(18 82 162)" }} >
+                    Net Salary Payable (In Word) :
                   </small>
                 </div>
               </div>
 
-              <div className="border-start border-dark" style={{ marginLeft: '-5px' }}></div>
+              <div className="border-start border-dark" style={{ marginLeft: '-8px' }}></div>
               <div className=" col-md-8">
 
                 <div className="d-flex ml-1 fw-bolder">
@@ -392,7 +392,7 @@ const Downloadslip = () => {
               </div>
 
             </div>
-            <span className="col-md-12 fw-bolder up_link ml-1" style={{ color: "rgb(18 82 162)" }}>
+            <span className="col-md-12 up_link ml-1" style={{ color: "rgb(18 82 162)", fontSize: '14px' }}>
               *This is computer generated copy not need to stamp and sign
             </span>
           </div>
