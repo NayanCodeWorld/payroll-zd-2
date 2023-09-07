@@ -22,9 +22,9 @@ function AddEmployee(props) {
   const [effectivesObj, setEffectivesObj] = useState({
     base_salary: propsObject?.base_salary_list[effective_lastIndex].salary_,
     effective_date:
-    propsObject?.base_salary_list[effective_lastIndex].effective_date,
+      propsObject?.base_salary_list[effective_lastIndex].effective_date,
   });
-  const expireAt = localStorage.getItem('expireAt')
+  const expireAt = localStorage.getItem("expireAt");
   const dobDateInputRef = useRef(null);
   const dojDateInputRef = useRef(null);
   const effectiveDateInputRef = useRef(null);
@@ -57,9 +57,13 @@ function AddEmployee(props) {
       // }
       propsObject && setFields(propsObject);
     }
-    console.warn('fields--------',fields, );
-    console.warn(propsObject?.gender == "Male", '================================');
+    console.warn("fields--------", fields);
+    console.warn(
+      propsObject?.gender == "Male",
+      "================================"
+    );
   }, [propsObject]);
+
   function handleChange(e) {
     let fieldObj = { ...fields };
     fieldObj[e.target.name] = e.target.value;
@@ -91,10 +95,10 @@ function AddEmployee(props) {
       message == "alredy exist ADHAR."
         ? "Aadhar already exiest"
         : message == "alredy exist PAN_NO."
-          ? "Pan Number already exiest"
-          : message == "alredy exist emails."
-            ? "Email already exiest"
-            : null,
+        ? "Pan Number already exiest"
+        : message == "alredy exist emails."
+        ? "Email already exiest"
+        : null,
       {
         position: "top-center",
         autoClose: 5000,
@@ -107,9 +111,10 @@ function AddEmployee(props) {
       }
     );
   };
+
   function submituserRegistrationForm(e) {
     e.preventDefault();
-    console.log('fields', fields);
+    console.log("fields", fields);
     const validationErrors = validateForm(fields);
     setErrors(validationErrors.errObj);
     if (validationErrors && validationErrors.formIsValid) {
@@ -153,7 +158,7 @@ function AddEmployee(props) {
       base_salary_list.push(effectivesObj);
     }
     let finalData = { ...fields, base_salary_list };
-    console.log("finalData", finalData);
+    // console.log("finalData", finalData);
     const validationErrors = validateForm(fields, true);
     setErrors(validationErrors.errObj);
     if (validationErrors && validationErrors.formIsValid) {
@@ -171,7 +176,7 @@ function AddEmployee(props) {
               navigate("/employee/manageprofile");
             });
           } else {
-            setSubmitDisable(false)
+            setSubmitDisable(false);
             notify(response.data.message);
           }
         })
@@ -181,9 +186,9 @@ function AddEmployee(props) {
     }
   }
   useEffect(() => {
-    if(expireAt < Date.now()){
-      localStorage.removeItem('token')
-      window.location.reload()
+    if (expireAt < Date.now()) {
+      localStorage.removeItem("token");
+      window.location.reload();
     }
     const today = new Date();
     if (dobDateInputRef.current) {
@@ -230,11 +235,7 @@ function AddEmployee(props) {
         const i = base_salary_list.indexOf(index);
         if (i > -1) {
           base_salary_list.splice(i, 1);
-          Swal.fire(
-            "Deleted!",
-            "Click on Update to make changes.",
-            "success"
-          )
+          Swal.fire("Deleted!", "Click on Update to make changes.", "success");
         }
       }
     });
@@ -252,57 +253,53 @@ function AddEmployee(props) {
         const i = base_salary_list.indexOf(index);
         let min_date = 0;
         if (i > 0) {
-          min_date = base_salary_list[0].effective_date?.slice(0, 10)
+          min_date = base_salary_list[0].effective_date?.slice(0, 10);
         }
-        // Get the effective date and base salary 
-        const effectiveDate = base_salary_list[i].effective_date?.slice(0, 10)
-        const baseSalary = base_salary_list[i].salary_
+        // Get the effective date and base salary
+        const effectiveDate = base_salary_list[i].effective_date?.slice(0, 10);
+        const baseSalary = base_salary_list[i].salary_;
 
         // Get the base salary and effective date fields using their IDs
-        const baseSalaryField = document.getElementById('base_salary');
-        const effectiveDateField = document.getElementById('effective_date');
+        const baseSalaryField = document.getElementById("base_salary");
+        const effectiveDateField = document.getElementById("effective_date");
 
         // Set the values of the fields using the value property
         baseSalaryField.value = baseSalary;
         effectiveDateField.value = effectiveDate;
-        setEffectiveDateState(i)
+        setEffectiveDateState(i);
         setUpdateButton(false);
 
         if (min_date) {
-          effectiveDateField.min = min_date
+          effectiveDateField.min = min_date;
         }
       }
-
     });
   };
 
   const updateEffectiveDate = (index) => {
     // Get the base salary and effective date fields using their IDs
-    const baseSalaryField = document.getElementById('base_salary').value;
-    const effectiveDateField = document.getElementById('effective_date').value;
+    const baseSalaryField = document.getElementById("base_salary").value;
+    const effectiveDateField = document.getElementById("effective_date").value;
     if (effectiveDateState) {
       if (baseSalaryField && effectiveDateField) {
-        base_salary_list[effectiveDateState].salary_ = baseSalaryField
-        base_salary_list[effectiveDateState].effective_date = effectiveDateField
-        Swal.fire(
-          "Updated!",
-          "Click on Update to make changes.",
-          "success"
-        )
+        base_salary_list[effectiveDateState].salary_ = baseSalaryField;
+        base_salary_list[effectiveDateState].effective_date =
+          effectiveDateField;
+        Swal.fire("Updated!", "Click on Update to make changes.", "success");
       }
     }
     setUpdateButton(true);
-
   };
-
-
 
   return (
     <div className="">
-      <Link to="/employee/manageprofile" className="btn text-dark">
+      {/* <Link to="/employee/manageprofile" className="btn text-dark">
         <TiArrowBack size={30} />
-      </Link>
-      <div style={{ display: "flex" }}>
+      </Link>*/}
+      <form
+        onSubmit={props.data ? updateUserDetails : submituserRegistrationForm}
+        style={{ display: "flex" }}
+      >
         <ToastContainer />
         <div className="px-4 pt-3">
           <div className="row">
@@ -584,7 +581,9 @@ function AddEmployee(props) {
                           type="radio"
                           value="Single"
                           name="Marital_Status"
-                          defaultChecked={propsObject?.Marital_Status == "Single"}
+                          defaultChecked={
+                            propsObject?.Marital_Status == "Single"
+                          }
                         />{" "}
                         Single
                         <input
@@ -592,7 +591,9 @@ function AddEmployee(props) {
                           value="Married"
                           name="Marital_Status"
                           className="ml-2"
-                          defaultChecked={propsObject?.Marital_Status == "Married"}
+                          defaultChecked={
+                            propsObject?.Marital_Status == "Married"
+                          }
                         />{" "}
                         Married
                       </div>
@@ -734,7 +735,6 @@ function AddEmployee(props) {
                                 : "Please select your date of joining first"
                             }
                           />
-
 
                           <div className="errorMsg">
                             {errors.effective_date}
@@ -1103,29 +1103,36 @@ function AddEmployee(props) {
           <div className="row">
             <div className="submit">
               <div className="form-group text-center">
-                {props.data ? (
-                  <input
-                    disabled={submitDisable}
-                    type="submit"
-                    value="Update"
-                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6 my-3 btn btn-success"
-                    onClick={(e) => updateUserDetails(e)}
-                  />
-                ) : (
-                  <input
-                    disabled={submitDisable}
-                    type="submit"
-                    value="Submit"
-                    className="col-lg-6 col-md-6 col-sm-6 col-xs-6 my-3 btn btn-success"
-                    onClick={(e) => submituserRegistrationForm(e)}
-                  />
-                )}
+                <button
+                  type="submit"
+                  className="col-lg-6 col-md-6 col-sm-6 col-xs-6 my-3 btn btn-success"
+                >
+                  {props.data ? "Update" : "Submit"}
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
 export default AddEmployee;
+
+// {props.data ? (
+//   <input
+//     disabled={submitDisable}
+//     type="submit"
+//     value="Update"
+//     className="col-lg-6 col-md-6 col-sm-6 col-xs-6 my-3 btn btn-success"
+//     onClick={(e) => updateUserDetails(e)}
+//   />
+// ) : (
+//   <input
+//     disabled={submitDisable}
+//     type="submit"
+//     value="Submit"
+//     className="col-lg-6 col-md-6 col-sm-6 col-xs-6 my-3 btn btn-success"
+//     onClick={(e) => submituserRegistrationForm(e)}
+//   />
+// )}

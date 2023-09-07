@@ -1,5 +1,5 @@
 export function validateForm(fields, checkUpdate) {
-  console.log("fields----validateForm-", fields);
+  //console.log("fields----validateForm-", fields);
   var formIsValid = true;
   let errObj = {};
   let alfhaRegex = /^[A-Za-z]+$/;
@@ -98,8 +98,7 @@ export function validateForm(fields, checkUpdate) {
     errObj["Marital_Status"] = "*Field is required";
     formIsValid = false;
   }
-  if(!checkUpdate){
-
+  if (!checkUpdate) {
     if (!fields.base_salary || fields.base_salary == "") {
       errObj["base_salary"] = "*Please Enter Base Salary";
       formIsValid = false;
@@ -225,11 +224,17 @@ export function validateForm(fields, checkUpdate) {
     errObj["bonus"] = "*Field is required";
     formIsValid = false;
   }
-  if (!fields.notice_period?.toString() || fields.notice_period?.toString() == "") {
+  if (
+    !fields.notice_period?.toString() ||
+    fields.notice_period?.toString() == ""
+  ) {
     errObj["notice_period"] = "*Field is required";
     formIsValid = false;
   }
-  if (!fields.training_days?.toString() || fields.training_days?.toString() == "") {
+  if (
+    !fields.training_days?.toString() ||
+    fields.training_days?.toString() == ""
+  ) {
     errObj["training_days"] = "*Field is required";
     formIsValid = false;
   }

@@ -1,95 +1,91 @@
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-const EmpInfoModal = require('../../models/Employ/Employ.model')// const login = (req, res) => {
-//   const secretKey = crypto.randomBytes(64).toString('hex');
-//   const { email, password } = req.body;
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
-//   if (email !== "admin@gmail.com" || password !== "admin@123") {
-//     return res.status(401).send({ message: "Invalid credentials" });
-//   } else {
-//     console.log("good to go");
-//     const token = jwt.sign({ email }, secretKey, { expiresIn: '7d' });
-//     res.send({ token });
-//   }
+//const EmpInfoModal = require("../../models/Employ/login.modal");
+const EmpInfoModal = require("../../models/Employ/Employ.model");
 
-// };
-class login {
-  async Login(req, res) {
-    try {
-      console.log('login');
-      // const { Email, Password } = req.body;
-      const secretKey = crypto.randomBytes(64).toString('hex');
-      const { email, password } = req.body;
-
-
-      if (!email || !password)
-        return res.send({ msg: "Please fill in all fields." });
-      console.log('fill');
-      if (!validateEmail(email))
-        return res.send({ msg: "Invalid emails." });
-
-      // CHECK EMAIL IS ALREADY EXISTS ARE NOT
-      console.log('user');
-      const user = await EmpInfoModal.findOne({ email });
-      if (!user)
-        return res.json({ msg: "This Email Not exists." });
-
-      if (!password.length > 6)
-        return res.send({ msg: "Password length minimum 6..." })
-
-      if (user.Password != password || user.email != email) {
-        return res.status(401).send({ message: "Invalid credentials" });
-      }
-      else {
-        const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
-        //     res.send({ token });
-        // res.send({ msg: "Success", data: user })
-        // res.send({ token, expireAt: Date.now() + (5 * 60 * 1000) });
-   
-   
-        res.send({ token, expireAt: Date.now() + (60 * 60 * 1000) });
-      }
-    } catch (error) {
-      res.send({ msg: error })
-      console.log(error);
-    }
-
-  }
-  async changePassword(req, res) {
-    try {
-      const { email, oldPassword, newPassword } = req.body;
-
-      // Check if the required fields are present
-      if (!email || !oldPassword || !newPassword) {
-        return res.status(400).send({ msg: "Please fill in all fields." });
-      }
-
-      // Retrieve the user based on the email
-      const user = await EmpInfoModal.findOne({ email });
-      if (!user) {
-        return res.status(404).send({ msg: "User not found." });
-      }
-
-      // Check if the old password matches the stored password
-      if (user.Password !== oldPassword) {
-        return res.status(401).send({ msg: "Invalid old password." });
-      }
-
-      // Update the password with the new password
-      user.Password = newPassword;
-      await user.save();
-
-      res.send({ msg: "Password changed successfully." });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({ msg: "Internal server error." });
-    }
-  }
-
-}
+// function to validate Email
 function validateEmail(Email) {
   const re =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(Email);
 }
-module.exports = new login()
+
+class login {
+  async Login(req, res) {
+    try {
+      const secretKey = crypto.randomBytes(64).toString("hex");
+      const { email, password } = req.body;
+
+      //Check email and password are provide or not
+      if (!email || !password)
+        res.status(400).send({ msg: "Please fill in all fields." });
+
+      //Check Porvid Email format is valid or not
+      if (!validateEmail(email))
+        return res.status(400).send({ msg: "Invalid emails." });
+
+      // CHECK EMAIL/USER IS EXISTS OR NOT
+      const user = await EmpInfoModal.findOne({ email });
+
+      //If user/Email is not exists
+      if (!user) res.status(401).send({ msg: "This Email Not exists.", user });
+
+      //If user/Email is exists then check password validation
+      if (!password.length > 6)
+        res.status(400).send({ msg: "Password length minimum 6..." });
+      else {
+        const token = jwt.sign({ email }, secretKey, {
+          expiresIn: "1h",
+        });
+        res.status(200).send({
+          token,
+          userData: {
+            id: user._id,
+            email: user.email,
+            name: user.First_Name,
+            role: user.Position,
+          },
+        });
+        // res.send({ msg: "Success", data: user });
+        // res.send({ token, expireAt: Date.now() + 5 * 60 * 1000 });
+        // res.send({ token, expireAt: Date.now() + 60 * 60 * 1000 });
+      }
+    } catch (error) {
+      res.status(400).send({ msg: error });
+    }
+  }
+
+  async ChangePassword(req, res) {
+    try {
+      const { email, oldPassword, newPassword } = req.body;
+
+      // Check if the required fields are present
+      if (!email || !oldPassword || !newPassword) {
+        res.status(400).send({ msg: "Please fill in all fields." });
+      }
+
+      // Retrieve the user based on the email
+      const user = await EmpInfoModal.findOne({ email });
+      if (!user) {
+        res.status(404).send({ msg: "User not found." });
+      }
+
+      // Check if the old password matches the stored password
+      if (user.password !== oldPassword) {
+        res.status(401).send({ msg: "Invalid old password." });
+      }
+
+      // Update the password with the new password
+      user.password = newPassword;
+      await user.save();
+
+      res.status(200).send({ msg: "Password changed successfully." });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ msg: "Internal server error." });
+    }
+  }
+}
+
+module.exports = new login();

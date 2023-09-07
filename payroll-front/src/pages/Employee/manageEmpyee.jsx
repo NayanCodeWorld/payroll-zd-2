@@ -1,34 +1,42 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+
 import DataTable from "react-data-table-component";
 import { BsPencilSquare } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import { experienceCalculator } from "./experienceCalculator";
 import host from "./../utils";
 import { TiArrowBack } from "react-icons/ti";
+
 const ManageEmpyee = () => {
-  const expireAt = localStorage.getItem('expireAt')
+  const expireAt = localStorage.getItem("expireAt");
+  const userData = JSON.parse(localStorage.getItem("userInfo"));
   const { id } = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [empdata, empdatachange] = useState([]);
   const navigate = useNavigate();
+
   const LoadDetail = (_id) => {
     navigate("/employee/EmpDetail" + _id);
   };
+
   const generateSalary = (_id) => {
-    navigate("/employee/salary" + _id);
+    navigate("/employee/salary/" + _id);
   };
+
   const LoadEdit = (_id) => {
     navigate("/employee/EmpEdit" + _id);
   };
+
   useEffect(() => {
-    if(expireAt < Date.now()){
-      localStorage.removeItem('token')
-      window.location.reload()
+    if (expireAt < Date.now()) {
+      localStorage.removeItem("token");
+      window.location.reload();
     }
+    console.log("36 >> userInfo mg >>>", userData);
     window
-      .fetch(`${host}/emp/get_employ`)
+      .fetch(`${host}/emp/get_employ/${userData.id}`)
       .then((res) => {
         return res.json();
       })
@@ -53,97 +61,140 @@ const ManageEmpyee = () => {
   }, []);
   // const employeeCode = (rowData) => rowData["Employee_Code"];
 
-  var columns = [
-    {
-      name: "Employee Code",
-      selector: (rowData) => rowData["Employee_Code"],
-      sortable: true,
-      width: "150px",                       // added line here
-      headerStyle: (selector, id) => {
-        return { textAlign: "center" };   // removed partial line here
-      },
-    },
-    {
-      name: "Name",
-      selector: (rowData) => rowData["First_Name"],
-      sortable: true,
-      width: "150px",                       // added line here
-      headerStyle: (selector, id) => {
-        return { textAlign: "center" };   // removed partial line here
-      },
-    },
-    {
-      name: "Email",
-      selector: (rowData) => rowData["email"],
-      sortable: true,
-    },
-    {
-      name: "Phone",
-      selector:  (rowData) => rowData["Contact_Number"],
-      sortable: true,
-    },
-    {
-      name: "Experience",
-      selector: (rowData) => rowData["experience"],
-    },
-    {
-      name: "DOJ",
-      selector:(rowData) => rowData["DOJ"],
-    },
-    {
-      name: "Action",
-      width: "220px",                       // added line here
-      headerStyle: (selector, id) => {
-        return { textAlign: "center" };   // removed partial line here
-      },
-      cell: (row) => (
-        <>
-          <span
-            className="btn btn-md"
-            onClick={() => {
-              LoadEdit(row._id);
-            }}
-          >
-            <BsPencilSquare />
-          </span>
-          <span
-            className="btn btn-md"
-            onClick={() => {
-              LoadDetail(row._id);
-            }}
-          >
-            <CgMoreO />
-          </span>
-          <span
-            className="btn btn-sm btn-success"
-            style={{ padding: "2px" }}
-            onClick={() => {
-              generateSalary(row._id);
-            }}
-          >
-          PaySlip
-          </span>
-        </>
-      ),
+  let columns =
+    userData?.role === "HR"
+      ? [
+          {
+            name: "Employee Code",
+            selector: (rowData) => rowData["Employee_Code"],
+            sortable: true,
+            width: "150px", // added line here
+            headerStyle: (selector, id) => {
+              return { textAlign: "center" };
+            }, // removed partial line here
+          },
+          {
+            name: "Name",
+            selector: (rowData) => rowData["First_Name"],
+            sortable: true,
+            width: "150px", // added line here
+            headerStyle: (selector, id) => {
+              return { textAlign: "center" }; // removed partial line here
+            },
+          },
+          {
+            name: "Email",
+            selector: (rowData) => rowData["email"],
+            sortable: true,
+          },
+          {
+            name: "Phone",
+            selector: (rowData) => rowData["Contact_Number"],
+            sortable: true,
+          },
+          {
+            name: "Experience",
+            selector: (rowData) => rowData["experience"],
+          },
+          {
+            name: "DOJ",
+            selector: (rowData) => rowData["DOJ"],
+          },
+          {
+            name: "Action",
+            width: "220px", // added line here
+            headerStyle: (selector, id) => {
+              return { textAlign: "center" }; // removed partial line here
+            },
+            cell: (row) => (
+              <>
+                <span
+                  className="btn btn-md"
+                  onClick={() => {
+                    LoadEdit(row._id);
+                  }}
+                >
+                  <BsPencilSquare />
+                </span>
+                <span
+                  className="btn btn-md"
+                  onClick={() => {
+                    LoadDetail(row._id);
+                  }}
+                >
+                  <CgMoreO />
+                </span>
+                <span
+                  className="btn btn-sm btn-success"
+                  style={{ padding: "2px" }}
+                  onClick={() => {
+                    generateSalary(row._id);
+                  }}
+                >
+                  PaySlip
+                </span>
+              </>
+            ),
+            ignoreRowClick: true,
+          },
+        ]
+      : [
+          {
+            name: "Employee Code",
+            selector: (rowData) => rowData["Employee_Code"],
+            sortable: true,
+            width: "150px", // added line here
+            headerStyle: (selector, id) => {
+              return { textAlign: "center" }; // removed partial line here
+            },
+          },
+          {
+            name: "Name",
+            selector: (rowData) => rowData["First_Name"],
+            sortable: true,
+            width: "150px", // added line here
+            headerStyle: (selector, id) => {
+              return { textAlign: "center" }; // removed partial line here
+            },
+          },
+          {
+            name: "Email",
+            selector: (rowData) => rowData["email"],
+            sortable: true,
+          },
+          {
+            name: "Phone",
+            selector: (rowData) => rowData["Contact_Number"],
+            sortable: true,
+          },
+          {
+            name: "Experience",
+            selector: (rowData) => rowData["experience"],
+          },
+          {
+            name: "DOJ",
+            selector: (rowData) => rowData["DOJ"],
+          },
+        ];
 
-      ignoreRowClick: true,
-    },
-  ];
   const filteredData = empdata.filter((row) => {
     return (
       row.First_Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       row.DOJ.toLowerCase().includes(searchTerm.toLowerCase()) ||
       row.experience.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.Contact_Number.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.Contact_Number.toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       row.Employee_Code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       row.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
+
   return (
     <div>
-       <Link to="/employee/profile" className="btn text-dark">
+      {/*<Link to="/employee/profile" className="btn text-dark">
         <TiArrowBack size={30} />
-      </Link>
+  </Link>*/}
       <div>
         <div className="ml-5 mr-5">
           <DataTable
@@ -155,15 +206,24 @@ const ManageEmpyee = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <div style={{ display: "flex" }}>
-                  <h4>Employees</h4>{" "}
-                  <Link
-                    to="/employee/profile"
-                    className="btn btn-primary btn-sm ml-5 mr-5"
-                  >
-                    Add New (+)
-                  </Link>
-                </div>
+                {userData?.role === "HR" && (
+                  <div style={{ display: "flex" }}>
+                    <h4>Employees</h4>{" "}
+                    <Link
+                      to="/employee/profile"
+                      className="btn btn-primary btn-sm ml-5 mr-5"
+                    >
+                      Add New (+)
+                    </Link>
+                    <Link
+                      to="/employee/total_salary"
+                      className="btn btn-primary btn-sm ml-5 mr-5"
+                    >
+                      View Total Salary
+                    </Link>
+                  </div>
+                )}
+
                 <div>
                   <input
                     type="text"

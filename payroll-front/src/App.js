@@ -23,12 +23,14 @@ import LoginPage from "./Auth/LoginPage";
 import { useEffect, useState } from "react";
 import TotalHolydays from "./pages/Holydays/TotalHolydays";
 import TotalPresent from "./pages/Leaves/TotalPresent";
-import Logout from "./Auth/Logout"
+import Logout from "./Auth/Logout";
 import ChangePassword from "./pages/components/ChangePassword";
 import YesterdayApsent from "./pages/Leaves/YesterdayApsent";
+import TotalSalary from "./pages/Salary_slip/TotalSalary";
+//import { UserInfoProvider } from "./store/userInfo";
+
 function App() {
   const token = localStorage.getItem("token");
-  // console.log("---Token---", token);
   const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = () => {
@@ -41,21 +43,21 @@ function App() {
       clearTimeout(inactivityTimeout); // Reset the timeout on each user activity
       inactivityTimeout = setTimeout(() => {
         // Perform token removal from local storage here
-        localStorage.removeItem('token');
-        window.location.reload()
+        localStorage.removeItem("token");
+        window.location.reload();
         // Redirect to the login page or perform any other necessary actions
         // e.g., using React Router: history.push('/login');
       }, 5 * 60 * 1000); // 5 minutes (in milliseconds)
     };
 
     // Attach event listeners for user activity
-    window.addEventListener('mousemove', handleUserActivity);
-    window.addEventListener('keydown', handleUserActivity);
+    window.addEventListener("mousemove", handleUserActivity);
+    window.addEventListener("keydown", handleUserActivity);
 
     // Clean up event listeners on component unmount
     return () => {
-      window.removeEventListener('mousemove', handleUserActivity);
-      window.removeEventListener('keydown', handleUserActivity);
+      window.removeEventListener("mousemove", handleUserActivity);
+      window.removeEventListener("keydown", handleUserActivity);
       clearTimeout(inactivityTimeout);
     };
   }, []);
@@ -66,17 +68,22 @@ function App() {
       ) : (
         <SideBar>
           <Routes>
-            <Route path="/employee/salary:id" element={<Salary />} />
             <Route path="/employee/profile" element={<AddEmployee />} />
             <Route path="/employee/manageprofile" element={<ManageEmpyee />} />
             <Route path="/employee/EmpEdit:id" element={<EmpEdit />} />
             <Route path="/employee/EmpDetail:id" element={<EmpDetail />} />
             <Route path="/employee/leave" element={<Leaves />} />
             <Route path="/employee/leavedetails" element={<LeaveDetails />} />
-            <Route path="/employee/userleavedetails:id" element={<UserLeaveDetails />} />
+            <Route path="/employee/salary/:id" element={<Salary />} />
+            <Route path="/employee/total_salary" element={<TotalSalary />} />
+            <Route
+              path="/employee/userleavedetails:id"
+              element={<UserLeaveDetails />}
+            />
             <Route path="/download/:id" element={<Downloadslip />} />
             <Route path="/Year_leave" element={<Year_Leave />} />
             <Route path="/year_leavedetails" element={<Year_Leave_Details />} />
+
             <Route path="/holiydays" element={<TotalHolydays />} />
             <Route path="/TotalPresent" element={<TotalPresent />} />
             <Route path="/" element={<Dashboard />} />

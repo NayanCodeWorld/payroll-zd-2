@@ -14,7 +14,8 @@ import host from "./../utils";
 import { ToastContainer, toast } from "react-toastify";
 
 function TotalHolydays() {
-  const expireAt = localStorage.getItem('expireAt')
+  const expireAt = localStorage.getItem("expireAt");
+  const userData = JSON.parse(localStorage.getItem("userInfo"));
   let navigate = useNavigate();
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
@@ -30,8 +31,21 @@ function TotalHolydays() {
   const [selectedOption, setSelectedOption] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState(0);
 
-  const Year = [2022, 2023, 2024]
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const Year = [2022, 2023, 2024];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   function getFirstAndLastDayOfYear(selectedOption) {
     const firstDay = new Date(selectedOption, 0, 1);
@@ -46,58 +60,91 @@ function TotalHolydays() {
     fieldObj[e.target.name] = e.target.value;
     setFields(fieldObj);
   };
-  var columns = [
-    {
-      name: "Holyday Name",
-      selector: (rowData) => rowData["holiday_name"],
-      sortable: true,
-      width: 30,
-    },
-    {
-      name: "Holiday Date",
-      selector: (rowData) => rowData["holiday_date"],
-      sortable: true,
-    },
-    {
-      name: "Holyday Type",
-      selector: (rowData) => rowData["holiday_type"],
-      cell: (row) => (
-        <>
-          {row.holiday_type !== "Weekend" ? (
-            <Badge bg="success">{row.holiday_type}</Badge>
-          ) : (
-            <Badge style={{ backgroundColor: "blue" }}>
-              {row.holiday_type}
-            </Badge>
-          )}
-        </>
-      ),
-      sortable: true,
-    },
 
-    {
-      name: "Created At",
-      selector: (rowData) => rowData["createdAt"],
-      sortable: true,
-    },
-    {
-      name: "Action",
-      cell: (row) => (
-        <>
-          <span
-            className="btn btn-md"
-            onClick={() => {
-              deleteHolyday(row);
-            }}
-          >
-            <FaTrash />
-          </span>
-        </>
-      ),
+  let columns =
+    userData.role === "HR"
+      ? [
+          {
+            name: "Holyday Name",
+            selector: (rowData) => rowData["holiday_name"],
+            sortable: true,
+            width: 30,
+          },
+          {
+            name: "Holiday Date",
+            selector: (rowData) => rowData["holiday_date"],
+            sortable: true,
+          },
+          {
+            name: "Holyday Type",
+            selector: (rowData) => rowData["holiday_type"],
+            cell: (row) => {
+              return row.holiday_type !== "Weekend" ? (
+                <Badge bg="success">{row.holiday_type}</Badge>
+              ) : (
+                <Badge style={{ backgroundColor: "blue" }}>
+                  {row.holiday_type}
+                </Badge>
+              );
+            },
+            sortable: true,
+          },
 
-      ignoreRowClick: true,
-    },
-  ];
+          {
+            name: "Created At",
+            selector: (rowData) => rowData["createdAt"],
+            sortable: true,
+          },
+          {
+            name: "Action",
+            cell: (row) => (
+              <span
+                className="btn btn-md"
+                onClick={() => {
+                  deleteHolyday(row);
+                }}
+              >
+                <FaTrash />
+              </span>
+            ),
+
+            ignoreRowClick: true,
+          },
+        ]
+      : [
+          {
+            name: "Holyday Name",
+            selector: (rowData) => rowData["holiday_name"],
+            sortable: true,
+            width: 30,
+          },
+          {
+            name: "Holiday Date",
+            selector: (rowData) => rowData["holiday_date"],
+            sortable: true,
+          },
+          {
+            name: "Holyday Type",
+            selector: (rowData) => rowData["holiday_type"],
+            cell: (row) => {
+              return row.holiday_type !== "Weekend" ? (
+                <Badge bg="success">{row.holiday_type}</Badge>
+              ) : (
+                <Badge style={{ backgroundColor: "blue" }}>
+                  {row.holiday_type}
+                </Badge>
+              );
+            },
+            sortable: true,
+          },
+
+          {
+            name: "Created At",
+            selector: (rowData) => rowData["createdAt"],
+            sortable: true,
+          },
+        ];
+
   function formatDate(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -107,9 +154,9 @@ function TotalHolydays() {
   const { firstDay, lastDay } = getFirstAndLastDayOfYear(selectedOption);
 
   useEffect(() => {
-    if(expireAt < Date.now()){
-      localStorage.removeItem('token')
-      window.location.reload()
+    if (expireAt < Date.now()) {
+      localStorage.removeItem("token");
+      window.location.reload();
     }
     const datesobject = {
       from_date: formatDate(firstDay),
@@ -128,23 +175,23 @@ function TotalHolydays() {
             id: e._id,
           });
         });
-        // console.log(filterArr, '---filterArr----')  
-        console.log(selectedMonth, 'selectedMonth')
+        // console.log(filterArr, '---filterArr----')
+        console.log(selectedMonth, "selectedMonth");
 
         if (selectedMonth) {
-          const filteredData = filterArr.filter(entry => {
+          const filteredData = filterArr.filter((entry) => {
             const holidayDate = entry.holiday_date;
-            const [day, month, year] = holidayDate.split('/');
+            const [day, month, year] = holidayDate.split("/");
             const entryMonth = parseInt(month, 10);
 
             return entryMonth == selectedMonth;
           });
-          console.log('filteredData', filteredData);
-          setTotalHolydays(filteredData)
+          //console.log("filteredData", filteredData);
+          setTotalHolydays(filteredData);
           // Print the filtered data
-          filteredData.forEach(entry => {
-            console.log(entry);
-          });
+          // filteredData.forEach((entry) => {
+          //   console.log(entry);
+          // });
         }
 
         if (showOnlyWeekends || showPublicHoliday) {
@@ -164,8 +211,7 @@ function TotalHolydays() {
           if (showPublicHoliday) {
             setTotalHolydays(publicHolidayArr);
           }
-        }
-        else if (!selectedMonth) {
+        } else if (!selectedMonth) {
           setTotalHolydays(filterArr);
         }
       })
@@ -179,9 +225,9 @@ function TotalHolydays() {
     // setSelectedMonth(0)
   };
   const handleMonthFilter = (event) => {
-    console.log('event.target.value', event.target.value);
+    console.log("event.target.value", event.target.value);
     setSelectedMonth(event.target.value);
-  }
+  };
   const LoadEdit = (_id) => {
     navigate("/employee/EmpEdit" + _id);
   };
@@ -277,37 +323,49 @@ function TotalHolydays() {
               >
                 <div style={{ display: "flex" }}>
                   <h4>Holidays</h4>{" "}
-                  <Button
-                    variant="primary"
-                    className="ml-5 mr-5 btn-sm"
-                    onClick={handleShow}
-                  >
-                    Add Holiday (+)
-                  </Button>
+                  {userData.role === "HR" && (
+                    <Button
+                      variant="primary"
+                      className="ml-5 mr-5 btn-sm"
+                      onClick={handleShow}
+                    >
+                      Add Holiday (+)
+                    </Button>
+                  )}
                 </div>
 
-                <select value={selectedOption} onChange={handleOptionChange} style={{ fontSize: '16px', height: '28px' }}>
+                <select
+                  value={selectedOption}
+                  onChange={handleOptionChange}
+                  style={{ fontSize: "16px", height: "28px" }}
+                >
                   <option value=""></option>
 
-                  {Year && Year.map((val) => {
-                    return (
-                      <option value={val} key={val}>
-                        {val}
-                      </option>
-                    );
-                  })}
+                  {Year &&
+                    Year.map((val) => {
+                      return (
+                        <option value={val} key={val}>
+                          {val}
+                        </option>
+                      );
+                    })}
                 </select>
-                <select defaultValue={selectedMonth} onChange={handleMonthFilter} style={{ fontSize: '16px', height: '28px' }}>
+                <select
+                  defaultValue={selectedMonth}
+                  onChange={handleMonthFilter}
+                  style={{ fontSize: "16px", height: "28px" }}
+                >
                   <option value={selectedMonth} disabled>
                     Filter by month
                   </option>
-                  {months && months.map((val, i) => {
-                    return (
-                      <option value={i + 1} key={val}>
-                        {val}
-                      </option>
-                    );
-                  })}
+                  {months &&
+                    months.map((val, i) => {
+                      return (
+                        <option value={i + 1} key={val}>
+                          {val}
+                        </option>
+                      );
+                    })}
                 </select>
 
                 <div className="d-flex align-items-center ">
@@ -438,6 +496,7 @@ function TotalHolydays() {
           />
         </div>
       </div>
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add Holiday</Modal.Title>

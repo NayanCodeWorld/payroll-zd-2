@@ -1,36 +1,44 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Form, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./loginpage.css";
 import axios from "axios";
 import host from "../pages/utils";
+import { UserInfoContext } from "../store/userInfo";
 
 function LoginPage({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
+  const UserInfo = useContext(UserInfoContext);
 
-  const handleLogin = (event) => {
-    // handle login logic here
+  //  function is running to the cod
+  const handleLogin = async (event) => {
     event.preventDefault();
-    axios
-      .post(`${host}/login/login/`, { email, password })
-      .then((res) => {
-        console.log("response", res.data);
-        if (res.data.token) {
-            // redirect to home page or do something else
-            localStorage.setItem('token', res.data.token);
-            localStorage.setItem('expireAt', res.data.expireAt);
-            onLogin();
-        }else{
-          setShowError(true);
-        }
-      })
-      .catch((err) => {
-        console.log("Error", err);
-        setShowError(true);
+
+    try {
+      const response = await axios.post(`${host}/auth/login`, {
+        email,
+        password,
       });
+
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify(response.data.userData)
+        );
+        localStorage.setItem("expireAt", response.data.expireAt);
+        onLogin();
+      } else {
+        setShowError(true);
+      }
+    } catch (error) {
+      console.log("Error", error);
+      setShowError(true);
+    }
   };
+
   console.log(email);
   return (
     <div className="Login">

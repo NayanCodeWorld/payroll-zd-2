@@ -5,14 +5,24 @@ import { Link, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
-import host from "./../utils"
+import host from "./../utils";
+
+const LEAVE_STATUS = {
+  0: "Pending",
+  1: "Accepted",
+  2: "Rejected",
+};
+
+const LEAVE_STATUS_OPTIONS = [0, 1, 2];
+
 function LeaveDetails() {
-  const expireAt = localStorage.getItem('expireAt')
+  const expireAt = localStorage.getItem("expireAt");
+  const userData = JSON.parse(localStorage.getItem("userInfo"));
   const navigate = useNavigate();
   const [empLeaveData, setEmpLeaveData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
   const deleteLeave = (id) => {
-    console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -42,74 +52,174 @@ function LeaveDetails() {
       }
     });
   };
-  var columns = [
-    {
-      name: "Name",
-      selector: (rowData) => rowData["First_Name"],
-      sortable: true,
-      width: 30,
-    },
-    {
-      name: "Email",
-      selector: (rowData) => rowData["email"],
-      sortable: true,
-    },
-    {
-      name: "CreatedAt",
-      selector: (rowData) => rowData["createdAt"],
-      sortable: true,
-    },
-    {
-      name: "From Date",
-      selector: (rowData) => rowData["from_date"],
-      sortable: true,
-    },
-    {
-      name: "To Date",
-      selector: (rowData) => rowData["to_date"],
-      sortable: true,
-    },
-    {
-      name: "Phone",
-      selector: (rowData) => rowData["Contact_Number"],
-      sortable: true,
-    },
-    {
-      name: "Leave Type",
-      selector: (rowData) => rowData["leave_type"],
-      sortable: true,
-    },
-    {
-      name: "Reason For Leave",
-      selector: (rowData) => rowData["reason_for_leave"],
-      sortable: true,
-    },
-    {
-      name: "Action",
-      cell: (row) => (
-        <>
-          <span
-            className="btn btn-md"
-            onClick={() => {
-              deleteLeave(row);
-            }}
-          >
-            <FaTrash />
-          </span>
-        </>
-      ),
 
-      ignoreRowClick: true,
-    },
-  ];
+  const LeaveStatusDropdown = ({ row }) => {
+    let optionValue;
+    const handleChange = (e) => {
+      for (let o in LEAVE_STATUS) {
+        if (LEAVE_STATUS[o] === e.target.value) {
+          optionValue = o;
+        }
+      }
+      console.log(optionValue);
+      console.log("runnnnng");
+
+      axios
+        .put(`${host}/Emp_Leave/leave_update/${row.id}`, {
+          leave_status: optionValue,
+        })
+        .then(window.location.reload(false));
+    };
+    return (
+      <select value={row.leaveStatus} onChange={handleChange}>
+        {LEAVE_STATUS_OPTIONS.map((option) => (
+          <option key={option} value={LEAVE_STATUS[option]}>
+            {LEAVE_STATUS[option]}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
+  let columns =
+    userData.role === "HR"
+      ? [
+          {
+            name: "Name",
+            selector: (rowData) => rowData["First_Name"],
+            sortable: true,
+            width: 30,
+          },
+          {
+            name: "Email",
+            selector: (rowData) => rowData["email"],
+            sortable: true,
+          },
+          {
+            name: "CreatedAt",
+            selector: (rowData) => rowData["createdAt"],
+            sortable: true,
+          },
+          {
+            name: "From Date",
+            selector: (rowData) => rowData["from_date"],
+            sortable: true,
+          },
+          {
+            name: "To Date",
+            selector: (rowData) => rowData["to_date"],
+            sortable: true,
+          },
+          {
+            name: "Phone",
+            selector: (rowData) => rowData["Contact_Number"],
+            sortable: true,
+          },
+          {
+            name: "Leave Type",
+            selector: (rowData) => rowData["leave_type"],
+            sortable: true,
+          },
+          {
+            name: "Reason For Leave",
+            selector: (rowData) => rowData["reason_for_leave"],
+            sortable: true,
+          },
+          {
+            name: "Leave Status",
+            selector: (rowData) => rowData["leaveStatus"],
+            cell: (row) => <LeaveStatusDropdown row={row} />,
+            sortable: true,
+          },
+          {
+            name: "Action",
+            cell: (row) => (
+              <span
+                className="btn btn-md"
+                onClick={() => {
+                  deleteLeave(row);
+                }}
+              >
+                <FaTrash />
+              </span>
+            ),
+
+            ignoreRowClick: true,
+          },
+        ]
+      : [
+          {
+            name: "Name",
+            selector: (rowData) => rowData["First_Name"],
+            sortable: true,
+            width: 30,
+          },
+          {
+            name: "Email",
+            selector: (rowData) => rowData["email"],
+            sortable: true,
+          },
+          {
+            name: "CreatedAt",
+            selector: (rowData) => rowData["createdAt"],
+            sortable: true,
+          },
+          {
+            name: "From Date",
+            selector: (rowData) => rowData["from_date"],
+            sortable: true,
+          },
+          {
+            name: "To Date",
+            selector: (rowData) => rowData["to_date"],
+            sortable: true,
+          },
+          {
+            name: "Phone",
+            selector: (rowData) => rowData["Contact_Number"],
+            sortable: true,
+          },
+          {
+            name: "Leave Type",
+            selector: (rowData) => rowData["leave_type"],
+            sortable: true,
+          },
+          {
+            name: "Reason For Leave",
+            selector: (rowData) => rowData["reason_for_leave"],
+            sortable: true,
+          },
+          {
+            name: "Leave Status",
+            selector: (rowData) => rowData["leaveStatus"],
+            sortable: true,
+          },
+          {
+            name: "Action",
+            cell: (row) => (
+              <span
+                className="btn btn-md"
+                onClick={() => {
+                  deleteLeave(row);
+                }}
+              >
+                <FaTrash />
+              </span>
+            ),
+
+            ignoreRowClick: true,
+          },
+        ];
+
   useEffect(() => {
-    if(expireAt < Date.now()){
-      localStorage.removeItem('token')
-      window.location.reload()
+    if (expireAt < Date.now()) {
+      localStorage.removeItem("token");
+      window.location.reload();
     }
     axios
       .get(`${host}/Emp_Leave/get_leave`)
       .then((response) => {
+        // setLeaveStatus(response.leave_status);
         let filteredArr = [];
         let filteredObj = {};
         let responseArr = response.data.msg;
@@ -123,12 +233,14 @@ function LeaveDetails() {
           });
           filteredArr.push({
             ...filteredObj,
+            user_id: e.userid,
             from_date: new Date(e.from_date).toLocaleDateString("pt-PT"),
             to_date: new Date(e.to_date).toLocaleDateString("pt-PT"),
             leave_type: e.leave_type == 1 ? "Full Day" : "Half Day",
             reason_for_leave: e.reason_for_leave,
             id: e._id,
             createdAt: new Date(e.createdAt).toLocaleDateString("pt-PT"),
+            leaveStatus: LEAVE_STATUS[e.leave_status],
           });
         });
         setEmpLeaveData(filteredArr);
@@ -137,21 +249,27 @@ function LeaveDetails() {
         console.error("There was an error!", error);
       });
   }, []);
-  const filteredData = empLeaveData.filter((row) => {
-    return (
-      row.First_Name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+
+  const filteredData =
+    userData.role === "HR"
+      ? empLeaveData?.filter((row) => {
+          return row.First_Name?.toLowerCase().includes(
+            searchTerm?.toLowerCase()
+          );
+        })
+      : empLeaveData?.filter((row) => {
+          return (
+            row.user_id === userData.id &&
+            row.First_Name?.toLowerCase().includes(searchTerm?.toLowerCase())
+          );
+        });
 
   return (
     <div>
-
-      <Link
-        to="/employee/manageprofile" className="btn text-dark">
+      {/*<Link to="/employee/manageprofile" className="btn text-dark">
         <TiArrowBack size={30} />
-      </Link>
+      </Link>*/}
       <div>
-
         <div className="ml-5 mr-5">
           <DataTable
             title={
@@ -163,7 +281,7 @@ function LeaveDetails() {
                 }}
               >
                 <div style={{ display: "flex" }}>
-                  <h4>Leaves Details</h4>{" "}
+                  <h4>Leaves Details</h4>
                   <Link
                     to="/employee/leave"
                     className="btn btn-primary btn-sm ml-5 mr-5"

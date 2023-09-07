@@ -6,7 +6,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { TiArrowBack } from "react-icons/ti";
 import host from "./utils";
 function Salary() {
-  const expireAt = localStorage.getItem('expireAt')
+  const expireAt = localStorage.getItem("expireAt");
   const { id } = useParams();
   let navigate = useNavigate();
   const [empdata, empdatachange] = useState({});
@@ -25,7 +25,8 @@ function Salary() {
   const [prevMonths, setPrevMonths] = useState([]);
   const [selectedOptionsalary, setSelectedOptionsalary] = useState("ECSI");
 
-  console.log('selectedOptionsalary', selectedOptionsalary);
+  console.log("selectedOptionsalary", selectedOptionsalary);
+
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
     let salaryMonth = event.target.value;
@@ -34,9 +35,11 @@ function Salary() {
     setSalaryYear(yearStr);
     setSalaryMonthNumber(monthStr);
   };
+
   const handleChange_ = (e) => {
     setSelectedOptionsalary(e.target.value);
   };
+
   function handleChange(e) {
     let fieldObj = { ...fields };
     if (e.target.name == "overwrite_payslip") {
@@ -47,13 +50,13 @@ function Salary() {
     console.log("fieldObj", fieldObj);
     setFields(fieldObj);
   }
+
   const handleToggleAdvance = (e) => {
     setSwitchToAdvance((prev) => !prev);
   };
 
   const getPreviousMonths = (empDetailObject) => {
-    const dateOfJoining = new Date(empDetailObject.base_salary[0].effective_date);
-    const doj = dateOfJoining;
+    const doj = new Date(empDetailObject.base_salary[0].effective_date); //const doj = dateOfJoining;
     const current = new Date();
     const startMonth = new Date(doj).getMonth();
     const startYear = new Date(doj).getFullYear();
@@ -79,7 +82,6 @@ function Salary() {
         break;
       }
     }
-    console.log("months", months);
     setPrevMonths(months);
     return months;
   };
@@ -96,9 +98,9 @@ function Salary() {
   }
 
   useEffect(() => {
-    if(expireAt < Date.now()){
-      localStorage.removeItem('token')
-      window.location.reload()
+    if (expireAt < Date.now()) {
+      localStorage.removeItem("token");
+      window.location.reload();
     }
     fetch(`${host}/emp/emp_1/` + id)
       .then((res) => {
@@ -125,7 +127,9 @@ function Salary() {
         console.log(err.message);
       });
   }, []);
-  console.log(fields.arrear, fields.ARRS);
+
+  // console.log("@@@@@@@@@@@@", fields.arrear, fields.ARRS);
+
   return (
     <div className="pt-5">
       <div>
@@ -144,22 +148,20 @@ function Salary() {
                     <div className="form-group">
                       <div className="col-md-12">
                         <div>
-                          {" "}
-                          <span className="fw-bolder text-lg">Name :</span>{" "}
+                          <span className="fw-bolder text-lg">Name :</span>
                           <small className="ms-3 text-lg fw-bolder">
                             {empdata.Employee_name + " " + empdata.Last_Name}
-                          </small>{" "}
+                          </small>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div>
-                      {" "}
-                      <span className="fw-bolder text-lg">EMP Code :</span>{" "}
+                      <span className="fw-bolder text-lg">EMP Code :</span>
                       <small className="ms-3 text-lg fw-bolder">
                         {empdata.Employee_code}
-                      </small>{" "}
+                      </small>
                     </div>
                   </div>
                 </div>
@@ -184,9 +186,11 @@ function Salary() {
                 {switchToAdvance ? (
                   <div>
                     <div className="row">
-
                       <div>
-                        <select value={selectedOptionsalary} onChange={handleChange_}>
+                        <select
+                          value={selectedOptionsalary}
+                          onChange={handleChange_}
+                        >
                           <option value="ECSI">ECSI</option>
                           <option value="Bonus">Bonus</option>
                           <option value="ARRS">ARRS</option>
@@ -194,13 +198,10 @@ function Salary() {
                       </div>
                     </div>
                     <div className="row">
-
                       <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div className="form-group">
-                          <label className="profile_details_text">
-                            Amount
-                          </label>
-                          {selectedOptionsalary === 'Bonus' ? (
+                          <label className="profile_details_text">Amount</label>
+                          {selectedOptionsalary === "Bonus" ? (
                             <input
                               type="number"
                               style={{ textTransform: "capitalize" }}
@@ -214,7 +215,7 @@ function Salary() {
                             />
                           ) : (
                             <>
-                              {selectedOptionsalary === 'ARRS' ? (
+                              {selectedOptionsalary === "ARRS" ? (
                                 <input
                                   type="number"
                                   style={{ textTransform: "capitalize" }}
@@ -226,20 +227,21 @@ function Salary() {
                                   value={fields.ARRS}
                                   onChange={(e) => handleChange(e)}
                                 />
-                              ) : <input
-                                type="number"
-                                style={{ textTransform: "capitalize" }}
-                                name="ECSI"
-                                minLength="2"
-                                maxLength="50"
-                                className="form-control"
-                                placeholder="Amount"
-                                value={fields.ECSI}
-                                onChange={(e) => handleChange(e)}
-                              />}
+                              ) : (
+                                <input
+                                  type="number"
+                                  style={{ textTransform: "capitalize" }}
+                                  name="ECSI"
+                                  minLength="2"
+                                  maxLength="50"
+                                  className="form-control"
+                                  placeholder="Amount"
+                                  value={fields.ECSI}
+                                  onChange={(e) => handleChange(e)}
+                                />
+                              )}
                             </>
                           )}
-
                         </div>
                       </div>
                     </div>
@@ -283,7 +285,10 @@ function Salary() {
                           return (
                             <option
                               key={month.format1}
-                              value={month.year.toString() + month.monthNumber.toString()}
+                              value={
+                                month.year.toString() +
+                                month.monthNumber.toString()
+                              }
                             >
                               {month.format1}
                             </option>

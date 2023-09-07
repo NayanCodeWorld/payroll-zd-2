@@ -1,44 +1,32 @@
-"use strict"
+"use strict";
 
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
-const holiday = Schema({
-
+const holiday = Schema(
+  {
     holiday_name: {
-        required: true,
-        type:String,
-        trim: true
+      required: true,
+      type: String,
+      trim: true,
     },
 
-    holiday_type
-        : {
-        type: String,
-        // required: true,
-        // trim: [true, "space not allow"],
-        // enum: [1, 0.5]
+    holiday_type: {
+      type: String,
+      // required: true,
+      // trim: [true, "space not allow"],
+      // enum: [1, 0.5]
     },
-    holiday_date
-        : {
-        type: Date,
-        // required: true,
-
+    holiday_date: {
+      type: Date,
+      // required: true,
     },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-
-
-},
-    {
-        timestamps: true
-    },
-
-)
-
-// collection creation 
-const HolidayModal = model('HOLIDAY', holiday, "holiday");
-
-
-
-
+// collection creation
+const HolidayModal = model("HOLIDAY", holiday, "holiday");
 
 module.exports = HolidayModal;
-

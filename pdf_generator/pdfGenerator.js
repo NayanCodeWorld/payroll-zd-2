@@ -1,10 +1,7 @@
 
-module.exports = function pdf_genearation(){
-  //Required package
 var pdf = require("pdf-creator-node");
 var fs = require("fs");
-
-// Read HTML Template
+var ExcelJS = require("exceljs"); 
 var html = fs.readFileSync(__dirname + "/salarySlip.html", "utf8");
 
 var options = {
@@ -14,18 +11,8 @@ var options = {
     header: {
         height: "25mm",
         contents: '<div style="text-align: center;">ZecData Technology Pvt. Ltd</div>'
-    },
-    // footer: {
-    //     height: "28mm",
-    //     contents: {
-    //         first: 'Cover page',
-    //         // 2: 'Second page', // Any page number is working. 1-based index
-    //         default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
-    //         // last: 'Last Page'
-    //     }
-    // }
+    }
 };
-
 
 var users = [
     {
@@ -40,28 +27,35 @@ var users = [
       name: "Vitthal",
       age: "26",
     },
-  ];
-  var document = {
-    html: html,
-    data: {
-        users: users,
-      },
-    // data: {},
-    path: "./output.pdf",
-    type: "",
-  };
-  // By default a file is created but you could switch between Buffer and Streams by using "buffer" or "stream" respectively.
+];
+
+// Create Excel workbook and worksheet
+var workbook = new ExcelJS.Workbook();
+var worksheet = workbook.addWorksheet("Users");
+
+// Set headers for Excel worksheet
+worksheet.addRow(["Name", "Age"]);
+users.forEach(user => {
+    worksheet.addRow([user.name, user.age]);
+});
+
+var excelFilePath = "./output.xlsx";
+
+// Save the Excel file
+workbook.xlsx.writeFile(excelFilePath)
+    .then(function() {
+        console.log("Excel file saved successfully!");
+    })
+    .catch(function(error) {
+        console.error("Error saving Excel file:", error);
+    });
 
 
-  pdf
-  .create(document, options)
+
+pdf.create(document, options)
   .then((res) => {
     console.log(res);
   })
   .catch((error) => {
     console.error(error);
   });
-};
-
-
-

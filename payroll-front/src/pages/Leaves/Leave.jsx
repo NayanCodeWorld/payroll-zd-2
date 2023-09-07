@@ -1,26 +1,28 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { TiArrowBack } from "react-icons/ti";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import host from "./../utils";
-import Select from 'react-select';
+import Select from "react-select";
 import { leaveValidateForm } from "./leaveValidation";
 
 const Leaves = () => {
   let navigate = useNavigate();
-  const expireAt = localStorage.getItem('expireAt')
+  const userInfo = JSON.parse(localStorage.getItem("userInfo")); // Getting User Role from Loacl Storage
+  const expireAt = localStorage.getItem("expireAt");
   const toDateInputRef = useRef(null);
-  const [leavesData, setLeavesData] = useState({});
+  const [leavesData, setLeavesData] = useState({ userid: userInfo?.id });
   const [users, setUsers] = useState([]);
   const [Doj, setDoj] = useState([]);
   const [submitDisable, setSubmitDisable] = useState(false);
 
   const [disableToDate, setDisableToDate] = useState(true);
   const [errors, setErrors] = useState({});
-  var leavesObj = {}
+  let leavesObj = {};
+
   const handleChange = (e) => {
     leavesObj = { ...leavesData };
     leavesObj[e.target.name] = e.target.value;
@@ -33,27 +35,26 @@ const Leaves = () => {
     }
     setLeavesData(leavesObj);
   };
-  const handleSelectChange = (e) => {
-   const doj = (e.option?.substring(0, 10))
-   setDoj(doj);
-    leavesObj = { ...leavesData, userid: e.value };
-    setLeavesData(leavesObj);
-  }
 
-  console.log("leavesData", leavesData);
+  const handleSelectChange = (e) => {
+    const doj = e.option?.substring(0, 10);
+    setDoj(doj);
+    let leavesObj = { ...leavesData, userid: e.value };
+    setLeavesData(leavesObj);
+  };
 
   useEffect(() => {
-    if(expireAt < Date.now()){
-      localStorage.removeItem('token')
-      window.location.reload()
+    if (expireAt < Date.now()) {
+      localStorage.removeItem("token");
+      window.location.reload();
     }
     window
-      .fetch(`${host}/emp/get_employ`)
+      .fetch(`${host}/emp/get_employ/${userInfo.id}`)
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        console.log("res", resp);
+        // console.log("res", resp);
         setUsers(resp);
         // setDoj(resp)
       })
@@ -61,6 +62,7 @@ const Leaves = () => {
         console.log(err.message);
       });
   }, []);
+
 
   const notify = (message) => {
     toast(message, {
@@ -75,40 +77,45 @@ const Leaves = () => {
     });
   };
   // new Date(e.date_of_joining).toLocaleDateString('pt-PT')
+
   const handlesubmit = (e) => {
     e.preventDefault();
-    const validationErrors = leaveValidateForm(leavesData)
-    console.log('validationErrors',validationErrors);
+    const validationErrors = leaveValidateForm(leavesData);
+    console.log("validationErrors", validationErrors);
+
     setErrors(validationErrors.errObj);
     if (validationErrors && validationErrors.formIsValid) {
       setSubmitDisable(true);
-    axios
-      .post(`${host}/Emp_Leave/leave`, leavesData)
-      .then((response) => {
-        console.log("success", response.data.success);
-        if (response.data.success) {
-          Swal.fire({
-            icon: "success",
-            title: "Successful",
-            text: "Leave Added Successfully!",
-          }).then(() => {
-            navigate("/employee/leavedetails");
-          });
-        } else {
-          notify(response.data.message);
-          setSubmitDisable(false);
-        }
-      })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
+      axios
+        .post(`${host}/Emp_Leave/leave`, { ...leavesData })
+        .then((response) => {
+          console.log("success", response.data.success);
+          if (response.data.success) {
+            Swal.fire({
+              icon: "success",
+              title: "Successful",
+              text: "Leave Added Successfully!",
+            }).then(() => {
+              navigate("/employee/leavedetails");
+            });
+          } else {
+            notify(response.data.message);
+            setSubmitDisable(false);
+          }
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+        });
     }
   };
-  const selectOptions = users.map(option => ({ value: option._id, label: `${option.First_Name} - ${option.Employee_Code}`  ,option:option.date_of_joining}));
+  const selectOptions = users.map((option) => ({
+    value: option._id,
+    label: `${option.First_Name} - ${option.Employee_Code}`,
+    option: option.date_of_joining,
+  }));
 
-//   const dojOptions = Doj.map(dojoption => ({ dateOfBirth: dojoption.Date_of_Joining}));
-// console.log('dojOptions',dojOptions);
- 
+  //   const dojOptions = Doj.map(dojoption => ({ dateOfBirth: dojoption.Date_of_Joining}));
+  // console.log('dojOptions',dojOptions);
 
   return (
     <div>
@@ -116,26 +123,36 @@ const Leaves = () => {
         <ToastContainer />
         <form className="container" onSubmit={handlesubmit}>
           <div className="card m-5 p-3">
-            <Link to="/employee/leavedetails">
+            {/*<Link to="/employee/leavedetails">
               <TiArrowBack size={25} />
-            </Link>
+            </Link>*/}
             <div className="card-title" style={{ textAlign: "center" }}>
               <h2 className="text-red-900">Apply Leave</h2>
             </div>
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div className="form-group">
-                  <label className="profile_details_text">
-                    Select Employee Name
-                  </label>
-                  <Select
-                    options={selectOptions}
-                    isSearchable={true}
-                    placeholder="Select Employee"
-                    onChange={(e) => handleSelectChange(e)}
-                  />
-                  <div className="errorMsg">{errors.userid}</div>
-                </div>
+                {userInfo.role === "HR" ? (
+                  <div className="form-group">
+                    <label className="profile_details_text">
+                      Select Employee Name
+                    </label>
+                    <Select
+                      options={selectOptions}
+                      isSearchable={true}
+                      placeholder="Select Employee"
+                      onChange={(e) => handleSelectChange(e)}
+                    />
+                    <div className="errorMsg">{errors.userid}</div>
+                  </div>
+                ) : (
+                  <div className="form-group">
+                    <label className="profile_details_text">
+                      Employee Name
+                    </label>
+                    <h2>{userInfo.name}</h2>
+                    <div className="errorMsg">{errors.userid}</div>
+                  </div>
+                )}
               </div>
             </div>
             <div className="row">

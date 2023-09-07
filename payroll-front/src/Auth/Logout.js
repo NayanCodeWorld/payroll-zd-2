@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 
 export default function Logout() {
   const navigate = useNavigate();
+
   function handleLogout() {
     Swal.fire({
       title: "Are you sure?",
@@ -18,9 +19,10 @@ export default function Logout() {
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.removeItem("token");
+        localStorage.removeItem("userInfo");
         navigate("/");
         window.location.reload();
-      }else{
+      } else {
         navigate("/");
       }
     });
@@ -33,6 +35,5 @@ export default function Logout() {
     //   <Button onClick={handleLogout}>Log out</Button>
     // </div>
     <></>
-    
   );
 }
