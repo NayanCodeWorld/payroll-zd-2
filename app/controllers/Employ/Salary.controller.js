@@ -125,7 +125,7 @@ class Salary {
       let empinfo_modal = await EmpInfoModal.find({
         _id: req.query.userid,
       });
-      console.log("114 >> empinfo_modal >>>", empinfo_modal);
+      //console.log("114 >> empinfo_modal >>>", empinfo_modal);
 
       empinfo_modal = empinfo_modal[0];
       const pathname =
@@ -135,14 +135,14 @@ class Salary {
         "_" +
         monthNames[Number(month) - 1];
 
-      console.log(
-        "125 >> empinfo_modal >>>>>>>>>>>",
-        empinfo_modal.First_Name +
-          " " +
-          empinfo_modal.Last_Name +
-          "_" +
-          monthNames[Number(month) - 1]
-      );
+      // console.log(
+      //   "125 >> empinfo_modal >>>>>>>>>>>",
+      //   empinfo_modal.First_Name +
+      //     " " +
+      //     empinfo_modal.Last_Name +
+      //     "_" +
+      //     monthNames[Number(month) - 1]
+      // );
 
       let email = empinfo_modal.email;
       // sendVerificationMail(email, pathname)
@@ -495,7 +495,7 @@ class Salary {
                   ].effective_date
                 ).year() === Number(year)
               ) {
-                console.log("484 >>> true");
+                //console.log("484 >>> true");
                 var leave_balence_year = 0;
                 var emp_leave_taken = 0;
                 var leave_taken_1 = 0;
@@ -532,14 +532,14 @@ class Salary {
 
                 var effective_day = date.getDate();
 
-                console.log(
-                  "effective_month 469 >>>",
-                  effective_month,
-                  "effective_day >>>",
-                  effective_day,
-                  "effectivr_year >>>",
-                  effectivr_year
-                );
+                // console.log(
+                //   "effective_month 469 >>>",
+                //   effective_month,
+                //   "effective_day >>>",
+                //   effective_day,
+                //   "effectivr_year >>>",
+                //   effectivr_year
+                // );
 
                 if (month == effective_month && year == effectivr_year) {
                   let effective_day1 = date;
@@ -579,20 +579,20 @@ class Salary {
                     1;
                 }
 
-                console.log(
-                  "startDate1 516 >>>",
-                  startDate1,
-                  "endDate1 >>>",
-                  endDate1,
-                  "startDate2 >>>",
-                  startDate2,
-                  "endDate2 >>>",
-                  endDate2,
-                  "total_month_day1 >>>",
-                  total_month_day1,
-                  "total_month_day2 >>>",
-                  total_month_day2
-                );
+                // console.log(
+                //   "startDate1 516 >>>",
+                //   startDate1,
+                //   "endDate1 >>>",
+                //   endDate1,
+                //   "startDate2 >>>",
+                //   startDate2,
+                //   "endDate2 >>>",
+                //   endDate2,
+                //   "total_month_day1 >>>",
+                //   total_month_day1,
+                //   "total_month_day2 >>>",
+                //   total_month_day2
+                // );
 
                 const inputYear = year;
                 const inputMonth = month;
@@ -607,20 +607,20 @@ class Salary {
                 const day1 = String(dateObj1.getDate()).padStart(2, "0");
                 const holiday_day_end = `${year2}-${month2}-${day1}`;
 
-                console.log("544 >>>", {
-                  inputYear: inputYear,
-                  inputMonth: inputMonth,
-                  dateObj: dateObj,
-                  year1: year1,
-                  month1: month1,
-                  day: day,
-                  holiday_day_start: holiday_day_start,
-                  dateObj1: dateObj1,
-                  year2: year2,
-                  month2: month2,
-                  day1: day1,
-                  holiday_day_end: holiday_day_end,
-                });
+                // console.log("544 >>>", {
+                //   inputYear: inputYear,
+                //   inputMonth: inputMonth,
+                //   dateObj: dateObj,
+                //   year1: year1,
+                //   month1: month1,
+                //   day: day,
+                //   holiday_day_start: holiday_day_start,
+                //   dateObj1: dateObj1,
+                //   year2: year2,
+                //   month2: month2,
+                //   day1: day1,
+                //   holiday_day_end: holiday_day_end,
+                // });
 
                 const lastEffectiveDate = moment(
                   empinfo_modal.base_salary_list[
@@ -696,47 +696,47 @@ class Salary {
                   },
                 });
 
-                console.log(
-                  "holiday_leave_1 633 >>>",
-                  holiday_leave_1,
-                  "holiday_leave_2 >>>",
-                  holiday_leave_2,
-                  "leave_day1 >>>",
-                  leave_day1,
-                  "leave_day2 >>>",
-                  leave_day2,
-                  "leave_modal >>>",
-                  leave_modal
-                );
+                // console.log(
+                //   "holiday_leave_1 633 >>>",
+                //   holiday_leave_1,
+                //   "holiday_leave_2 >>>",
+                //   holiday_leave_2,
+                //   "leave_day1 >>>",
+                //   leave_day1,
+                //   "leave_day2 >>>",
+                //   leave_day2,
+                //   "leave_modal >>>",
+                //   leave_modal
+                // );
 
                 var holiday_modal =
                   Number(holiday_leave_1.length) +
                   Number(holiday_leave_2.length);
 
-                console.log("holiday_modal 650 >>>", holiday_modal);
+                //console.log("holiday_modal 650 >>>", holiday_modal);
 
                 if (leave_modal.length == 1) {
                   var from_date1 = leave_modal[0].from_date;
                   var to_date1 = leave_modal[0].to_date;
-                  console.log(
-                    "   from_date1",
-                    from_date1,
-                    "to_date1",
-                    to_date1
-                  );
+                  // console.log(
+                  //   "   from_date1",
+                  //   from_date1,
+                  //   "to_date1",
+                  //   to_date1
+                  // );
 
                   const fromDate = new Date(from_date1);
                   const toDate = new Date(to_date1);
                   const effectiveDate = new Date(formattedLastEffectiveDate);
 
-                  console.log(
-                    "fromDate 666 >>>",
-                    fromDate,
-                    "toDate >>>",
-                    toDate,
-                    "effectiveDate >>>",
-                    effectiveDate
-                  );
+                  // console.log(
+                  //   "fromDate 666 >>>",
+                  //   fromDate,
+                  //   "toDate >>>",
+                  //   toDate,
+                  //   "effectiveDate >>>",
+                  //   effectiveDate
+                  // );
 
                   if (effectiveDate >= fromDate && effectiveDate <= toDate) {
                     console.log(
@@ -761,7 +761,7 @@ class Salary {
                           $ne: formattedLastEffectiveDate,
                         },
                       });
-                      console.log("holiday_leave_4 698 >>>", holiday_leave_4);
+                      //console.log("holiday_leave_4 698 >>>", holiday_leave_4);
 
                       // const effectiveDate = new Date('2023-03-06T00:00:00.000Z');
                       var part1_leave = {
@@ -770,14 +770,14 @@ class Salary {
                           effectiveDate.getTime() - 1
                         ).toISOString(),
                       };
-                      console.log("part1_leave 707 >>>", part1_leave);
+                      //console.log("part1_leave 707 >>>", part1_leave);
 
                       // Second part: toDate to effectiveDate
                       var part2_leave = {
                         fromDate: effectiveDate.toISOString(),
                         toDate: toDate.toISOString(),
                       };
-                      console.log("714 >> Part 2 >>>", part2_leave);
+                      //console.log("714 >> Part 2 >>>", part2_leave);
 
                       const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
 
@@ -787,7 +787,7 @@ class Salary {
                           new Date(part1_leave.fromDate).getTime()) /
                           millisecondsPerDay
                       );
-                      console.log("724 >> Part 1 >>>", totalDaysPart1, "days");
+                      //console.log("724 >> Part 1 >>>", totalDaysPart1, "days");
 
                       var totalDaysPart2 = Math.round(
                         (new Date(part2_leave.toDate).getTime() -
@@ -795,12 +795,12 @@ class Salary {
                           millisecondsPerDay +
                           1
                       );
-                      console.log("732 >> Part 2 >>>", totalDaysPart2, "days");
+                      // console.log("732 >> Part 2 >>>", totalDaysPart2, "days");
 
-                      console.log(
-                        "735 >> holiday_leave_1.length >>>",
-                        holiday_leave_4.length
-                      );
+                      // console.log(
+                      //   "735 >> holiday_leave_1.length >>>",
+                      //   holiday_leave_4.length
+                      // );
 
                       if (leave_modal[0].leave_type == 0.5) {
                         totalDaysPart1 = totalDaysPart1 / 2;
@@ -809,16 +809,16 @@ class Salary {
                       totalDaysPart1 = totalDaysPart1 - holiday_leave_4.length;
                       totalDaysPart2 = totalDaysPart2 - holiday_leave_3.length;
 
-                      console.log("746 >> totalDaysPart1 >>>", totalDaysPart1);
-                      console.log("747 >> totalDaysPart2 >>>", totalDaysPart2);
+                      // console.log("746 >> totalDaysPart1 >>>", totalDaysPart1);
+                      // console.log("747 >> totalDaysPart2 >>>", totalDaysPart2);
                       // return
                       leave_taken_1 = totalDaysPart1;
                       leave_taken_2 = totalDaysPart2;
-                      console.log("751 >> leave_taken_1 >>>", leave_taken_1);
-                      console.log("752 >> leave_taken_2 >>>", leave_taken_2);
+                      // console.log("751 >> leave_taken_1 >>>", leave_taken_1);
+                      // console.log("752 >> leave_taken_2 >>>", leave_taken_2);
                     }
                   } else {
-                    console.log("755 >> else");
+                    //console.log("755 >> else");
                     for (let i = 0; i < leave_day1.length; i++) {
                       leave_taken_1 += leave_day1[i].total_number_of_day;
                     }
@@ -827,12 +827,12 @@ class Salary {
                       leave_taken_2 += leave_day2[i].total_number_of_day;
                     }
 
-                    console.log("764 >> leave_taken_1 >>>", leave_taken_1);
-                    console.log("765 >> leave_taken_2 >>>", leave_taken_2);
+                    // console.log("764 >> leave_taken_1 >>>", leave_taken_1);
+                    // console.log("765 >> leave_taken_2 >>>", leave_taken_2);
                   }
                 } else {
                   for (let i = 0; i < leave_modal.length - 1; i++) {
-                    console.log("769 >> else");
+                    //console.log("769 >> else");
                     emp_leave_taken += leave_modal[i].total_number_of_day;
                     var from_date1 = leave_modal[i].from_date;
                     var to_date1 = leave_modal[i].to_date;
@@ -840,35 +840,35 @@ class Salary {
                     const fromDate = new Date(from_date1);
                     const toDate = new Date(to_date1);
 
-                    console.log(
-                      "777 >>>",
-                      "emp_leave_taken >>>",
-                      emp_leave_taken,
-                      "fromDate >>>",
-                      fromDate,
-                      "toDate >>>",
-                      toDate
-                    );
+                    // console.log(
+                    //   "777 >>>",
+                    //   "emp_leave_taken >>>",
+                    //   emp_leave_taken,
+                    //   "fromDate >>>",
+                    //   fromDate,
+                    //   "toDate >>>",
+                    //   toDate
+                    // );
 
                     const effectiveDate = new Date(formattedLastEffectiveDate);
-                    console.log("788 >> effectiveDate >>>", effectiveDate);
+                    //console.log("788 >> effectiveDate >>>", effectiveDate);
 
                     if (effectiveDate >= fromDate && effectiveDate <= toDate) {
-                      console.log(
-                        "792 >> Effective date is between from date and to date"
-                      );
+                      // console.log(
+                      //   "792 >> Effective date is between from date and to date"
+                      // );
                       if (leave_modal != 0) {
-                        console.log("795 >> leave_modal >>>", leave_modal);
+                        //console.log("795 >> leave_modal >>>", leave_modal);
                         var holiday_leave_3 = await HolidayModal.find({
                           holiday_date: {
                             $gte: formattedLastEffectiveDate,
                             $lte: toDate,
                           },
                         });
-                        console.log(
-                          "802 >> holiday_leave_3 >>>",
-                          holiday_leave_3
-                        );
+                        // console.log(
+                        //   "802 >> holiday_leave_3 >>>",
+                        //   holiday_leave_3
+                        // );
 
                         var holiday_leave_4 = await HolidayModal.find({
                           holiday_date: {
@@ -877,10 +877,10 @@ class Salary {
                             $ne: formattedLastEffectiveDate,
                           },
                         });
-                        console.log(
-                          "814 >> holiday_leave_4 >>>",
-                          holiday_leave_4
-                        );
+                        // console.log(
+                        //   "814 >> holiday_leave_4 >>>",
+                        //   holiday_leave_4
+                        // );
 
                         // const effectiveDate = new Date('2023-03-06T00:00:00.000Z');
                         var part1_leave = {
@@ -889,14 +889,14 @@ class Salary {
                             effectiveDate.getTime() - 1
                           ).toISOString(),
                         };
-                        console.log("826 >> part1_leave >>>", part1_leave);
+                        //console.log("826 >> part1_leave >>>", part1_leave);
 
                         // Second part: toDate to effectiveDate
                         var part2_leave = {
                           fromDate: effectiveDate.toISOString(),
                           toDate: toDate.toISOString(),
                         };
-                        console.log("833 >> part2_leave >>>", part2_leave);
+                        //console.log("833 >> part2_leave >>>", part2_leave);
 
                         const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
 
@@ -913,24 +913,24 @@ class Salary {
                             1
                         );
 
-                        console.log(
-                          "850 >> Part 1 >>>:",
-                          totalDaysPart1,
-                          "days"
-                        );
-                        console.log(
-                          "851 >> Part 2 >>>:",
-                          totalDaysPart2,
-                          "days"
-                        );
-                        console.log(
-                          "81 >> holiday_leave_1.length >>>",
-                          holiday_leave_4.length
-                        );
-                        console.log(
-                          "864 >> holiday_leave_4 >>>",
-                          holiday_leave_4
-                        );
+                        // console.log(
+                        //   "850 >> Part 1 >>>:",
+                        //   totalDaysPart1,
+                        //   "days"
+                        // );
+                        // console.log(
+                        //   "851 >> Part 2 >>>:",
+                        //   totalDaysPart2,
+                        //   "days"
+                        // );
+                        // console.log(
+                        //   "81 >> holiday_leave_1.length >>>",
+                        //   holiday_leave_4.length
+                        // );
+                        // console.log(
+                        //   "864 >> holiday_leave_4 >>>",
+                        //   holiday_leave_4
+                        // );
 
                         if (leave_modal[i].leave_type == 0.5) {
                           totalDaysPart1 = totalDaysPart1 / 2;

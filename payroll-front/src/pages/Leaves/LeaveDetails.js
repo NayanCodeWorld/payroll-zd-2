@@ -13,6 +13,11 @@ const LEAVE_STATUS = {
   2: "Rejected",
 };
 
+const LEAVE_CREATED_BY = {
+  0: "Self",
+  1: "Admin",
+};
+
 const LEAVE_STATUS_OPTIONS = [0, 1, 2];
 
 function LeaveDetails() {
@@ -130,6 +135,10 @@ function LeaveDetails() {
             sortable: true,
           },
           {
+            name: "Created By",
+            selector: (rowData) => rowData["createBy"],
+          },
+          {
             name: "Action",
             cell: (row) => (
               <span
@@ -193,6 +202,10 @@ function LeaveDetails() {
             sortable: true,
           },
           {
+            name: "Created By",
+            selector: (rowData) => rowData["createBy"],
+          },
+          {
             name: "Action",
             cell: (row) => (
               <span
@@ -239,6 +252,7 @@ function LeaveDetails() {
             id: e._id,
             createdAt: new Date(e.createdAt).toLocaleDateString("pt-PT"),
             leaveStatus: LEAVE_STATUS[e.leave_status],
+            createBy: LEAVE_CREATED_BY[e.create_by],
           });
         });
         setEmpLeaveData(filteredArr);

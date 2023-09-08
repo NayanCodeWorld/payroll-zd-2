@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { utils, write, writeFile } from "xlsx";
 import { TiArrowBack } from "react-icons/ti";
@@ -9,7 +9,8 @@ import DataTable from "react-data-table-component";
 
 import host from "../utils";
 
-const Years = [2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
+const Years = [2021];
+const current = new Date();
 const Months = [
   { label: "January", value: 1 },
   { label: "February", value: 2 },
@@ -25,9 +26,12 @@ const Months = [
   { label: "December", value: 12 },
 ];
 
+for (let y = 2021; y <= current.getFullYear(); y++) {
+  if (!Years.includes(y)) Years.push(y);
+}
+
 function TotalSalary() {
   const expireAt = localStorage.getItem("expireAt");
-  let navigate = useNavigate();
 
   const [salaryMonth, setSalaryMonth] = useState(0);
   const [salaryYear, setSalaryYear] = useState(0);
@@ -35,6 +39,9 @@ function TotalSalary() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isTableShow, setIsTableShow] = useState(false);
+
+  const [startYear, setStartYear] = useState([]);
+  const [months, setMonths] = useState([]);
 
   //function for handling fetching salary Data from DB
   const handleSalaryGenerate = (e) => {
@@ -179,9 +186,12 @@ function TotalSalary() {
                   <option selected disabled value={0}>
                     please select an option
                   </option>
-                  {Months.map((month) => (
-                    <option value={month.value}>{month.label}</option>
-                  ))}
+                  {Months.map(
+                    (month) =>
+                      month.value <= current.getMonth() && (
+                        <option value={month.value}>{month.label}</option>
+                      )
+                  )}
                 </select>
               </div>
             </div>

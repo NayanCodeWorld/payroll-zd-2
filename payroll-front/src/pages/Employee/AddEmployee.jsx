@@ -57,11 +57,11 @@ function AddEmployee(props) {
       // }
       propsObject && setFields(propsObject);
     }
-    console.warn("fields--------", fields);
-    console.warn(
-      propsObject?.gender == "Male",
-      "================================"
-    );
+    // console.warn("fields--------", fields);
+    // console.warn(
+    //   propsObject?.gender == "Male",
+    //   "================================"
+    // );
   }, [propsObject]);
 
   function handleChange(e) {
@@ -185,6 +185,7 @@ function AddEmployee(props) {
         });
     }
   }
+
   useEffect(() => {
     if (expireAt < Date.now()) {
       localStorage.removeItem("token");
@@ -240,6 +241,7 @@ function AddEmployee(props) {
       }
     });
   };
+
   const handleEffectiveUpdate = (index) => {
     Swal.fire({
       title: "Are you sure about update?",
@@ -293,9 +295,6 @@ function AddEmployee(props) {
 
   return (
     <div className="">
-      {/* <Link to="/employee/manageprofile" className="btn text-dark">
-        <TiArrowBack size={30} />
-      </Link>*/}
       <form
         onSubmit={props.data ? updateUserDetails : submituserRegistrationForm}
         style={{ display: "flex" }}
@@ -532,6 +531,7 @@ function AddEmployee(props) {
                         <option disabled={true} selected={true}>
                           Choose Position
                         </option>
+                        <option>HR</option>
                         <option>Software Architect</option>
                         <option>Project Manager</option>
                         <option>Team Lead</option>

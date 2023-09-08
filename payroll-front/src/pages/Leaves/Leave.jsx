@@ -14,7 +14,10 @@ const Leaves = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo")); // Getting User Role from Loacl Storage
   const expireAt = localStorage.getItem("expireAt");
   const toDateInputRef = useRef(null);
-  const [leavesData, setLeavesData] = useState({ userid: userInfo?.id });
+  const [leavesData, setLeavesData] = useState({
+    userid: userInfo?.id,
+    user_role: userInfo?.role,
+  });
   const [users, setUsers] = useState([]);
   const [Doj, setDoj] = useState([]);
   const [submitDisable, setSubmitDisable] = useState(false);
@@ -48,6 +51,7 @@ const Leaves = () => {
       localStorage.removeItem("token");
       window.location.reload();
     }
+
     window
       .fetch(`${host}/emp/get_employ/${userInfo.id}`)
       .then((res) => {
@@ -62,7 +66,6 @@ const Leaves = () => {
         console.log(err.message);
       });
   }, []);
-
 
   const notify = (message) => {
     toast(message, {
@@ -81,7 +84,7 @@ const Leaves = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
     const validationErrors = leaveValidateForm(leavesData);
-    console.log("validationErrors", validationErrors);
+    //console.log("validationErrors", validationErrors);
 
     setErrors(validationErrors.errObj);
     if (validationErrors && validationErrors.formIsValid) {
@@ -108,6 +111,7 @@ const Leaves = () => {
         });
     }
   };
+
   const selectOptions = users.map((option) => ({
     value: option._id,
     label: `${option.First_Name} - ${option.Employee_Code}`,

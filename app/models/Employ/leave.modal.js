@@ -34,6 +34,9 @@ const leaveSchema = new Schema(
       type: Number,
       default: 0,
     },
+    create_by: {
+      type: Number,
+    },
   },
   {
     timestamps: true,

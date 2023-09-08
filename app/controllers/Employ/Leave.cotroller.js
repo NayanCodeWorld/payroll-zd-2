@@ -27,8 +27,14 @@ let month_array = [
 class Leave {
   async Leave(req, res) {
     try {
-      const { userid, leave_type, from_date, to_date, reason_for_leave } =
-        req.body;
+      const {
+        userid,
+        user_role,
+        leave_type,
+        from_date,
+        to_date,
+        reason_for_leave,
+      } = req.body;
 
       function getMonthIntervals(start_date, end_date1) {
         const intervals = [];
@@ -146,11 +152,13 @@ class Leave {
       } else {
         today = 0.5;
       }
+
       if (Number(from_date.split("-")[0]) % 4 == 0) {
         month_array[1] = "29";
       } else {
         month_array[1] = "28";
       }
+
       const month_intervals = getMonthIntervals(from_date, to_date);
       for (let i = 0; i < month_intervals.length; i++) {
         var holiday_1 = await HolidayModal.find({
@@ -176,6 +184,7 @@ class Leave {
           to_date: month_intervals[i].end_date,
           reason_for_leave,
           total_number_of_day: total_leave_1,
+          create_by: user_role === "HR" ? 1 : 0,
         });
         await leave_1.save();
       }

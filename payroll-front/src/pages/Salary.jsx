@@ -82,6 +82,7 @@ function Salary() {
         break;
       }
     }
+
     setPrevMonths(months);
     return months;
   };
