@@ -61,12 +61,10 @@ function LeaveDetails() {
           optionValue = o;
         }
       }
-      console.log(optionValue);
-      console.log("runnnnng");
-
       axios
         .put(`${host}/Emp_Leave/leave_update/${row.id}`, {
           leave_status: optionValue,
+          user_id: row.user_id,
         })
         .then(window.location.reload(false));
     };

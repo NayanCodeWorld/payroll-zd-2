@@ -7,7 +7,7 @@ const moment = require("moment");
 // const moment= require('moment-timezone');
 
 const Emp = require("../Employ/EmpInfo.cotroller");
-const sendVerificationMail = require("./mail");
+const { sendLeaveMail, replayMail } = require("./mail");
 
 let month_array = [
   "31",
@@ -181,7 +181,7 @@ class Leave {
       }
       res.status(200).send({ success: true });
       //Triger Email System
-      sendVerificationMail(
+      sendLeaveMail(
         user_data.email,
         user_data.First_Name,
         from_date,
@@ -348,7 +348,10 @@ class Leave {
           // if (req.body.leave_status) {
           //   sendVerificationMail();
           // }
-        } else res.status(200).send({ message: "updated successfully." });
+        } else {
+          replayMail(req.body.user_id, req.body.leave_status);
+          res.status(200).send({ message: "updated successfully." });
+        }
       })
       .catch((err) => {
         res.status(500).send({

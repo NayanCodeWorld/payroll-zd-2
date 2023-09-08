@@ -34,7 +34,7 @@ const ManageEmpyee = () => {
       localStorage.removeItem("token");
       window.location.reload();
     }
-    console.log("36 >> userInfo mg >>>", userData);
+    // console.log("36 >> userInfo mg >>>", userData);
     window
       .fetch(`${host}/emp/get_employ/${userData.id}`)
       .then((res) => {
