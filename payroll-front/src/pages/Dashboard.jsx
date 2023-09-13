@@ -33,7 +33,7 @@ const Dashboard = () => {
         return res.json();
       })
       .then((resp) => {
-        console.log(resp);
+        //console.log(resp);
         if (resp.message) {
           setTotalEmployee(resp.message);
         } else {
@@ -49,7 +49,7 @@ const Dashboard = () => {
     axios
       .get(`${host}/Emp_Leave/get_today_leave`)
       .then((resp) => {
-        console.log("today", resp.data);
+        //console.log("today", resp.data);
         setTodayPresent(resp.data);
       })
       .catch((err) => {
@@ -61,7 +61,6 @@ const Dashboard = () => {
     axios
       .get(`${host}/Emp_Leave/get_yesterday_leave`)
       .then((resp) => {
-        console.log("yesterday", resp.data);
         setYesterdayPresent(resp.data);
       })
       .catch((err) => {
@@ -94,7 +93,7 @@ const Dashboard = () => {
       window.location.reload();
     }
     const { data } = await axios.get(`${host}/emp/get_employ`);
-    console.log({ ...data });
+    //console.log({ ...data });
   };
 
   return (

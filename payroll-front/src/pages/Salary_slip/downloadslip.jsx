@@ -13,14 +13,20 @@ import { TiArrowBack } from "react-icons/ti";
 import { MdDownload } from "react-icons/md";
 import host from "../utils";
 import { CSVLink } from "react-csv";
+import AuthenticateUser from "../../middleWare/AuthenticateUser";
 
 const Downloadslip = () => {
+  const navigate = useNavigate();
+
+  if (AuthenticateUser()) {
+    navigate("/");
+  }
+
   let location = useLocation();
   const salaryYear = location.state?.salaryYear ?? 0;
   const salaryMonthNumber = location.state?.salaryMonthNumber ?? 0;
   const data = location.state.fields;
   const expireAt = localStorage.getItem("expireAt");
-  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
@@ -54,10 +60,12 @@ const Downloadslip = () => {
           data
         );
 
-        if (response.data.success) {
+        console.log(response);
+
+        if (response.status === 200) {
           setFields(response.data.salary);
         } else {
-          setFields(response.data);
+          console.log("Something Went Wrong");
         }
       } catch (error) {
         console.log("Something Went Wrong", error);
@@ -100,6 +108,7 @@ const Downloadslip = () => {
   };
 
   const formatDate = (dateStr) => {
+    console.log("dateStr", dateStr);
     const [year, month, day] = dateStr.split("-");
     const dateArr = dateStr.split("-");
     console.log("DateArr", dateArr);
@@ -374,110 +383,118 @@ const Downloadslip = () => {
               <thead>
                 <tr style={{ color: "#19536f" }}>
                   <th scope="col">
-                    <th className="up_link">Gross</th>
+                    <th className="up_link pt-2 pb-0">Gross</th>
                   </th>
                   <th scope="col">
-                    <th className="up_link">Amount</th>
+                    <th className="up_link pt-2 pb-0">Amount</th>
                   </th>
                   <th scope="col">
-                    <th className="up_link">Earning</th>
+                    <th className="up_link pt-2 pb-0">Earning</th>
                   </th>
                   <th scope="col">
-                    <th className="up_link">Amount</th>
+                    <th className="up_link pt-2 pb-0">Amount</th>
                   </th>
                   <th scope="col">
-                    <th className="up_link">Deduction</th>
+                    <th className="up_link pt-2 pb-0">Deduction</th>
                   </th>
                   <th scope="col">
-                    <th className="up_link">Amount</th>
+                    <th className="up_link pt-2 pb-0">Amount</th>
                   </th>
                 </tr>
               </thead>
               <tbody style={{ color: "#19536f" }}>
                 <tr>
                   <th scope="row">
-                    <th className="up_link">Basic & DA</th>
+                    <th className="up_link pt-2 pb-0">Basic & DA</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">{fields.Gross_Basic_DA}</td>
+                    <td className="up_link pt-2 pb-0">
+                      {fields.Gross_Basic_DA}
+                    </td>
                   </td>
                   <th scope="row">
-                    <th className="up_link">Basic & DA</th>
+                    <th className="up_link pt-2 pb-0">Basic & DA</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">{fields.Earned_Basic_DA}</td>
+                    <td className="up_link pt-2 pb-0">
+                      {fields.Earned_Basic_DA}
+                    </td>
                   </td>
                   <th className="fw-bolder">
-                    <th className="up_link">PF</th>
+                    <th className="up_link pt-2 pb-0">PF</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">0</td>
+                    <td className="up_link pt-2 pb-0">0</td>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">
-                    <th className="up_link">HRA</th>
+                    <th className="up_link pt-2 pb-0">HRA</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">{fields.Gross_HRA}</td>
+                    <td className="up_link pt-2 pb-0">{fields.Gross_HRA}</td>
                   </td>
                   <th scope="row">
-                    <th className="up_link">HRA</th>
+                    <th className="up_link pt-2 pb-0">HRA</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">{fields.Earned_HRA}</td>
+                    <td className="up_link pt-2 pb-0">{fields.Earned_HRA}</td>
                   </td>
                   <th className="fw-bolder">
-                    <th className="up_link">Professional Tax</th>
+                    <th className="up_link pt-2 pb-0">Professional Tax</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">0</td>
+                    <td className="up_link pt-2 pb-0">0</td>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">
-                    <th className="up_link">RA</th>
+                    <th className="up_link pt-2 pb-0">RA</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">{fields.Gross_RA}</td>
+                    <td className="up_link pt-2 pb-0">{fields.Gross_RA}</td>
                   </td>
                   <th scope="row">
-                    <th className="up_link">RA</th>
+                    <th className="up_link pt-2 pb-0">RA</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">{fields.Earned_RA}</td>
+                    <td className="up_link pt-2 pb-0">{fields.Earned_RA}</td>
                   </td>
                   <th className="fw-bolder">
-                    <th className="up_link">TDS</th>
+                    <th className="up_link pt-2 pb-0">TDS</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">0</td>
+                    <td className="up_link pt-2 pb-0">0</td>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">
-                    <th className="up_link">Flexi Benefits</th>
+                    <th className="up_link pt-2 pb-0">Flexi Benefits</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">{fields.Gross_Flext_benefits}</td>
+                    <td className="up_link pt-2 pb-0">
+                      {fields.Gross_Flext_benefits}
+                    </td>
                   </td>
                   <th scope="row">
                     {" "}
-                    <th className="up_link">Flexi Benefits</th>
+                    <th className="up_link pt-2 pb-0">Flexi Benefits</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
                     {" "}
-                    <td className="up_link">{fields.Earned_Flext_benefits}</td>
+                    <td className="up_link pt-2 pb-0">
+                      {fields.Earned_Flext_benefits}
+                    </td>
                   </td>
                   <th className="fw-bolder">
                     {" "}
-                    <th className="up_link">
+                    <th className="up_link pt-2 pb-0">
                       {fields.ARRS ? "ARRS" : fields.Bonus ? "Bonus" : "ECIS"}
                     </th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
                     {" "}
-                    <td className="up_link">
+                    <td className="up_link pt-2 pb-0">
                       {fields.ARRS
                         ? fields.ARRS
                         : fields.Bonus
@@ -490,48 +507,51 @@ const Downloadslip = () => {
                   style={{ backgroundColor: "rgb(77 137 202)", color: "white" }}
                 >
                   <th scope="row">
-                    <th className="up_link">Total Gross</th>
+                    <th className="up_link pt-2 pb-0">Total Gross</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">{fields.Gross_total}</td>
+                    <td className="up_link pt-2 pb-0">{fields.Gross_total}</td>
                   </td>
                   <th>
                     {" "}
-                    <th className="up_link">Total Earn</th>
+                    <th className="up_link pt-2 pb-0">Total Earn</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">{fields.Total_earn}</td>
+                    <td className="up_link pt-2 pb-0">{fields.Total_earn}</td>
                   </td>
                   <th>
                     {" "}
-                    <th className="up_link">Additional</th>
+                    <th className="up_link pt-2 pb-0">Additional</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">{fields.Additional}</td>
+                    <td className="up_link pt-2 pb-0">{fields.Additional}</td>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">
-                    <th className="up_link"></th>
+                    <th className="up_link pt-2 pb-0"></th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link"></td>
+                    <td className="up_link pt-2 pb-0"></td>
                   </td>
                   <th>
                     {" "}
-                    <th className="up_link"></th>
+                    <th className="up_link pt-2 pb-0"></th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link"></td>
+                    <td className="up_link pt-2 pb-0"></td>
                   </td>
                   <th>
                     {" "}
-                    <th className="up_link" style={{ visibility: "hidden" }}>
+                    <th
+                      className="up_link pt-2 pb-0"
+                      style={{ visibility: "hidden" }}
+                    >
                       Additional
                     </th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link"></td>
+                    <td className="up_link pt-2 pb-0"></td>
                   </td>
                 </tr>
                 <tr
@@ -539,10 +559,10 @@ const Downloadslip = () => {
                 >
                   <th scope="row">
                     {" "}
-                    <th className="up_link">Net pay</th>
+                    <th className="up_link pt-2 pb-0">Net pay</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">
+                    <td className="up_link pt-2 pb-0">
                       &#8377;{fields.Net_pay_in_number}
                     </td>
                   </td>
@@ -550,10 +570,10 @@ const Downloadslip = () => {
                   <td></td>
                   <th>
                     {" "}
-                    <th className="up_link">Total Deduction</th>
+                    <th className="up_link pt-2 pb-0">Total Deduction</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link">0</td>
+                    <td className="up_link pt-2 pb-0">0</td>
                   </td>
                 </tr>
               </tbody>
@@ -562,7 +582,7 @@ const Downloadslip = () => {
               className="border-bottom border-dark d-flex "
               style={{ borderLeft: "hidden", borderRight: "hidden" }}
             >
-              <div className="col-md-4">
+              <div className="col-md-4 pt-2 pb-0">
                 <div className="d-flex fw-bolder">
                   <small
                     className="fw-bolder up_link ml-3"
@@ -577,7 +597,7 @@ const Downloadslip = () => {
                 className="border-start border-dark"
                 style={{ marginLeft: "-8px" }}
               ></div>
-              <div className=" col-md-8">
+              <div className=" col-md-8 pt-2 pb-0">
                 <div className="d-flex ml-1 fw-bolder">
                   <small
                     className="fw-bolder up_link"

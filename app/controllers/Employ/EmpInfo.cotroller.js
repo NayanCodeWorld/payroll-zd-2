@@ -184,7 +184,7 @@ class Emp {
           })
           .catch(next);
       } else {
-        console.log("user is not a HR");
+        //console.log("user is not a HR");
         EmpInfoModal.find(
           {},
           {
@@ -199,7 +199,7 @@ class Emp {
         )
           .sort({ _id: -1 })
           .then(function (employee) {
-            console.log("d - 1");
+            //console.log("d - 1");
             if (employee == 0) {
               res.status(200).send({ message: "No employee added yet" });
             } else {

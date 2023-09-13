@@ -1,11 +1,6 @@
 import "./App.css";
 import SideBar from "./components/Sidebar/SideBar";
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Salary from "./pages/Salary";
 import Dashboard from "./pages/Dashboard";
 import AddEmployee from "./pages/Employee/AddEmployee";
@@ -27,7 +22,6 @@ import Logout from "./Auth/Logout";
 import ChangePassword from "./pages/components/ChangePassword";
 import YesterdayApsent from "./pages/Leaves/YesterdayApsent";
 import TotalSalary from "./pages/Salary_slip/TotalSalary";
-//import { UserInfoProvider } from "./store/userInfo";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -36,6 +30,7 @@ function App() {
   const handleLogin = () => {
     setLoggedIn(true);
   };
+
   useEffect(() => {
     let inactivityTimeout;
 
@@ -44,6 +39,7 @@ function App() {
       inactivityTimeout = setTimeout(() => {
         // Perform token removal from local storage here
         localStorage.removeItem("token");
+        localStorage.removeItem("userInfo");
         window.location.reload();
         // Redirect to the login page or perform any other necessary actions
         // e.g., using React Router: history.push('/login');
@@ -61,6 +57,7 @@ function App() {
       clearTimeout(inactivityTimeout);
     };
   }, []);
+
   return (
     <Router>
       {!token ? (

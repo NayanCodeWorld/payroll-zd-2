@@ -5,10 +5,17 @@ import Downloadslip from "./Salary_slip/downloadslip";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { TiArrowBack } from "react-icons/ti";
 import host from "./utils";
+import AuthenticateUser from "../middleWare/AuthenticateUser";
+
 function Salary() {
   const expireAt = localStorage.getItem("expireAt");
+  const navigate = useNavigate();
+
+  if (AuthenticateUser()) {
+    navigate("/");
+  }
+
   const { id } = useParams();
-  let navigate = useNavigate();
   const [empdata, empdatachange] = useState({});
   const [fields, setFields] = useState({
     arrear: 0,

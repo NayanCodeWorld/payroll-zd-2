@@ -28,131 +28,158 @@ import { RiLockPasswordFill } from "react-icons/ri";
 // import {TfiThemifyFaviconAlt} from 'react-icons/tfi'
 import zecimg from "./zecdata.png";
 
-const userData = JSON.parse(localStorage.getItem("userInfo"));
-
-const routes = [
-  {
-    path: "/",
-    name: "Dashboard",
-    icon: <FaHome />,
-  },
-  {
-    className: "pointer",
-    path: "/Employees",
-    name: "Employees",
-    icon: <HiUserGroup />,
-    exact: true,
-    subRoutes:
-      userData?.role === "HR"
-        ? [
-            {
-              path: "/employee/profile",
-              name: "Add Employee",
-              icon: <AiOutlineUsergroupAdd />,
-            },
-            {
-              path: "/employee/manageprofile",
-              name: "Manage Employee",
-              icon: <MdOutlineManageAccounts />,
-            },
-          ]
-        : [
-            {
-              path: "/employee/manageprofile",
-              name: "All Employee",
-              icon: <MdOutlineManageAccounts />,
-            },
-          ],
-  },
-  {
-    path: "/employee/leavedetails",
-    name: "Leaves",
-    icon: <FaCalendarCheck />,
-    subRoutes:
-      userData?.role === "HR"
-        ? [
-            {
-              path: "/employee/leave",
-              name: "Add Leave",
-              icon: <FaClipboardList />,
-            },
-            {
-              path: "/employee/leavedetails",
-              name: "Manage leaves",
-              icon: <FaClipboard />,
-            },
-            {
-              path: "/TotalPresent",
-              name: "Today Absent",
-              icon: <GiConcentricCrescents />,
-            },
-            {
-              path: "/YesterdayApsent",
-              name: "Yesterday Absent",
-              icon: <SiIconfinder />,
-            },
-          ]
-        : [
-            {
-              path: "/employee/leave",
-              name: "Add Leave",
-              icon: <FaClipboardList />,
-            },
-            {
-              path: "/employee/leavedetails",
-              name: "Manage leaves",
-              icon: <FaClipboard />,
-            },
-          ],
-  },
-
-  {
-    path: "/holiydays",
-    name: "Holidays",
-    icon: <GiConcentrationOrb />,
-    // icon :<TfiThemifyFaviconAlt/>
-  },
-  {
-    path: "/year_leavedetails",
-    name: "Year Leave",
-    icon: <GiImbricatedArrows />,
-    subRoutes:
-      userData?.role === "HR"
-        ? [
-            {
-              path: "/Year_leave",
-              name: "Add Year Leave",
-              icon: <GiRapidshareArrow />,
-            },
-            {
-              path: "/year_leavedetails",
-              name: "Manage Year Leave",
-              icon: <GiThreeLeaves />,
-            },
-          ]
-        : [
-            {
-              path: "/year_leavedetails",
-              name: "Manage Year Leave",
-              icon: <GiThreeLeaves />,
-            },
-          ],
-  },
-  {
-    path: "/change_password",
-    name: "Change_password",
-    icon: <RiLockPasswordFill />,
-  },
-  {
-    path: "/Logout",
-    name: "Logout",
-    icon: <FaHospitalUser />,
-  },
-];
-
 const SideBar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
+
+  const userData = JSON.parse(localStorage.getItem("userInfo"));
+
+  const routes =
+    userData?.role === "HR"
+      ? [
+          {
+            path: "/",
+            name: "Dashboard",
+            icon: <FaHome />,
+          },
+          {
+            className: "pointer",
+            path: "/Employees",
+            name: "Employees",
+            icon: <HiUserGroup />,
+            exact: true,
+            subRoutes: [
+              {
+                path: "/employee/profile",
+                name: "Add Employee",
+                icon: <AiOutlineUsergroupAdd />,
+              },
+              {
+                path: "/employee/manageprofile",
+                name: "Manage Employee",
+                icon: <MdOutlineManageAccounts />,
+              },
+            ],
+          },
+          {
+            path: "/employee/leavedetails",
+            name: "Leaves",
+            icon: <FaCalendarCheck />,
+            subRoutes: [
+              {
+                path: "/employee/leave",
+                name: "Add Leave",
+                icon: <FaClipboardList />,
+              },
+              {
+                path: "/employee/leavedetails",
+                name: "Manage leaves",
+                icon: <FaClipboard />,
+              },
+              {
+                path: "/TotalPresent",
+                name: "Today Absent",
+                icon: <GiConcentricCrescents />,
+              },
+              {
+                path: "/YesterdayApsent",
+                name: "Yesterday Absent",
+                icon: <SiIconfinder />,
+              },
+            ],
+          },
+
+          {
+            path: "/holiydays",
+            name: "Holidays",
+            icon: <GiConcentrationOrb />,
+            // icon :<TfiThemifyFaviconAlt/>
+          },
+          {
+            path: "/year_leavedetails",
+            name: "Year Leave",
+            icon: <GiImbricatedArrows />,
+            subRoutes: [
+              {
+                path: "/Year_leave",
+                name: "Add Year Leave",
+                icon: <GiRapidshareArrow />,
+              },
+              {
+                path: "/year_leavedetails",
+                name: "Manage Year Leave",
+                icon: <GiThreeLeaves />,
+              },
+            ],
+          },
+          {
+            path: "/change_password",
+            name: "Change_password",
+            icon: <RiLockPasswordFill />,
+          },
+          {
+            path: "/Logout",
+            name: "Logout",
+            icon: <FaHospitalUser />,
+          },
+        ]
+      : [
+          {
+            path: "/",
+            name: "Dashboard",
+            icon: <FaHome />,
+          },
+          {
+            className: "pointer",
+            path: "/Employees",
+            name: "Employees",
+            icon: <HiUserGroup />,
+            exact: true,
+            subRoutes: [
+              {
+                path: "/employee/manageprofile",
+                name: "All Employee",
+                icon: <MdOutlineManageAccounts />,
+              },
+            ],
+          },
+          {
+            path: "/employee/leavedetails",
+            name: "Leaves",
+            icon: <FaCalendarCheck />,
+            subRoutes: [
+              {
+                path: "/employee/leave",
+                name: "Add Leave",
+                icon: <FaClipboardList />,
+              },
+              {
+                path: "/employee/leavedetails",
+                name: "Manage leaves",
+                icon: <FaClipboard />,
+              },
+            ],
+          },
+
+          {
+            path: "/holiydays",
+            name: "Holidays",
+            icon: <GiConcentrationOrb />,
+            // icon :<TfiThemifyFaviconAlt/>
+          },
+          {
+            path: "/change_password",
+            name: "Change_password",
+            icon: <RiLockPasswordFill />,
+          },
+          {
+            path: "/Logout",
+            name: "Logout",
+            icon: <FaHospitalUser />,
+          },
+        ];
+
+  //console.log(userData?.role, userData?.role === "HR");
 
   const inputAnimation = {
     hidden: {
@@ -219,7 +246,7 @@ const SideBar = ({ children }) => {
           </div>
         </div>
         <section className="routes">
-          {routes.map((route, index) => {
+          {routes?.map((route, index) => {
             if (route.subRoutes) {
               return (
                 <SidebarMenu

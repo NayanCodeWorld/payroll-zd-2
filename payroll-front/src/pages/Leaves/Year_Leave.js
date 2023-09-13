@@ -6,10 +6,16 @@ import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import host from "./../utils";
+import AuthenticateUser from "../../middleWare/AuthenticateUser";
 
 const Year_Leave = () => {
   const expireAt = localStorage.getItem("expireAt");
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+
+  if (AuthenticateUser()) {
+    navigate("/");
+  }
+
   const [leavesData, setLeavesData] = useState({});
   const [errors, setErrors] = useState({});
   var leavesObj = {};

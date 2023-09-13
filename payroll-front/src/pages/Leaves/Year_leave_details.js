@@ -1,14 +1,22 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { TiArrowBack } from "react-icons/ti";
 import host from "./../utils";
+import AuthenticateUser from "../../middleWare/AuthenticateUser";
 
 function Year_Leave_Details() {
   const expireAt = localStorage.getItem("expireAt");
+
+  const navigate = useNavigate();
+
+  if (AuthenticateUser()) {
+    navigate("/");
+  }
+
   const userData = JSON.parse(localStorage.getItem("userInfo"));
   const { id } = useParams();
   const [empLeaveData, setEmpLeaveData] = useState([]);

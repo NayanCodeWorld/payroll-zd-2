@@ -10,9 +10,17 @@ import host from "./../utils";
 import { TiArrowBack } from "react-icons/ti";
 import { FaTrash } from "react-icons/fa";
 import { BsPencilSquare } from "react-icons/bs";
+import AuthenticateUser from "../../middleWare/AuthenticateUser";
 
 function AddEmployee(props) {
-  console.log("props", props.data);
+  const navigate = useNavigate();
+  //console.log("props", props.data);
+
+  //Auhenticate user
+  if (AuthenticateUser()) {
+    navigate("/");
+  }
+
   let effective_lastIndex;
   if (props.data) {
     var propsObject = props.data;
@@ -31,7 +39,7 @@ function AddEmployee(props) {
   const [fields, setFields] = useState({});
   const [errors, setErrors] = useState({});
   const [submitDisable, setSubmitDisable] = useState(false);
-  const navigate = useNavigate();
+
   const [effectiveDateState, setEffectiveDateState] = useState("");
   const [updateButton, setUpdateButton] = useState(true);
 

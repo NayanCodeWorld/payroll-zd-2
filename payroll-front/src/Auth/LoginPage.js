@@ -4,13 +4,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./loginpage.css";
 import axios from "axios";
 import host from "../pages/utils";
-import { UserInfoContext } from "../store/userInfo";
 
 function LoginPage({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
-  const UserInfo = useContext(UserInfoContext);
 
   //  function is running to the cod
   const handleLogin = async (event) => {
@@ -39,7 +37,6 @@ function LoginPage({ onLogin }) {
     }
   };
 
-  console.log(email);
   return (
     <div className="Login">
       <Form onSubmit={handleLogin}>

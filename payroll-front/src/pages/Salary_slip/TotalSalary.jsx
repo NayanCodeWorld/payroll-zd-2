@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { utils, write, writeFile } from "xlsx";
 import { TiArrowBack } from "react-icons/ti";
@@ -8,6 +8,7 @@ import { RotatingLines } from "react-loader-spinner";
 import DataTable from "react-data-table-component";
 
 import host from "../utils";
+import AuthenticateUser from "../../middleWare/AuthenticateUser";
 
 const Years = [2021];
 const current = new Date();
@@ -31,7 +32,12 @@ for (let y = 2021; y <= current.getFullYear(); y++) {
 }
 
 function TotalSalary() {
+  const navigate = useNavigate();
   const expireAt = localStorage.getItem("expireAt");
+
+  if (AuthenticateUser()) {
+    navigate("/");
+  }
 
   const [salaryMonth, setSalaryMonth] = useState(0);
   const [salaryYear, setSalaryYear] = useState(0);
@@ -39,9 +45,6 @@ function TotalSalary() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isTableShow, setIsTableShow] = useState(false);
-
-  const [startYear, setStartYear] = useState([]);
-  const [months, setMonths] = useState([]);
 
   //function for handling fetching salary Data from DB
   const handleSalaryGenerate = (e) => {
@@ -138,7 +141,7 @@ function TotalSalary() {
     },
   ];
 
-  //Select Year and MonthComponent
+  //Select Year and Month Component
   const MonthAndYearSelection = () => (
     <div className="offset-lg-2 col-lg-8">
       <form className="container" onSubmit={handleSalaryGenerate}>
