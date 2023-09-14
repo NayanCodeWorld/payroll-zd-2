@@ -489,7 +489,13 @@ const Downloadslip = () => {
                   <th className="fw-bolder">
                     {" "}
                     <th className="up_link pt-2 pb-0">
-                      {fields.ARRS ? "ARRS" : fields.Bonus ? "Bonus" : "ECIS"}
+                      {fields.ARRS ? "ARRS" : fields.Bonus ? "Bonus" : "ECIS"}:
+                      <span className="mr-2">
+                        {fields.Increment &&
+                          allMonthsName[fields.Salary_Slip_Month - 1]
+                            .slice(0, 3)
+                            .toUpperCase()}
+                      </span>
                     </th>
                   </th>
                   <td className="fw-bolder  float-right border-0">

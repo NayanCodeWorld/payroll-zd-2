@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "./loginpage.css";
@@ -7,26 +8,25 @@ import host from "../utils";
 
 function ChangePassword({ onLogin }) {
   const [email, setEmail] = useState("");
-  const [oldpassword, setOldpassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewpassword] = useState("");
   const [showError, setShowError] = useState(false);
-  //   http://localhost:7074/login/change-password
-  const handleLogin = (event) => {
-    // handle login logic here
+
+  const navigate = useNavigate();
+
+  const handlePasswordChange = (event) => {
     event.preventDefault();
-    console.log({ email, oldpassword, newPassword });
+    console.log({ email, oldPassword, newPassword });
     axios
-      .post(`${host}/login/change-password`, {
+      .post(`${host}/auth/change-password`, {
         email,
-        oldpassword,
+        oldPassword,
         newPassword,
       })
       .then((res) => {
-        console.log("response", res.data, "11111111");
-        if (res.data.token) {
-          // redirect to home page or do something else
-          localStorage.setItem("token", res.data.token);
-          onLogin();
+        if (res.status === 200) {
+          alert(res.msg);
+          navigate("/");
         } else {
           setShowError(true);
         }
@@ -39,7 +39,7 @@ function ChangePassword({ onLogin }) {
 
   return (
     <div className="Login">
-      <Form onSubmit={handleLogin}>
+      <Form onSubmit={handlePasswordChange}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -55,8 +55,8 @@ function ChangePassword({ onLogin }) {
           <Form.Control
             type="password"
             placeholder="Password"
-            value={oldpassword}
-            onChange={(event) => setOldpassword(event.target.value)}
+            value={oldPassword}
+            onChange={(event) => setOldPassword(event.target.value)}
           />
         </Form.Group>
 

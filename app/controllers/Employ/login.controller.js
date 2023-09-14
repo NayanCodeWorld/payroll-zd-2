@@ -59,7 +59,7 @@ class login {
   async ChangePassword(req, res) {
     try {
       const { email, oldPassword, newPassword } = req.body;
-
+      console.log(email, oldPassword, newPassword);
       // Check if the required fields are present
       if (!email || !oldPassword || !newPassword) {
         res.status(400).send({ msg: "Please fill in all fields." });
@@ -70,14 +70,14 @@ class login {
       if (!user) {
         res.status(404).send({ msg: "User not found." });
       }
-
+      console.log(user);
       // Check if the old password matches the stored password
-      if (user.password !== oldPassword) {
+      if (user.Password !== oldPassword) {
         res.status(401).send({ msg: "Invalid old password." });
       }
 
       // Update the password with the new password
-      user.password = newPassword;
+      user.Password = newPassword;
       await user.save();
 
       res.status(200).send({ msg: "Password changed successfully." });

@@ -108,7 +108,7 @@ class Salary {
         const effectiveDate = new Date(effective_date_emp);
         const toMatchDate = new Date(`${to_match_date}T00:00:00.000Z`);
         console.log(
-          "97 >>>",
+          "111 >>>",
           "effectiveDate, toMatchDate >>>>",
           effectiveDate,
           toMatchDate
@@ -148,7 +148,7 @@ class Salary {
       // sendVerificationMail(email, pathname)
       // return
       let effective_date_emp = empinfo_modal.base_salary_list;
-
+      console.log("151 >> effective_date_emp >>>", effective_date_emp);
       if (
         (Salary_Modal.length !== 0 && req.body.overwrite_payslip) ||
         Salary_Modal.length === 0
@@ -558,7 +558,7 @@ class Salary {
                   "effectivr_year >>>",
                   effectivr_year
                 );
-
+                //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 if (month == effective_month && year == effectivr_year) {
                   console.log(
                     "563 >> month == effective_month && year == effectivr_year is true"
@@ -611,7 +611,7 @@ class Salary {
 
                   console.log("612 >> total_month_day2", total_month_day2);
                 }
-
+                //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 const inputYear = year;
                 const inputMonth = month;
                 const dateObj = new Date(inputYear, inputMonth - 1);
@@ -865,7 +865,7 @@ class Salary {
                     const toDate = new Date(to_date1);
 
                     console.log(
-                      "777 >>>",
+                      "868 >>>",
                       "emp_leave_taken >>>",
                       emp_leave_taken,
                       "fromDate >>>",
@@ -1054,7 +1054,7 @@ class Salary {
                   empinfo_modal.base_salary_list[
                     empinfo_modal.base_salary_list.length - 1 - i
                   ];
-
+                console.log("1057 >> element >>> ", element);
                 const index = array.indexOf(element);
                 // if ((month_effective + 1) == month && year_effective == year) {
                 //     working_days_1 = Number(daysUntilLastDayOfMonth) - holiday_leave_1.length
@@ -1226,9 +1226,33 @@ class Salary {
                     salary_emp_1 - gross_basic_da - gross_hra - gross_ra
                   );
                 }
-                console.log(salary_emp_2, salary_emp, salary_emp_1);
 
-                // var gross_basic_da = Math.round(salary_emp_1 / 2)
+                console.log(
+                  "1229 >>>>",
+                  "working_days_1 >>",
+                  working_days_1,
+                  "leave_taken_1",
+                  leave_taken_1,
+                  "present_days_1 >>",
+                  present_days_1,
+                  "working_days_2 >>",
+                  working_days_2,
+                  "leave_taken_2",
+                  leave_taken_2,
+                  "present_days_2 >>",
+                  present_days_2,
+                  "salary_emp_1 >>",
+                  salary_emp_1,
+                  "salary_emp_2 >>",
+                  salary_emp_2,
+                  "salary_emp >>",
+                  salary_emp,
+                  "working_days >>",
+                  working_days
+                );
+
+                // let presentDayBeforeIncrement = present_days_1;
+
                 var gross_basic_da = Math.round(salary_emp_1 * 0.4);
                 console.log("1233 >> gross_basic_da >>", gross_basic_da);
                 var gross_hra = Math.round((gross_basic_da * 40) / 100);
@@ -1238,11 +1262,8 @@ class Salary {
                 var gross_flexi_benifits = Math.round(
                   salary_emp_1 - gross_basic_da - gross_hra - gross_ra
                 );
-                console.log(
-                  "1242 >> gross_flexi_benifits >>",
-                  gross_flexi_benifits
-                );
 
+                //______________________________________________________
                 var earned_basic_da = Math.round(
                   (gross_basic_da / working_days) * total_paid_days
                 );
@@ -1274,11 +1295,13 @@ class Salary {
                   "1267 >> net_pay_in_number_2 >>",
                   net_pay_in_number_2
                 );
-                const arrs =
+
+                let arrs =
                   Number(req.body.arrear) +
                   Number(arrear_effective_date) +
                   Number(req.body.Bonus) +
                   Number(req.body.ECSI);
+
                 console.log("1282 >> arrs >>> ", arrs);
                 let total_earn = net_pay_in_number_1 + net_pay_in_number_2;
                 console.log("1284 >> total_earn >>>", total_earn);
@@ -1291,6 +1314,12 @@ class Salary {
                 console.log("1291 >> net_pay_in_number >>", net_pay_in_number);
                 var net_pay_in_word = convertRupeesIntoWords(net_pay_in_number);
                 console.log("1293 >> net_pay_in_word", net_pay_in_word);
+
+                const Increment = total_earn - salary_emp_1;
+
+                if (Increment >= 0) {
+                  arrs = arrs + Increment;
+                }
 
                 const salary = new SalaryModal({
                   Employee_name:
@@ -1321,12 +1350,20 @@ class Salary {
                   Total_earn: total_earn,
                   Net_pay_in_number: net_pay_in_number,
                   Net_pay_in_words: net_pay_in_word,
-                  ARRS: Number(req.body.arrear),
+                  ARRS:
+                    req.body.arrear == 0
+                      ? Increment >= 0
+                        ? Increment
+                        : 0
+                      : Increment >= 0
+                      ? parseInt(req.body.arrear) + Increment
+                      : parseInt(req.body.arrear),
+                  Additional_Comment: req.body.additional_comment,
                   Bonus: Number(req.body.Bonus),
                   ECSI: Number(req.body.ECSI),
                   Additional: arrs,
-                  ARRS_Comment: req.body.arrear_comment,
-                  Additional_Comment: req.body.additional_comment,
+                  ARRS_Comment: req.body.additional_comment,
+                  Increment: Increment > 0 ? true : false,
                 });
 
                 salary.save();
