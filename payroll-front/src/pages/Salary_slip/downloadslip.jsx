@@ -513,24 +513,24 @@ const Downloadslip = () => {
                   style={{ backgroundColor: "rgb(77 137 202)", color: "white" }}
                 >
                   <th scope="row">
-                    <th className="up_link pt-2 pb-0">Total Gross</th>
+                    <th className="up_link pt-2 pb-1">Total Gross</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link pt-2 pb-0">{fields.Gross_total}</td>
+                    <td className="up_link pt-2 pb-1">{fields.Gross_total}</td>
                   </td>
                   <th>
                     {" "}
-                    <th className="up_link pt-2 pb-0">Total Earn</th>
+                    <th className="up_link pt-2 pb-1">Total Earn</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link pt-2 pb-0">{fields.Total_earn}</td>
+                    <td className="up_link pt-2 pb-1">{fields.Total_earn}</td>
                   </td>
                   <th>
                     {" "}
-                    <th className="up_link pt-2 pb-0">Additional</th>
+                    <th className="up_link pt-2 pb-1">Additional</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link pt-2 pb-0">{fields.Additional}</td>
+                    <td className="up_link pt-2 pb-1">{fields.Additional}</td>
                   </td>
                 </tr>
                 <tr>
@@ -550,14 +550,14 @@ const Downloadslip = () => {
                   <th>
                     {" "}
                     <th
-                      className="up_link pt-2 pb-0"
+                      className="up_link pt-2 pb-1"
                       style={{ visibility: "hidden" }}
                     >
                       Additional
                     </th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link pt-2 pb-0"></td>
+                    <td className="up_link pt-2 pb-1"></td>
                   </td>
                 </tr>
                 <tr
@@ -565,10 +565,10 @@ const Downloadslip = () => {
                 >
                   <th scope="row">
                     {" "}
-                    <th className="up_link pt-2 pb-0">Net pay</th>
+                    <th className="up_link pt-2 pb-1">Net pay</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link pt-2 pb-0">
+                    <td className="up_link pt-2 pb-1">
                       &#8377;{fields.Net_pay_in_number}
                     </td>
                   </td>
@@ -576,10 +576,10 @@ const Downloadslip = () => {
                   <td></td>
                   <th>
                     {" "}
-                    <th className="up_link pt-2 pb-0">Total Deduction</th>
+                    <th className="up_link pt-2 pb-1">Total Deduction</th>
                   </th>
                   <td className="fw-bolder  float-right border-0">
-                    <td className="up_link pt-2 pb-0">0</td>
+                    <td className="up_link pt-2 pb-1">0</td>
                   </td>
                 </tr>
               </tbody>
@@ -588,7 +588,7 @@ const Downloadslip = () => {
               className="border-bottom border-dark d-flex "
               style={{ borderLeft: "hidden", borderRight: "hidden" }}
             >
-              <div className="col-md-4 pt-2 pb-0">
+              <div className="col-md-4 pt-2 pb-1">
                 <div className="d-flex fw-bolder">
                   <small
                     className="fw-bolder up_link ml-3"
@@ -603,7 +603,7 @@ const Downloadslip = () => {
                 className="border-start border-dark"
                 style={{ marginLeft: "-8px" }}
               ></div>
-              <div className=" col-md-8 pt-2 pb-0">
+              <div className=" col-md-8 pt-2 pb-1">
                 <div className="d-flex ml-1 fw-bolder">
                   <small
                     className="fw-bolder up_link"

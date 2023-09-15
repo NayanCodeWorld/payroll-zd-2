@@ -136,7 +136,6 @@ function Salary() {
       });
   }, []);
 
-  // console.log("@@@@@@@@@@@@", fields.arrear, fields.ARRS);
 
   return (
     <div className="pt-5">
