@@ -113,7 +113,7 @@ const Dashboard = () => {
         <div className="row align-items-stretch">
           <Link
             className="c-dashboardInfo col-lg-3 col-md-6 text-black text-decoration-none"
-            to={userData.role === "HR" ? "/employee/manageprofile" : "/"}
+            to={userData?.role === "HR" ? "/employee/manageprofile" : "/"}
           >
             <div
               className="wrap"

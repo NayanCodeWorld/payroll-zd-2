@@ -1,6 +1,4 @@
-import 
-
-* {
+import * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -90,12 +88,13 @@ body {
   padding: 5px 10px;
   border-right: 4px solid transparent;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  text-decoration: none;
 }
 
 .link:hover {
   border-right: 6px solid black;
   color: black;
-  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  transition: 0.1s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 
 .active {
@@ -147,26 +146,27 @@ main {
 }
 
 .sidebar {
-  background: #3075BA;
+  background: #3075ba;
   position: sticky;
   height: 100vh;
   color: white;
 }
 
 .cover-content {
-  background-image: url('../public/profile-cover.jpg');
+  background-image: url("../public/profile-cover.jpg");
   background-size: cover;
-  background-position: center center; 
+  background-position: center center;
   display: block;
 }
 .pmd-list-subtitle {
-  color: rgba(23, 31, 35, .64);
-  font-size: .875rem;
+  color: rgba(23, 31, 35, 0.64);
+  font-size: 0.875rem;
 }
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+.swal2-container.swal2-backdrop-show,
+.swal2-container.swal2-noanimation {
   background: rgb(0 0 0 / 95%);
 }
