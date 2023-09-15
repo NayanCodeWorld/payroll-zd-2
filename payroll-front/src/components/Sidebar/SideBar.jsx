@@ -12,6 +12,7 @@ import {
 import { MdMessage } from "react-icons/md";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
 import { BiCog } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
@@ -130,18 +131,9 @@ const SideBar = ({ children }) => {
             icon: <FaHome />,
           },
           {
-            className: "pointer",
-            path: "/Employees",
-            name: "Employees",
-            icon: <HiUserGroup />,
-            exact: true,
-            subRoutes: [
-              {
-                path: "/employee/manageprofile",
-                name: "All Employee",
-                icon: <MdOutlineManageAccounts />,
-              },
-            ],
+            path: `/employee/EmpDetail${userData.id}`,
+            name: "Profile",
+            icon: <CgProfile />,
           },
           {
             path: "/employee/leavedetails",

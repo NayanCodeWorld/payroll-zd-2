@@ -224,19 +224,39 @@ function TotalSalary() {
   );
 
   //Excel System
+  // const downloadExcel = () => {
+  //   //to delete extra column from excel document
+  //   const newData = salaryData?.map((row) => {
+  //     delete row.tableData;
+  //     return row;
+  //   });
+  //   //create a worksheet
+  //   const workSheet = utils.json_to_sheet(newData);
+  //   //create a workBook
+  //   const workBook = utils.book_new();
+  //   //append sheet in workbook
+  //   utils.book_append_sheet(workBook, workSheet, "salary");
+  //   //Buffer to increase performance
+  //   let buf = write(workBook, { bookType: "xlsx", type: "buffer" });
+  //   //Binary string
+  //   write(workBook, { bookType: "xlsx", type: "binary" });
+  //   //Download
+  //   writeFile(workBook, `${salaryMonth}_${salaryYear}_salary.xlsx`);
+  // };
+
   const downloadExcel = () => {
-    //to delete extra column from excel document
-    const newData = salaryData?.map((row) => {
-      delete row.tableData;
-      return row;
-    });
-    //create a worksheet
-    const workSheet = utils.json_to_sheet(newData);
     //create a workBook
-    const workBook = utils.book_new();
-    //append sheet in workbook
-    utils.book_append_sheet(workBook, workSheet, "salary");
-    //Buffer to increase performance
+    let workBook = utils.book_new();
+    // let workSheet;
+    for (let row of salaryData) {
+      //create a worksheet
+      let workSheet = utils.json_to_sheet([row]);
+      alert(workSheet);
+      //append sheet in workbook
+      utils.book_append_sheet(workBook, workSheet, row.Employee_code);
+      //Buffer to increase performance
+    }
+
     let buf = write(workBook, { bookType: "xlsx", type: "buffer" });
     //Binary string
     write(workBook, { bookType: "xlsx", type: "binary" });

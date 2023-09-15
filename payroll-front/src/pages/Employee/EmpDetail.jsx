@@ -10,6 +10,7 @@ import axios from "axios";
 
 const EmpDetail = () => {
   const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem("userInfo"));
   const { id } = useParams();
 
   const [empdata, empdatachange] = useState({});
@@ -78,25 +79,27 @@ const EmpDetail = () => {
                 color: "rgba(23,31,35,.64)",
               }}
             >
-              <div className="flex">
+              {userData.role === "HR" && (
                 <div className="flex">
-                  <Link
-                    to="/employee/manageprofile"
-                    className="btn text-primary"
-                  >
-                    <TiArrowBack size={30} />
-                  </Link>
-                </div>
+                  <div className="flex">
+                    <Link
+                      to="/employee/manageprofile"
+                      className="btn text-primary"
+                    >
+                      <TiArrowBack size={30} />
+                    </Link>
+                  </div>
 
-                <div className="flex">
-                  <button className="btn" onClick={() => LoadEdit()}>
-                    <MdOutlineEditCalendar className="text-primary fs-3" />
-                  </button>
-                  <button className="btn" onClick={() => Removefunction()}>
-                    <MdDelete className="text-danger fs-3" />
-                  </button>
+                  <div className="flex">
+                    <button className="btn" onClick={() => LoadEdit()}>
+                      <MdOutlineEditCalendar className="text-primary fs-3" />
+                    </button>
+                    <button className="btn" onClick={() => Removefunction()}>
+                      <MdDelete className="text-danger fs-3" />
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
               {/* <img alt="Profile-Pic" src={img} style={{ width: '9rem' }} className="profile-pic rounded-circle pmd-z-depth-light-2-1 mr-md-4 mr-4" width="180" /> */}
             </div>
             <div className="container">
