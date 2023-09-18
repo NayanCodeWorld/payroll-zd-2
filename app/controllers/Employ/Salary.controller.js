@@ -762,7 +762,7 @@ class Salary {
 
                   if (effectiveDate >= fromDate && effectiveDate <= toDate) {
                     console.log(
-                      "676 >>>",
+                      "765 >>>",
                       "Effective date is between from date and to date"
                     );
 
@@ -774,7 +774,7 @@ class Salary {
                           $lte: toDate,
                         },
                       });
-                      console.log("holiday_leave_3 689 >>>", holiday_leave_3);
+                      console.log("holiday_leave_3 777 >>>", holiday_leave_3);
 
                       var holiday_leave_4 = await HolidayModal.find({
                         holiday_date: {
@@ -783,11 +783,11 @@ class Salary {
                           $ne: formattedLastEffectiveDate,
                         },
                       });
-                      console.log("holiday_leave_4 698 >>>", holiday_leave_4);
+                      console.log("holiday_leave_4 >>>", holiday_leave_4);
 
-                      const effectiveDate = new Date(
-                        "2023-03-06T00:00:00.000Z"
-                      );
+                      // const effectiveDate = new Date(
+                      //   "2023-03-06T00:00:00.000Z"
+                      // );
                       var part1_leave = {
                         fromDate: fromDate.toISOString(),
                         toDate: new Date(

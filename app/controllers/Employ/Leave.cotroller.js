@@ -36,6 +36,15 @@ class Leave {
         reason_for_leave,
       } = req.body;
 
+      console.log({
+        userid,
+        user_role,
+        leave_type,
+        from_date,
+        to_date,
+        reason_for_leave,
+      });
+
       function getMonthIntervals(start_date, end_date1) {
         const intervals = [];
         let current_date = new Date(start_date);
@@ -74,6 +83,7 @@ class Leave {
 
       //date range validation
       const user_data = await LeaveModal.find({ userid: userid });
+      console.log("77 => leave =>> user_data =>>>", user_data);
 
       for (let i = 0; i < user_data.length; i++) {
         if (
@@ -84,27 +94,52 @@ class Leave {
           moment(to_date, "YYYY-MM-DD").isBetween(
             moment(user_data[i].from_date, "YYYY-MM-DD"),
             moment(user_data[i].to_date, "YYYY-MM-DD")
+          ) ||
+          moment(user_data[i].from_date, "YYYY-MM-DD").isBetween(
+            moment(from_date, "YYYY-MM-DD"),
+            moment(to_date, "YYYY-MM-DD")
+          ) ||
+          moment(user_data[i].to_date, "YYYY-MM-DD").isBetween(
+            moment(from_date, "YYYY-MM-DD"),
+            moment(to_date, "YYYY-MM-DD")
           )
         ) {
           return res.send({ message: "applied date range already exist." });
         }
       }
 
+      // console.log(user_data[i]);
+      //     console.log(
+      //       moment(from_date, "YYYY-MM-DD").isBetween(
+      //         moment(user_data[i].from_date, "YYYY-MM-DD"),
+      //         moment(user_data[i].to_date, "YYYY-MM-DD")
+      //       )
+      //     );
+      //     console.log(
+      //       moment(to_date, "YYYY-MM-DD").isBetween(
+      //         moment(user_data[i].from_date, "YYYY-MM-DD"),
+      //         moment(user_data[i].to_date, "YYYY-MM-DD")
+      //       )
+      //     );
+
       const datelFind = await LeaveModal.findOne({
         $and: [{ from_date: from_date }, { userid: userid }],
       });
 
+      console.log("leave >> 107 => datelFind >>>", datelFind);
       var empinfo_modal = await EmpInfoModal.find({
         _id: userid,
       });
-
+      console.log("leave >> 110 => empinfo_modal", empinfo_modal);
       empinfo_modal = empinfo_modal[0];
 
       let effective_leave = empinfo_modal.base_salary_list[0].effective_date
         .toISOString()
         .toString()
         .slice(0, 10);
+      console.log("117 =>> leave =>>> effective_leave >>>", effective_leave);
       if (effective_leave > from_date) {
+        console.log("119 =>> leave =>>> effective_leave > from_date is true");
         return res.send({
           message:
             "You can not take leave before effective date , You have to update effective date",
@@ -112,33 +147,57 @@ class Leave {
       }
 
       // return
-      let dates = [];
+      // let dates = [];
       // for (let i = 0; i < user_data.length; i++) {
-      //     const leave_from_date = user_data[i].from_date
-      //     const leave_to_date = user_data[i].to_date
-      //     console.log('leave_from_date', leave_from_date);
-      //     console.log('leave_to_date', leave_to_date);
+      //   const leave_from_date = user_data[i].from_date;
+      //   const leave_to_date = user_data[i].to_date;
+      //   console.log("132 ==> leave =>> leave_from_date =>>>", leave_from_date);
+      //   console.log("133 ==> leave_to_date", leave_to_date);
 
-      //     let currentDate = new Date(leave_from_date);
-      //     let endDate = new Date(leave_to_date);
-
-      //     while (currentDate <= endDate) {
-      //         const ifDuplicate = currentDate.toISOString().slice(0, 10)
-      //         if (dates.includes(ifDuplicate)) {
-      //             console.log('--------YES DUPLICATES', ifDuplicate);
-      //             res.send({ message: "alredy exist  date." })
-      //         }
-      //         else {
-      //             res.send({ message1: "alredy exist  date." })
-      //         }
-      //         dates.push(ifDuplicate);
-      //         currentDate.setDate(currentDate.getDate() + 1);
+      //   let currentDate = new Date(leave_from_date);
+      //   let endDate = new Date(leave_to_date);
+      //   console.log(
+      //     "137 ===<> currentDate =>>",
+      //     currentDate,
+      //     "endDate =",
+      //     endDate
+      //   );
+      //   while (currentDate <= endDate) {
+      //     const ifDuplicate = currentDate.toISOString().slice(0, 10);
+      //     if (dates.includes(ifDuplicate)) {
+      //       console.log("--------YES DUPLICATES", ifDuplicate);
+      //       res.send({ message: "alredy exist  date." });
+      //     } else {
+      //       res.send({ message1: "alredy exist  date." });
       //     }
-      //     console.log('dates',dates);
+      //     dates.push(ifDuplicate);
+      //     currentDate.setDate(currentDate.getDate() + 1);
+      //   }
+      //   console.log("dates", dates);
       // }
-      if (dates.includes()) {
-        res.send({ message: "alredy exist  date." });
-      }
+
+      // if (dates.includes()) {
+      //   res.send({ message: "alredy exist  date." });
+      // }
+
+      // for (let i = 0; i < user_data.length; i++) {
+      //   let leave_from_date = user_data[i].from_date;
+      //   let leave_to_date = user_data[i].to_date;
+      //   console.log("132 ==> leave =>> leave_from_date =>>>", leave_from_date);
+      //   console.log("133 ==> leave_to_date", leave_to_date);
+
+      //   let leaveFrom = moment(leave_from_date, "YYYY-MM-DD");
+      //   let leaveEnd = moment(leave_from_date, "YYYY-MM-DD");
+
+      //   console.log(
+      //     "137 ===<> leaveFrom =>>",
+      //     leaveFrom,
+      //     "leaveEnd =",
+      //     leaveEnd
+      //   );
+
+      //   if(from_date)
+      // }
 
       if (datelFind) {
         return res.send({ message: "alredy exist  date." });
