@@ -3,7 +3,7 @@ name: CD
 on:
   push:
     branches:
-      - dev
+      - main
 env:
   PROD-DROPLATE-IP: ${{ secrets.DROPLET_IP }}
   PROD-PASSWORD: ${{ secrets.DROPLET2_PASSWORD }}
@@ -71,7 +71,7 @@ jobs:
 #            docker push  rohitkas/payroll-front
         
   deploy-prod:
-     if: github.ref == 'refs/heads/dev'
+     if: github.ref == 'refs/heads/main'
      runs-on: self-hosted
      needs: build
      steps:
@@ -82,7 +82,7 @@ jobs:
          username: root
          password: ${{ env.PROD-PASSWORD }}
          script: |
-          cd ~/zd-payroll-1
+          cd ~/payroll-zd-2
           git pull
           docker-compose -f docker-compose.yml down
           docker rmi zd-payroll-1_app_front zd-payroll-1_app-back
