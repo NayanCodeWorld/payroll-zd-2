@@ -7,6 +7,21 @@ import { TiArrowBack } from "react-icons/ti";
 import host from "./utils";
 import AuthenticateUser from "../middleWare/AuthenticateUser";
 
+const allMonthsName = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 function Salary() {
   const expireAt = localStorage.getItem("expireAt");
   const navigate = useNavigate();
@@ -31,6 +46,8 @@ function Salary() {
   const [salaryMonthNumber, setSalaryMonthNumber] = useState(0);
   const [prevMonths, setPrevMonths] = useState([]);
   const [selectedOptionsalary, setSelectedOptionsalary] = useState("ECSI");
+  const [ARRS_Month, setARRS_Month] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   console.log("selectedOptionsalary", selectedOptionsalary);
 
@@ -101,6 +118,7 @@ function Salary() {
         salaryYear: salaryYear,
         salaryMonthNumber: salaryMonthNumber,
         fields: fields,
+        ARRS_Month: ARRS_Month,
       },
     });
   }
@@ -135,7 +153,6 @@ function Salary() {
         console.log(err.message);
       });
   }, []);
-
 
   return (
     <div className="pt-5">
@@ -205,7 +222,7 @@ function Salary() {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                      <div className="w-75 col-lg-6 col-md-6 col-sm-6 col-xs-12 d-flex justify-content-between align-items-center">
                         <div className="form-group">
                           <label className="profile_details_text">Amount</label>
                           {selectedOptionsalary === "Bonus" ? (
@@ -250,6 +267,32 @@ function Salary() {
                             </>
                           )}
                         </div>
+                        {selectedOptionsalary === "ARRS" && (
+                          <div className="form-group d-flex flex-column">
+                            <label className="profile_details_text">
+                              Select Month
+                            </label>
+                            <select
+                              className="form-control"
+                              onChange={(e) => setARRS_Month(e.target.value)}
+                              value={ARRS_Month}
+                              required={
+                                switchToAdvance &&
+                                selectedOptionsalary === "ARRS" &&
+                                ARRS_Month.length === 0
+                              }
+                            >
+                              <option selected disabled value="">
+                                Choose an option
+                              </option>
+                              {allMonthsName.map((month) => (
+                                <option key={month} value={month}>
+                                  {month}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="row">
@@ -280,7 +323,7 @@ function Salary() {
                       <label>Select the month</label>
                       <select
                         name="Salary_Slip_Month_Year"
-                        className="form-control "
+                        className="form-control"
                         value={selectedOption}
                         onChange={handleOptionChange}
                         required
@@ -307,6 +350,7 @@ function Salary() {
                 </div>
                 <div className="row">
                   <div className="submit pt-8">
+                    {errorMsg.length === 0 && <p></p>}
                     <div className="form-group">
                       <input
                         type="submit"

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+
 import { validateForm } from "./employeeValidation";
 import Swal from "sweetalert2";
 import { toast, ToastContainer } from "react-toastify";
@@ -11,6 +11,87 @@ import { TiArrowBack } from "react-icons/ti";
 import { FaTrash } from "react-icons/fa";
 import { BsPencilSquare } from "react-icons/bs";
 import AuthenticateUser from "../../middleWare/AuthenticateUser";
+
+//All indianStates Names
+const INDIAN_STATES = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+];
+
+//Qulification
+const DEGREE = [
+  "BCA",
+  "MCA",
+  "B.Arch",
+  "B.Tech/BE",
+  "B.Sc",
+  "BPharma",
+  "BDS",
+  "BPT",
+  "BA",
+  "BBA",
+  "BMS",
+  "BFA",
+  "BEM",
+  "BFD",
+  "BSW",
+  "BBS",
+  "BTTM",
+  "LLB",
+  "B.Com",
+  "ME/M.TECH",
+  "MA",
+  "MSc",
+  "LLM",
+  "MBA",
+  "MPhil",
+  "MEd",
+  "MRes",
+  "Other",
+];
+
+//Position
+const POSITIONS = [
+  "HR",
+  "Software Architect",
+  "Project Manager",
+  "Team Lead",
+  "Principal Software Engineer",
+  "Senior Software Developer",
+  "Software Developer",
+  "Jr Software Developer",
+  "Intern Software Developer",
+  "Other",
+];
+
+//Blood Groups
+const BLOOD_GROUPS = ["A+", "O+", "B+", "AB", "A-", "O-", "B-", "AB"];
 
 function AddEmployee(props) {
   const navigate = useNavigate();
@@ -65,11 +146,6 @@ function AddEmployee(props) {
       // }
       propsObject && setFields(propsObject);
     }
-    // console.warn("fields--------", fields);
-    // console.warn(
-    //   propsObject?.gender == "Male",
-    //   "================================"
-    // );
   }, [propsObject]);
 
   function handleChange(e) {
@@ -94,7 +170,7 @@ function AddEmployee(props) {
       salary_: fieldObj.base_salary,
       effective_date: fieldObj.effective_date,
     });
-    console.log("fieldObj", fieldObj);
+    // console.log("fieldObj", fieldObj);
     setFields(fieldObj);
   }
 
@@ -515,14 +591,11 @@ function AddEmployee(props) {
                         <option disabled={true} selected={true}>
                           Choose Blood Group
                         </option>
-                        <option>A+</option>
-                        <option>O+</option>
-                        <option>B+</option>
-                        <option>AB+</option>
-                        <option>A-</option>
-                        <option>O-</option>
-                        <option>B-</option>
-                        <option>AB- </option>
+                        {BLOOD_GROUPS.map((group, i) => (
+                          <option key={i} value={group}>
+                            {group}
+                          </option>
+                        ))}
                       </select>
                       <div className="errorMsg">{errors.Blood_Group}</div>
                     </div>
@@ -539,16 +612,11 @@ function AddEmployee(props) {
                         <option disabled={true} selected={true}>
                           Choose Position
                         </option>
-                        <option>HR</option>
-                        <option>Software Architect</option>
-                        <option>Project Manager</option>
-                        <option>Team Lead</option>
-                        <option>Principal Software Engineer</option>
-                        <option>Senior Software Developer</option>
-                        <option>Software Developer</option>
-                        <option>Jr Software Developer</option>
-                        <option>Intern Software Developer</option>
-                        <option>Other</option>
+                        {POSITIONS.map((position) => (
+                          <option key={position} value={position}>
+                            {position}
+                          </option>
+                        ))}
                       </select>
                       <div className="errorMsg">{errors.Position}</div>
                     </div>
@@ -771,34 +839,11 @@ function AddEmployee(props) {
                           <option disabled={true} selected={true}>
                             Choose Degree
                           </option>
-                          <option>BCA</option>
-                          <option>MCA</option>
-                          <option>B.Arch</option>
-                          <option>BE/B.TECH</option>
-                          <option>B.Sc</option>
-                          <option>BPharma</option>
-                          <option>BDS</option>
-                          <option>BPT</option>
-                          <option>BA</option>
-                          <option>BBA</option>
-                          <option>BMS</option>
-                          <option>BFA</option>
-                          <option>BEM</option>
-                          <option>BFD</option>
-                          <option>BSW</option>
-                          <option>BBS</option>
-                          <option>BTTM</option>
-                          <option>LLB</option>
-                          <option>B.Com</option>
-                          <option>ME/M.TECH</option>
-                          <option>MA</option>
-                          <option>MSc</option>
-                          <option>LLM</option>
-                          <option>MBA</option>
-                          <option>MPhil</option>
-                          <option>MEd</option>
-                          <option>MRes</option>
-                          <option>Other</option>
+                          {DEGREE.map((degree) => (
+                            <option key={degree} value={degree}>
+                              {degree}
+                            </option>
+                          ))}
                         </select>
                         <div className="errorMsg">{errors.DEGREE}</div>
                       </div>
@@ -889,17 +934,23 @@ function AddEmployee(props) {
                       <label className="profile_details_text">
                         Current State
                       </label>
-                      <input
-                        type="text"
-                        name="current_state"
-                        minLength="2"
-                        maxLength="50"
+                      <select
                         className="form-control"
+                        name="current_state"
                         placeholder="Current State"
                         style={{ textTransform: "capitalize" }}
                         value={fields.current_state}
                         onChange={(e) => handleChange(e)}
-                      />
+                      >
+                        <option disabled={true} selected={true}>
+                          Choose State
+                        </option>
+                        {INDIAN_STATES.map((state) => (
+                          <option key={state} value={state}>
+                            {state}
+                          </option>
+                        ))}
+                      </select>
                       <div className="errorMsg">{errors.current_state}</div>
                     </div>
                   </div>
@@ -927,17 +978,23 @@ function AddEmployee(props) {
                       <label className="profile_details_text">
                         Permanent State
                       </label>
-                      <input
-                        type="text"
-                        name="permanent_state"
-                        minLength="2"
-                        maxLength="50"
+                      <select
                         className="form-control"
+                        name="permanent_state"
                         placeholder="Permanent State"
                         style={{ textTransform: "capitalize" }}
                         value={fields.permanent_state}
                         onChange={(e) => handleChange(e)}
-                      />
+                      >
+                        <option disabled={true} selected={true}>
+                          Choose State
+                        </option>
+                        {INDIAN_STATES.map((state) => (
+                          <option key={state} value={state}>
+                            {state}
+                          </option>
+                        ))}
+                      </select>
                       <div className="errorMsg">{errors.permanent_state}</div>
                     </div>
                   </div>
